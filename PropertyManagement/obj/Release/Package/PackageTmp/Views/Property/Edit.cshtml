@@ -1,0 +1,111 @@
+﻿@model PropertyManagement.ViewModels.Property.EditPropertyVM
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.ActionLink("Back to Property Management", "Index")
+<h2>@ViewBag.ReportTitle</h2>
+@using (Html.BeginForm())
+{
+    <table width="100%">
+        <tr>
+            <td width="50%">
+                <div  class="crudInput">
+                    Start Date: @Html.TextBoxFor(x => x.PurchaseDate, new { @class = "form-control datepicker", @type = "date", @Value = Model.PurchaseDate.ToString("yyyy-MM-dd") })
+                </div>
+                <div  class="crudInput">
+                    <label>Sold Date:</label> @Html.TextBoxFor(x => x.SoldDate, new { @class = "form-control datepicker" , @type = "date", @Value = Model.SoldDate.ToString("yyyy-MM-dd") })
+                </div>
+                <div  class="crudInput">
+                    @Html.LabelFor(x => x.Address)
+                    @Html.TextBoxFor(x => x.Address, new{@class = "form-control"})
+                </div>
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.City)
+                    @Html.TextBoxFor(x => x.City, new { @class = "form-control" })
+                </div>
+                <div  class="crudInput">
+                    @Html.LabelFor(x => x.Zip)
+                    @Html.TextBoxFor(x => x.Zip, new { @class = "form-control"})
+                </div>
+                <div  class="crudInput">
+                    @Html.LabelFor(x => x.PurchasePrice)
+                    @Html.TextBoxFor(x => x.PurchasePrice, new { @class = "form-control" })
+                </div>
+                <div  class="crudInput">
+                    @Html.LabelFor(x => x.PropertyTaxYearPayment)
+                    @Html.TextBoxFor(x => x.PropertyTaxYearPayment, new { @class = "form-control" })
+                </div>
+                <div  class="crudInput">
+                    @Html.LabelFor(x => x.PropertyTaxMailingAddress)
+                    @Html.TextBoxFor(x => x.PropertyTaxMailingAddress, new { @class = "form-control" })
+                </div>
+                <div  class="crudInput">
+                    <label>PropertyTaxDueDate:</label> 
+                    @Html.TextBoxFor(x => x.PropertyTaxDueDate, new { @class = "form-control datepicker", @type = "date", @Value = Model.PropertyTaxDueDate.ToString("yyyy-MM-dd") })
+                </div>
+                <div  class="crudInput">
+                    @Html.LabelFor(x => x.note)
+                    @Html.TextBoxFor(x => x.note, new { @class = "form-control" })
+                </div>
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.InterestRate)
+                    @Html.TextBoxFor(x => x.InterestRate, new { @class = "form-control" })
+                </div>
+                @Html.HiddenFor(x => x.PropertyID)
+                <br />
+                <input type="submit" value="Submit" />
+            </td>
+            <td>
+<div class="crudInput">
+    @Html.LabelFor(x => x.InsurancePremium)
+    @Html.TextBoxFor(x => x.InsurancePremium, new { @class = "form-control" })
+</div>
+<div class="crudInput">
+    @Html.LabelFor(x => x.InsurancePolicyNumber)
+    @Html.TextBoxFor(x => x.InsurancePolicyNumber, new { @class = "form-control" })
+</div>
+<div class="crudInput">
+    @Html.LabelFor(x => x.InsuranceDueDate)
+    @Html.TextBoxFor(x => x.InsuranceDueDate, new { @class = "form-control" })
+</div>
+<div class="crudInput">
+    @Html.LabelFor(x => x.InsuranceBillMailingAddress)
+    @Html.TextBoxFor(x => x.InsuranceBillMailingAddress, new { @class = "form-control" })
+</div>
+<div class="crudInput">
+    @Html.LabelFor(x => x.amortization)
+    @Html.TextBoxFor(x => x.amortization, new { @class = "form-control" })
+</div>
+<div class="crudInput">
+    @Html.LabelFor(x => x.CurrentEstimateMarketValue)
+    @Html.TextBoxFor(x => x.CurrentEstimateMarketValue, new { @class = "form-control" })
+</div>
+<div class="crudInput">
+    @Html.LabelFor(x => x.ShareHoldPercentage)
+    @Html.TextBoxFor(x => x.ShareHoldPercentage, new { @class = "form-control" })
+</div>
+<div style="width:220px">
+    @Html.LabelFor(x => x.CompanyID)
+    @Html.DropDownListFor(x => x.CompanyID, Model.AllCompany, "Please select company", new { @class = "form-control selectpicker" })
+</div>
+<div style="width:220px">
+    @Html.LabelFor(x => x.StatusID)
+    @Html.DropDownListFor(x => x.StatusID, Model.AllStatus, "Please select status", new { @class = "form-control selectpicker" })
+</div>
+<div>
+    @Html.LabelFor(x => x.LoanAmount)
+    @Html.TextBoxFor(x => x.LoanAmount, new { @class = "form-control" })
+</div>
+<div class="crudInput">
+    @Html.LabelFor(x => x.InsuranceCompany)
+    @Html.TextBoxFor(x => x.InsuranceCompany, new { @class = "form-control" })
+</div>
+
+            
+            </td>
+        </tr>
+    </table>
+
+}

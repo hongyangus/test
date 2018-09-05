@@ -1,0 +1,66 @@
+﻿<!-- Load common Javascript code -->
+@Scripts.Render("~/Scripts/Pages/00-Shared.js")
+
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Display the report title -->
+<h4>@ViewBag.ReportTitle<a href="./ECommerceSale/Index">
+    <input type='button' value='Sale Analysis' /></a>
+    <a href="./ECommerceSaleForcast/Index">
+        <input type='button' value='Sale Forcast' />
+    </a>
+</h4>
+@using (Html.BeginForm("Index", "ECommerceForcast", FormMethod.Post, new { @Id = "Form2" }))
+{
+    <!-- Place filter options on page -->
+    <div>
+        <div style="clear:both">
+            @Helpers.IOSDateRange(ViewBag.dateRange, ViewBag.startDate, ViewBag.endDate)
+            @Helpers.IOMultiListVendorPicker(ViewBag.vendors)
+            @Helpers.IOMultiListSkuPicker(ViewBag.skus)
+            @Helpers.IOMultiListAccountPicker(ViewBag.accounts)
+            @Helpers.IOMultiListStatePicker(ViewBag.states)
+            @Helpers.IOMultiListWarehousePicker(ViewBag.warehouses)
+            @Html.CheckBox("negativeProfit", false) Only Display more than 10%
+        </div>
+    </div>
+    <!-- Place submit button on page -->
+    <div id="wrapper">
+        <div class="" style="clear:both;width:100%;">
+            <button id="submitBtn" type="button" class="">Run Report</button>
+            <button id="loadBtn" type="button" class="">Load Ebay Orders</button>
+        </div>
+    </div>
+    <br />
+
+}
+<br />
+<div id="reportDiv"></div>
+
+<!-- Place at bottom of page -->
+<div class="modal"></div>
+
+<!-- Javascript custom routines for this page -->
+<script type="text/javascript">
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Function to process Run Report button - will call back to the controller to run the report
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        $("#submitBtn").on('click', function () {
+            // Load the partial view(s)
+            $.ajaxSetup({ traditional: true });
+            $("#reportDiv").load('@Url.Action("ReportView", "ECommerceOrder")', {
+                comparisonVariable: $("#comparisonVariable").val(), ValueType: $("#ValueType").val(), chartType: $("#chartType").val(), drillDownLevel: $("#drillDownLevel").val(), vendors: $("#Vendor").val(), skus: $("#sku").val(), accounts: $("#account").val(), warehouses: $("#warehouses").val(), states: $("#state").val(), startDate: $("#startDate").val(), endDate: $("#endDate").val(), dispalyNegative: $("#negativeProfit").is(":checked") });
+        });
+
+        $("#loadBtn").on('click', function () {
+            // Load the partial view(s)
+            $.ajaxSetup({ traditional: true });
+            $("#reportDiv").load('@Url.Action("LoadOrders", "ECommerceOrder")', { startDate: $("#startDate").val(), endDate: $("#endDate").val() });
+         });
+
+
+</script>

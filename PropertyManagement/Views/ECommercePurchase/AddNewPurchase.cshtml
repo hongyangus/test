@@ -1,0 +1,52 @@
+﻿@model PropertyManagement.Controllers .OrderPurchase
+<!-- Load common layout and retrieve report title -->
+@{
+	ViewBag.Title = ViewBag.ReportTitle;
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ActionLink("Back to Purchase Management", "Index")
+<h2>@ViewBag.ReportTitle</h2>
+@using (Html.BeginForm())
+{
+	<table width="100%">
+		<tr><td>
+	<div class="crudInput">
+		Purchase Order Date: @Html.TextBoxFor(model => model.order_date, new { @class = "form-control datepicker", @type = "date", @Value = Model.order_date.ToString("yyyy-MM-dd") })
+	</div>
+	<div style="width:220px">
+		@Html.LabelFor(x => x.PurchaseCompanyID)
+		@Html.DropDownListFor(x => x.PurchaseCompanyID, Model.AllCompany, "Please select company", new { @class = "form-control selectpicker" })
+	</div>
+	<div style="width:220px">
+		@Html.LabelFor(x => x.sku)
+		@Html.DropDownListFor(x => x.sku, Model.AllSku, "Please select sku", new { @class = "form-control selectpicker" })
+	</div>
+	<div style="width:220px">
+		@Html.LabelFor(x => x.statusID)
+		@Html.DropDownListFor(x => x.statusID, Model.AllStatus, "Please select status", new { @class = "form-control selectpicker" })
+	</div>
+	<div style="width:220px">
+		@Html.LabelFor(x => x.io_partner)
+		@Html.DropDownListFor(x => x.io_partner, Model.AllVendor, "Please select vendor", new { @class = "form-control selectpicker" })
+	</div>
+	<div style="width:220px">
+		@Html.LabelFor(x => x.io_warehouse)
+		@Html.DropDownListFor(x => x.io_warehouse, Model.AllWarehouse, "Please select warehouse", new { @class = "form-control selectpicker" })
+	</div>
+	<div class="crudInput">
+		@Html.LabelFor(x => x.quantity)
+		@Html.TextBoxFor(x => x.quantity, new { @class = "form-control" })
+	</div>
+	<div class="crudInput">
+		@Html.LabelFor(x => x.UnitPurchasePrice)
+		@Html.TextBoxFor(x => x.UnitPurchasePrice, new { @class = "form-control" })
+		@Html.ActionLink("History value", "Index")|
+		@Html.ActionLink("Inventory", "Index")
+	</div>
+	<br />
+	<input type="submit" value="Submit" />
+</td>
+	</tr>
+	</table>
+}

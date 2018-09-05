@@ -1,0 +1,32 @@
+﻿@model PropertyManagement.Controllers .SaleOrder 
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.ActionLink("Back to Order Management", "Index")
+<h4>@ViewBag.ReportTitle</h4>
+@using (Html.BeginForm())
+{
+    <div>
+        <div>
+            <label>OrderNumber:</label> @Html.TextBoxFor(model => model.ebay_id, new { @class = "form-control" })
+            <label>sku: </label>@Html.TextBoxFor(model => model.sku, new { @class = "form-control" })
+            <label>quantity :</label> @Html.TextBoxFor(model => model.quantity , new { @class = "form-control" })
+            <label>cost : </label>@Html.TextBoxFor(model => model.cost, new { @class = "form-control" })
+            <label>sales : </label>@Html.TextBoxFor(model => model.sales, new { @class = "form-control" })
+            <label>ebayFee : </label>@Html.TextBoxFor(model => model.ebayFee, new { @class = "form-control" })
+            <label>paypalFee : </label>@Html.TextBoxFor(model => model.paypalFee , new { @class = "form-control" })
+            <label>shippingFee : </label>@Html.TextBoxFor(model => model.shippingFee , new { @class = "form-control" })
+            <label>internationalShippingFee : </label>@Html.TextBoxFor(model => model.internationalShippingFee, new { @class = "form-control" })
+            <label>orderDate : </label>@Html.TextBoxFor(model => model.orderDate , new { @type = "date", @Value = Model.orderDate .ToString("yyyy-MM-dd"), @class = "form-control" })
+            <label>profit : </label>@Html.TextBoxFor(model => model.profit, new { @class = "form-control" })
+            <label>pieces : </label>@Html.TextBoxFor(model => model.pieces, new { @class = "form-control" })
+            <label>discount : </label>@Html.TextBoxFor(model => model.discount, new { @class = "form-control" })
+            <label>name : </label>@Html.TextBoxFor(model => model.name, new { @class = "form-control" })
+            <label>state : </label>@Html.TextBoxFor(model => model.state, new { @class = "form-control" })
+            <label>storeId : </label>@Html.TextBoxFor(model => model.storeId, new { @class = "form-control" })
+        </div>
+        <input type="submit" value="Submit" />
+    </div>
+}

@@ -1,0 +1,297 @@
+﻿<!-- Load the datamodel -->
+@model List<PropertyManagement.ViewModels.Task.AddTaskVM>
+<style>
+    .text-wrap {
+        white-space: normal;
+    }
+
+    .width-200 {
+        width: 200px;
+    }
+</style>
+
+@if (Model != null)
+{
+    <table id="datatable" class="display table compact nowrap" width="90%">
+        <caption style="text-align:center; font-weight:bold">@ViewBag.TableCaption</caption>
+
+        <thead align="center">
+            <tr>
+                <th></th>
+                <th></th>
+                <th>
+                    Task
+                </th>
+                <th>
+                    User Name
+                </th>
+                <th>
+                    DateTime
+                </th>
+                <th>
+                    Status
+                </th>
+                <th>
+                    Address
+                </th>
+                <th>
+                    Hour
+                </th>
+                <th>
+                    Milage
+                </th>
+                <th>
+                    Labor
+                </th>
+                <th>
+                    Material
+                </th>
+                <th>
+                    Total
+                </th>
+</thead>
+        <tfoot>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </tfoot>
+        <tbody>
+            @foreach (var row in Model)
+            {
+            <tr>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Task", new { id = row.TaskID }, null)
+                </td>
+                <td>
+                    @Html.ActionLink("Close", "Close", "Task", new { id = row.TaskID }, null)
+                </td>
+                <td>
+                    @row.TaskDetailHtml
+                </td>
+                <td>
+                    @row.UserName
+                </td>
+                <td>
+                    @row.UpdateDate
+                </td>
+                <td>
+                    @row.StatusName
+                </td>
+                <td>
+                    @row.Address
+                </td>
+                <td>
+                    @row.Hours
+                </td>
+                <td>
+                    @row.Milage
+                </td>
+                <td>
+                    @((row.Labor == 0) ? "" : @row.Labor.ToString("C"))
+                </td>
+                <td>
+                    @((row.Material == 0) ? "" : @row.Material.ToString("C"))
+                </td>
+                <td>
+                    @((row.TotalPayment == 0) ? "" : @row.TotalPayment.ToString("C"))
+                </td>
+            </tr>
+            }
+        </tbody>
+</table>
+    <div class="@ViewBag.MyExeptionCSS">@ViewBag.MyExeption</div>
+    <script>
+        // Script to execute when document is ready
+        $(document).ready(function () {
+
+            // Get the table caption (if there is one) for the report table
+            var tablecaption = $("#datatable").find('caption').text();
+
+            // Setup standard Datatable formatting
+            $('#datatable').DataTable({
+                "order": [],
+                "searching": true,
+                "paging": true,
+                "scrollCollapse": true,
+                "processing": false,
+                "serverSide": false,
+                "iDisplayLength": 25,
+                dom: 'if<"savebuttons"B>tlp',
+                buttons: [
+                          {
+                              extend: 'copy',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'csv',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'pdf',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'excel',
+                              title: tablecaption,
+                              message: tablecaption,
+                              sTitle: tablecaption
+                          },
+                          {
+                              extend: 'print',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          }
+                ],
+                "language": {
+                    loadingRecords: "Loading data, please wait...",
+                    zeroRecords: "No data..."
+                },
+                "formatNumber": function (toFormat) { return toFormat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); },
+                columnDefs: [
+                       {
+                           render: function (data, type, full, meta) {
+                               return "<div class='text-wrap'>" + data + "</div>";
+                           },
+                           targets: 2
+                       }
+                ],
+                //start of totals data table
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api(), data;
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function (i) {
+                        if (typeof i === 'number')
+                        {
+                            return i;
+                        }
+                        else
+                        {
+                            return i.replace(/[\$,]/g, '').replace(/[\)]/g, '').replace(/[\(]/g, '-') * 1;
+                        }
+                    };
+
+                    // Total over all pages
+                    total = api
+                        .column(6)
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Total over this page
+                    pageTotal = api
+                        .column(6, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Update footer
+                    $(api.column(6).footer()).html( total.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
+                    );
+
+                    // Total over all pages
+                    total = api
+                        .column(7)
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Total over this page
+                    pageTotal = api
+                        .column(7, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Update footer
+                    $(api.column(7).footer()).html( total.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') 
+                    );
+
+                    // Total over all pages
+                    total = api
+                        .column(8)
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Total over this page
+                    pageTotal = api
+                        .column(8, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Update footer
+                    $(api.column(8).footer()).html('$' + total.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') 
+                    );
+
+                    // Total over all pages
+                    total = api
+                        .column(9)
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Total over this page
+                    pageTotal = api
+                        .column(9, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Update footer
+                    $(api.column(9).footer()).html(' $' + total.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
+                    );
+
+
+                    // Total over all pages
+                    total = api
+                        .column(10)
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Total over this page
+                    pageTotal = api
+                        .column(10, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Update footer
+                    $(api.column(10).footer()).html(' $' + total.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') 
+                    );
+ 
+
+                } // End of totals data table
+
+            }); // End of document datatable
+
+        }); // End of document ready
+
+    </script>
+}

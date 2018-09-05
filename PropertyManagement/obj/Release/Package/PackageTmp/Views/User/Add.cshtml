@@ -1,0 +1,83 @@
+﻿@model PropertyManagement.ViewModels.User.AddUserVM
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ActionLink("Back to User Management", "Index")
+<h2>@ViewBag.ReportTitle</h2>
+@using (Html.BeginForm())
+{
+    <table width="100%">
+        <tr>
+            <td width="50%">
+                <div>
+                    <div>
+                        @Html.LabelFor(x => x.UserName)
+                        @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.Password)
+                        @Html.TextBoxFor(x => x.Password, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.FirstName)
+                        @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.LastName)
+                        @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.HomePhone)
+                        @Html.TextBoxFor(x => x.HomePhone, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.CellPhone)
+                        @Html.TextBoxFor(x => x.CellPhone, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.Address)
+                        @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.City)
+                        @Html.TextBoxFor(x => x.City, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.State)
+                        @Html.TextBoxFor(x => x.State, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.Zip)
+                        @Html.TextBoxFor(x => x.Zip, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.SSN)
+                        @Html.TextBoxFor(x => x.SSN, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.EmailAddress)
+                        @Html.TextBoxFor(x => x.EmailAddress, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.LabelFor(x => x.WebUrl)
+                        @Html.TextBoxFor(x => x.WebUrl, new { @class = "form-control" })
+                    </div>
+                    <div style="width:220px">
+                        @Html.LabelFor(x => x.Status)
+                        @Html.DropDownListFor(x => x.StatusID, Model.AllStatus, "Please select status", new { @class = "form-control selectpicker" })
+                    </div>
+                    <input type="submit" value="Submit" />
+                </div>
+            </td><td>
+                    <table align="left">
+                        <tr>
+                            <td width="50%" valign="top">@Html.EditorFor(x => x.Roles)</td>
+                            <td width="50%" valign="top">@Html.EditorFor(x => x.Companies)</td>
+                        </tr>
+                    </table>
+                </td></tr>
+        </table> 
+}

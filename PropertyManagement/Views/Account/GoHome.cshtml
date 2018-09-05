@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Sunrise.Business.tblCompany>
+
+@{
+    ViewBag.Title = "Log In";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Property Management</h2>
+@if (Model != null)
+{
+    <div id="accordion" role="tablist" aria-multiselectable="true">
+        @foreach (var company in Model)
+        {
+            <div style="font-weight:normal">
+                <div>
+                    <b>@Html.ActionLink(@company.CompanyName, "Edit", "Company", new { id = @company.CompanyID }, null)</b>
+                </div>
+                <div class="alias">
+                    <b>Agent Name: </b>
+                    @company.AgentFirstName @company.AgentLastName
+                </div>
+                <div class="alias">
+                    <b>EIN: </b>@company.EIN
+                </div>
+                <div class="alias">
+                    <b>Routing: </b>@company.RountingNo
+                    <b>Account: </b>@company.BankAccount
+                </div>
+                <div class="alias">
+                    <b>Company address: </b>
+                    @company.Address  @company.City @company.Zip
+                </div>
+                <br />
+                @*<div class="alias">
+                        <div class="column" style="clear:both">
+                            <button id="btnBank" type="button" class="">Account reconciliation</button>
+                            <button id="btnCompanyReport" type="button" class="">Company Report</button>
+                            <button id="btnCompanyRentRoll" type="button" class="">Company Rent Roll</button>
+                            <button id="btn1099" type="button" class="">Company 1099</button>
+                        </div>
+                    </div>*@
+            </div>
+        }
+    </div>
+    <script>
+	function toggleIcon(e) {
+        $(e.target)
+            .prev('.panel-heading')
+            .find(".short-full")
+            .toggleClass('glyphicon-plus glyphicon-minus');
+    }
+    $('.panel-group').on('hidden.bs.collapse', toggleIcon);
+    $('.panel-group').on('shown.bs.collapse', toggleIcon);
+    </script>
+}

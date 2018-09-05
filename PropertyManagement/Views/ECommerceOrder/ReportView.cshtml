@@ -1,0 +1,167 @@
+﻿<!-- Load the datamodel -->
+@model List<PropertyManagement.Controllers.SaleOrder>
+
+@if (Model != null)
+{
+    <table id="datatable" class="display table compact nowrap">
+        <caption style="text-align:center; font-weight:bold">@ViewBag.TableCaption</caption>
+        <thead align="center">
+            <tr>
+                <th class="dataTableCenter"></th>
+                <th class="dataTableCenter">Profit%</th>
+                <th class="dataTableLeft">Order#</th>
+                <th class="dataTableCenter">account</th>
+                <th class="dataTableCenter">sku</th>
+                <th class="dataTableCenter">quantity</th>
+                <th class="dataTableCenter">cost</th>
+                <th class="dataTableCenter">sales</th>
+                <th class="dataTableCenter">ebayFee</th>
+                <th class="dataTableCenter">paypalFee</th>
+                <th class="dataTableCenter">shipping</th>
+                <th class="dataTableCenter">sea-ship</th>
+                <th class="dataTableCenter">date</th>
+                <th class="dataTableCenter">profit</th>
+                <th class="dataTableCenter">name</th>
+                <th class="dataTableCenter">state</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th></th>
+                <th class="dataTableCenter"></th>
+                <th class="dataTableCenter"></th>
+                <th class="dataTableCenter"></th>
+                <th class="dataTableCenter"></th>
+                <th class="dataTableCenter"></th>
+                <th class="dataTableCenter"></th>
+                <th class="dataTableCenter"></th>
+                <th class="dataTableCenter"></th>
+                <th class="dataTableCenter"></th>
+                <th class="dataTableCenter"></th>
+                <th class="dataTableCenter"></th>
+                <th class="dataTableCenter"></th>
+                <th class="dataTableCenter"></th>
+                <th class="dataTableCenter"></th>
+                <th class="dataTableCenter"></th>
+            </tr>
+        </tfoot>
+        <tbody>
+            @foreach (var row in Model)
+            {
+                <tr>
+                    <td class="dataTableCenter">@Html.ActionLink("Edit", "Edit", "ECommerceOrder", new { number = row.ebay_id, sku=row.sku}, null)</td>
+                    <td class="dataTableCenter">@((row.profit / row.sales).ToString("P"))</td>
+                    <td class="dataTableLeft">@row.ebay_id</td>
+                    <td class="dataTableCenter">@row.account  </td>
+                    <td class="dataTableCenter">@row.sku</td>
+                    <td class="dataTableCenter">@row.quantity</td>
+                    <td class="dataTableCenter">@row.cost.ToString("C2")</td>
+                    <td class="dataTableCenter">@row.sales.ToString("C2")</td>
+                    <td class="dataTableCenter">@row.ebayFee.ToString("C2")</td>
+                    <td class="dataTableCenter">@row.paypalFee.ToString("C2")</td>
+                    <td class="dataTableCenter">@row.shippingFee.ToString("C2")</td>
+                    <td class="dataTableCenter">@row.internationalShippingFee.ToString("C2")</td>
+                    <td class="dataTableCenter">@row.orderDate.ToShortDateString()</td>
+                    <td class="dataTableCenter">@row.profit</td>
+                    <td class="dataTableCenter">@row.name  </td>
+                    <td class="dataTableCenter">@row.state</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <script>
+        // Script to execute when document is ready
+        $(document).ready(function () {
+
+            // Get the table caption (if there is one) for the report table
+            var tablecaption = $("#datatable").find('caption').text();
+
+            // Setup standard Datatable formatting
+            $('#datatable').DataTable({
+                "order": [],
+                "searching": true,
+                "paging": true,
+                "scrollCollapse": true,
+                "processing": false,
+                "serverSide": false,
+                "iDisplayLength": 100,
+                dom: 'if<"savebuttons"B>tlp',
+                buttons: [
+                          {
+                              extend: 'copyHtml5',
+                              header: true,
+                              footer: true,
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'csvHtml5',
+                              header: true,
+                              footer: true,
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'pdfHtml5',
+                              header: true,
+                              footer: true,
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'excelHtml5',
+                              header: true,
+                              footer: true,
+                              title: tablecaption,
+                              message: tablecaption,
+                              sTitle: tablecaption
+                          },
+                          {
+                              extend: 'print',
+                              header: true,
+                              footer: true,
+                              message: tablecaption
+                          }
+                ],
+                "language": {
+                    loadingRecords: "Loading data, please wait...",
+                    zeroRecords: "No data..."
+                },
+                "formatNumber": function (toFormat) { return toFormat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); },
+
+                // Start of totals footer row function
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api(), data;
+
+                    // Create a function to remove the formatting to get integer data for summation - This function is used below
+                    var intVal = function (i) { return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0; };
+                    var numFormat = $.fn.dataTable.render.number('\,', '.', 2, '$').display;
+                    // Get the exam total for each column
+                    var ChestXRay_reporttotal = api.column(5).data().reduce(function (a, b) { return intVal(a) + intVal(b); }, 0);   // Sum for column - all pages
+                    var CTAbd_reporttotal = api.column(6).data().reduce(function (a, b) { return intVal(a) + intVal(b); }, 0);   // Sum for column - all pages
+                    var sales = api.column(7).data().reduce(function (a, b) { return intVal(a) + intVal(b); }, 0);   // Sum for column - all pages
+                    var ImgGuide_reporttotal = api.column(8).data().reduce(function (a, b) { return intVal(a) + intVal(b); }, 0);   // Sum for column - all pages
+                    var Mammo_reporttotal = api.column(9).data().reduce(function (a, b) { return intVal(a) + intVal(b); }, 0);   // Sum for column - all pages
+                    var MRIBody_reporttotal = api.column(10).data().reduce(function (a, b) { return intVal(a) + intVal(b); }, 0);   // Sum for column - all pages
+                    var MRIBrain_reporttotal = api.column(11).data().reduce(function (a, b) { return intVal(a) + intVal(b); }, 0);   // Sum for column - all pages
+                    var profit = api.column(13).data().reduce(function (a, b) { return intVal(a) + intVal(b); }, 0);   // Sum for column - all pages
+
+                    // Update the table footer
+                    $(api.column(0).footer()).html('Total');
+                    $(api.column(1).footer()).html('' + (profit / sales *100).toFixed (2)+'%' + '');
+                    $(api.column(5).footer()).html('' + ChestXRay_reporttotal +'');
+                    $(api.column(6).footer()).html('' + numFormat( CTAbd_reporttotal)+ '');
+                    $(api.column(7).footer()).html('' + numFormat( sales) + '');
+                    $(api.column(8).footer()).html('' + numFormat( ImgGuide_reporttotal) + '');
+                    $(api.column(9).footer()).html('' + numFormat( Mammo_reporttotal) + '');
+                    $(api.column(10).footer()).html('' + numFormat( MRIBody_reporttotal) + '');
+                    $(api.column(11).footer()).html('' + numFormat( MRIBrain_reporttotal) + '');
+                    $(api.column(13).footer()).html('' + numFormat(profit) + '');
+
+                } // End of totals footer totals row function
+
+            }); // End of document datatable
+
+        }); // End of document ready
+
+
+    </script>
+}

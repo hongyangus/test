@@ -1,0 +1,129 @@
+﻿@{
+    ViewBag.ApplicationTitle = "Radiology Central";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <!--  -->
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+
+    <!-- CCHMC Custom styles -->
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/StyleCustom.css" rel="stylesheet" />
+
+    <!-- Google APIs -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    
+    <!-- HightCharts is not used in this layout -->
+    
+    <!-- JQuery Themes -->
+    <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+    <link href="http://code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet" />
+    <link href="http://code.jquery.com/ui/1.11.4/themes/flick/jquery-ui.css" rel="stylesheet" />
+    <link href="http://code.jquery.com/ui/1.11.4/themes/redmond/jquery-ui.css" rel="stylesheet" />
+        
+    <!-- Datatables.net -->
+    @RenderPage("dataTables.cshtml")
+
+    <!-- JQuery UI theme roller -->
+    <link href="~/Content/themes/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <!-- BootStrap Date Picker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/js/bootstrap-datepicker.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/css/bootstrap-datepicker.css" rel="stylesheet" />
+
+    <!-- BootStrap Select Picker for DDL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css" />
+
+    <!-- BootStrap Main -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <!-- Moment javascript library for managing dates and times see momentjs.com for more info -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.js"></script>
+
+    <!-- Style for moving the Datatables.net buttons to the right side -->
+    <style type="text/css">
+        .savebuttons {
+            float: right;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation bar for logged in users -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div style="display:inline;">
+                    <a href='@Url.Action("GoHome", "Account")'><img src="~/Content/images/newCCHMCLogo.png" class="navbar-logo" style="display: block;float:left;" title="Cincinnati Children's Hospital Medical Center" alt="Cincinnati Children's Hospital Medical Center" /></a>
+                </div>
+            </div>
+            <div class="HeaderApplicationName" style="display:inline;float:left">
+                <h2 class="h1ApplicationName">@ViewBag.ApplicationTitle</h2>
+            </div>
+            <div class="loginNavigation" style="display:inline;">
+                @if (Session["UserName"] != null)
+                {
+                    var username = Session["UserName"];
+                    <div style="display:inline;">Welcome @Session["UserName"]</div>
+                        <div style="display:inline;">|</div>
+                        <div style="display:inline;">@Html.ActionLink("Home", "GoHome", "Account")</div>
+                        <div style="display:inline;">|</div>
+                        <div style="display:inline;">@Html.ActionLink("Log out", "LogOut", "Account")</div>
+                }
+            </div>
+            <div class="navbar-collapse collapse hideHamburger">
+                <div class="nav navbar-nav hideHamburger">
+                    <div>Welcome @Session["UserName"]</div>
+                    <div>@Html.ActionLink("Home", "GoHome", "Account")</div>
+                    @*<li>@Html.ActionLink("Report Management", "Index", "Report")</li>*@
+                    <div>@Html.ActionLink("Log out", "LogOut", "Account")</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div><hr /></div>
+    <!-- Report/Chart body -->
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+    </div>
+
+    <!-- Footer for all CCHMC pages -->
+    <footer>
+        <p>&copy; 2005-@DateTime.Now.Year Cincinnati Children's Hospital Medical Center</p>
+        <p>Note: Unless otherwise specified, start and end dates begin and end at 7:00 am</p>
+    </footer>
+
+    <!-- Modal Dialog for Showing Dx Report -->
+    <div id="ReportModalDialog" class="modalDialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-header">
+                <a href="#close" title="Close" class="close">X</a>
+                <h4 class="modal-title" id="myModalLabel">Diagnostic Report Text</h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        // Set the earliest date that can be selected on the start date
+        $("#startDate").datepicker({ autoclose: true, startDate: '01/01/2013' });
+        $("#endDate").datepicker({ autoclose: true, startDate: '01/01/2013' });
+    </script>
+</body>
+</html>

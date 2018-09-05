@@ -1,0 +1,40 @@
+﻿@model PropertyManagement.Models .OperationRecord 
+<!-- Load common Javascript code -->
+@Scripts.Render("~/Scripts/Pages/00-Shared.js")
+
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.ActionLink("Back to Expense Management", "Index")
+
+<!-- Display the report title -->
+<h4>@ViewBag.ReportTitle</h4>
+
+@using (Html.BeginForm())
+{
+    <div>
+            <div>
+                <label>Due Date:</label> @Html.TextBoxFor(x => x.DueDate, new { @type = "date", @Value = Model.DueDate.ToString("yyyy-MM-dd"), @class = "form-control" })
+                <label>Due Amount: </label>@Html.TextBoxFor(x => x.DueAmount, new { @class = "form-control" })
+                <label>Paid Date:</label> @Html.TextBoxFor(x => x.CompleteDate, new { @type = "date", @Value = Model.DueDate.ToString("yyyy-MM-dd"), @class = "form-control" })
+                <label>Paid Amount: </label>@Html.TextBoxFor(x => x.Payment, new { @class = "form-control" })
+                <label>Memo: </label>@Html.TextBoxFor(x => x.Memo, new { @class = "form-control" })
+                <label>Bank Tracking: </label>@Html.TextBoxFor(x => x.BankTracking, new { @class = "form-control" })
+            </div>
+            <br />
+            <div>
+                @Html.CheckBoxFor(x => x.IsCredit, new { @class = "" })<label>Is Deposit&nbsp&nbsp</label>&nbsp&nbsp&nbsp&nbsp&nbsp
+                @Html.CheckBoxFor(x => x.IsSecurityDeposit, new { @class = "" })<label>Is Security Deposit&nbsp&nbsp</label>&nbsp&nbsp&nbsp&nbsp&nbsp
+                @Html.CheckBoxFor(x => x.IsEmailReceipt, new { @class = "" })<label>Email Receipt&nbsp&nbsp</label>
+            </div>
+            <div style="width:400px">
+                <label>Tenant:</label> @Html.DropDownListFor(x => x.TenantID, Model.AllTenant, "Please Select Tenant", new { @class = "form-control selectpicker" })
+            </div>
+            <div style="width:400px">
+                <label>Bank Account:</label> @Html.DropDownListFor(x => x.FinancialBankAccountID, Model.AllBankAccount, "Please Select Bank Account", new { @class = "form-control selectpicker" })
+            </div>
+            <input type="submit" value="Submit" />
+        </div>
+}

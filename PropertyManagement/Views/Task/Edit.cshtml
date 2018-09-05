@@ -1,0 +1,48 @@
+﻿@model PropertyManagement.ViewModels.Task.AddTaskVM 
+@Scripts.Render("~/Scripts/Pages/00-Shared.js")
+
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.ActionLink("All Task", "Index", "Task", null, null)
+
+@using (Html.BeginForm())
+{
+<div>
+    @Html.HiddenFor(x => x.TaskID)
+    <label>Task Content: </label>@Html.TextAreaFor(x => x.TaskDetail, new { style = "width: 400px; height: 200px;", @class = "form-control" })
+    <br />
+    <div style="width:400px">
+        <label>Assign to:</label>@Html.DropDownListFor(x => x.ContractorID, Model.AllTenant, "Assign to", new { @class = "form-control selectpicker" })
+    </div>           
+    <div style="width:400px">
+        <label>Address & Unit Number:</label>@Html.DropDownListFor(x => x.UnitID, Model.AllUnit, "Address", new { @class = "form-control selectpicker" })
+    </div>
+    <div style="width:400px">
+        <label>Hours: </label> @Html.TextBoxFor(x => x.Hours, new { @class = "form-control" })
+    </div>
+    <div style="width:400px">
+        <label>Milage: </label> @Html.TextBoxFor(x => x.Milage, new { @class = "form-control" })
+    </div>
+    <div style="width:400px">
+        <label>Labor: </label> @Html.TextBoxFor(x => x.Labor, new { @class = "form-control" })
+    </div>
+    <div style="width:400px">
+        <label>Material: </label> @Html.TextBoxFor(x => x.Material, new { @class = "form-control" })
+    </div>
+    <div style="width:400px">
+        <label>Total Payment: </label> @Html.TextBoxFor(x => x.TotalPayment, new { @class = "form-control" })
+    </div>
+    <div style="width:400px">
+        <label>Paid through Bank Account:</label>@Html.DropDownListFor(x => x.BankAccountID, Model.AllBankAccount, "Please Select Financial Account", new { @class = "form-control selectpicker" })
+    </div>
+    <div style="width:400px">
+        <label>Status:</label> @Html.DropDownListFor(x => x.StatusID, Model.AllStatus, "Please Select Status", new { @class = "form-control selectpicker" })
+    </div>
+
+    <br />
+    <input type="submit" value="Submit" />
+</div>
+}

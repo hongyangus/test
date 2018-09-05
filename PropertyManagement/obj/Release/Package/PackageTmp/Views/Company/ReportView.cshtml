@@ -1,0 +1,175 @@
+﻿<!-- Load the datamodel -->
+@model List<PropertyManagement.Models.Company>
+
+@if (Model != null)
+{
+    <table id="datatable" class="display table compact nowrap">
+        <caption style="text-align:center; font-weight:bold">@ViewBag.TableCaption</caption>
+        <thead align="center">
+        <tr>
+        <th>
+            Company Name
+        </th>
+        <th>
+            Admin Name
+        </th>
+        <th>
+            Phone
+        </th>
+        <th>
+            Cell Phone
+        </th>
+        <th>
+            Address
+        </th>
+        <th>
+            City
+        </th>
+        <th>
+            State
+        </th>
+        <th>
+            Zip
+        </th>
+        <th>
+            EIN
+        </th>
+        <th>
+            Bank Account
+        </th>
+        <th>
+            Routing number
+        </th>
+        <th>
+            Start Date
+        </th>
+        <th>
+            Status
+        </th>
+    </tr>
+        </thead> 
+        <tfoot>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        </tfoot> 
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(@item.CompanyName, "Edit", new { id = item.CompanyID })
+                    </td>
+                    <td>@item.AdminName</td>
+                    <td>@item.CompanyPhone</td>
+                    <td>@item.CompanyCellPhone</td>
+                    <td>@item.Address</td>
+                    <td>@item.City</td>
+                    <td>@item.State</td>
+                    <td>@item.Zip</td>
+                    <td>@item.EIN</td>
+                    <td>@item.BankAccount</td>
+                    <td>@item.RountingNo</td>
+                    <td>@item.StartDate.ToShortDateString() </td>
+                    <td>@item.Status </td>
+                </tr>
+            }
+        </tbody>
+</table>
+
+    <div class="@ViewBag.MyExeptionCSS">@ViewBag.MyExeption</div>
+    <script>
+        // Script to execute when document is ready
+        $(document).ready(function () {
+
+            // Get the table caption (if there is one) for the report table
+            var tablecaption = $("#datatable").find('caption').text();
+
+            // Setup standard Datatable formatting
+            $('#datatable').DataTable({
+                "order": [],
+                "searching": true,
+                "paging": true,
+                "scrollCollapse": true,
+                "processing": false,
+                "serverSide": false,
+                "iDisplayLength": 25,
+                dom: 'if<"savebuttons"B>tlp',
+                buttons: [
+                          {
+                              extend: 'copy',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'csv',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'pdf',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'excel',
+                              title: tablecaption,
+                              message: tablecaption,
+                              sTitle: tablecaption
+                          },
+                          {
+                              extend: 'print',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          }
+                ],
+                "language": {
+                    loadingRecords: "Loading data, please wait...",
+                    zeroRecords: "No data..."
+                },
+                "formatNumber": function (toFormat) { return toFormat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); },
+
+                //start of totals data table
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api(), data;
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function (i) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '') * 1 :
+                            typeof i === 'number' ?
+                            i : 0;
+                    };
+
+                    // Total over all pages
+                    total = api
+                        .column(2)
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Total over this page
+                    pageTotal = api
+                        .column(2, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                } // End of totals data table
+
+            }); // End of document datatable
+
+        }); // End of document ready
+    </script>
+}

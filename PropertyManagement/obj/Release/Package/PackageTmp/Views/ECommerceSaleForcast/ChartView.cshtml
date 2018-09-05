@@ -1,0 +1,47 @@
+﻿<div id="chartContainer"></div>
+
+<script>
+
+    $(function () {
+        // Set the Chart title
+        var charttitle = '<b>' + '@(ViewBag.TableCaption)' + '</b>';
+
+        // Get the data for the chart from the controller
+        var yaxisdatatat = @Html.Raw(Json.Encode(ViewData["yaxisdatatat"]));
+        var xaxislabels = @Html.Raw(Json.Encode(ViewData["xaxislabels"]));
+        var chartType = @Html.Raw(Json.Encode(ViewData["chartType"]));
+        var chartTitle = '<b>' + @Html.Raw(Json.Encode(ViewData["chartTitle"])) + '</b>';
+
+        // Set the HighCharts Global Options
+        Highcharts.setOptions({ global: { useUTC: false }, lang: { decimalPoint: '.', thousandsSep: ',' } });
+
+        // Create the Chart
+        var myChart = Highcharts.chart('chartContainer', {
+            chart: { type: chartType },
+            credits: { enabled: false },
+            title: { text: chartTitle },
+            tooltip: {
+                pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> Dollar<br/>',
+                split: true
+            },
+            legend: { enabled: true, maxHeight: 100 },
+            series: yaxisdatatat ,
+            xAxis: {
+                tickWidth: 0,
+                lineWidth: 0,
+                gridLineWidth: 1,
+                tickPixelInterval: 100,
+                labels: {
+                    formatter: function () { return xaxislabels[this.value]; },
+                    align: 'center',
+                    style: { color: 'black' }
+                }
+            },
+            yAxis: {
+                title: { text: '<b>Sales</b>' },
+                labels: { align: 'left', x: 3, y: 0 }
+            },
+        }); // end Highcharts.chart
+    }); // end function
+
+</script>

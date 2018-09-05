@@ -1,0 +1,15 @@
+﻿@model PropertyManagement.Models.OperationRecord
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.ActionLink("Back to Rent Management", "Index")
+<h4>@ViewBag.ReportTitle</h4>
+
+@using (Html.BeginForm())
+{
+     <label>Due Date:</label> @Html.TextBoxFor(x => x.DueDate, new { @type = "date", @Value = Model.DueDate.ToString("yyyy-MM-dd"), @class = "form-control" })
+
+    <input type="submit" value="Submit" />
+ }

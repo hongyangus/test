@@ -1,0 +1,233 @@
+﻿<!-- Load the datamodel -->
+@model List<PropertyManagement.Models.OperationRecord>
+<!-- Load common Javascript code -->
+@Scripts.Render("~/Scripts/Pages/00-Shared.js")
+
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Display the report title -->
+<h2>@ViewBag.ReportTitle</h2>
+
+    @if (Model != null)
+    {
+        <table id="datatable" class="display table compact nowrap">
+            <caption style="text-align:center; font-weight:bold">@ViewBag.TableCaption</caption>
+            <thead align="center">
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th class="dataTableCenter">
+                        Due Amount
+                    </th>
+                    <th class="dataTableCenter">
+                        Payment
+                    </th>
+                    <th class="dataTableCenter">
+                        Due Date
+                    </th>
+                    <th class="dataTableCenter">
+                        Payment Date
+                    </th>
+                    <th class="dataTableCenter">
+                        Paid By
+                    </th>
+                    <th class="dataTableCenter">
+                        Memo
+                    </th>
+                    <th class="dataTableCenter">
+                        Expense
+                    </th>
+                    <th class="dataTableCenter">
+                        Address
+                    </th>
+                    <th class="dataTableCenter">
+                        Bank Account Name
+                    </th>
+                    <th class="dataTableCenter">
+                        Status
+                    </th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>Total:@ViewBag.TotalPayment.ToString("C")</th>
+                    <th>Total:@ViewBag.TotalDeposit.ToString("C")</th>
+                    <th>Total balance:@ViewBag.TotalBalace.ToString("C")</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var row in Model)
+                {
+            <tr>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Expense", new { id = row.ID }, null)
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", "Expense", new { id = row.ID }, null)
+                </td>
+                <td>
+                    @Html.ActionLink("Send Reminder", "Remind", "Expense", new { id = row.ID }, null)
+                </td>
+                <td class="dataTableLeft">
+                    @((row.DueAmount == 0) ? "" : @row.DueAmount.ToString("C"))
+                </td>
+                <td class="dataTableLeft">
+                    @((row.Payment == 0) ? "" : @row.Payment.ToString("C"))
+                </td>
+                <td class="dataTableLeft">
+                    @row.DueDate.ToShortDateString()
+                </td>
+                <td class="dataTableLeft">
+                    @((row.CompleteDate.ToShortDateString() == "1/1/0001") ? "" : @row.CompleteDate.ToShortDateString())
+                </td>
+                <td class="dataTableCenter">
+                    @row.PaidBy
+                </td>
+                <td class="dataTableLeft">
+                    @row.Memo
+                </td>
+                <td class="dataTableLeft">
+                    @row.CategoryName
+                </td>
+                <td class="dataTableCenter">
+                    @row.Address
+                </td>
+                <td class="dataTableCenter">
+                    @row.BankAccountName
+                </td>
+                <td class="dataTableCenter">
+                    @row.StatusName
+                </td>
+            </tr>
+            }
+            </tbody>
+        </table>
+    
+    <div class="@ViewBag.MyExeptionCSS">@ViewBag.MyExeption</div>
+    <script>
+        // Script to execute when document is ready
+        $(document).ready(function () {
+
+            // Get the table caption (if there is one) for the report table
+            var tablecaption = $("#datatable").find('caption').text();
+
+            // Setup standard Datatable formatting
+            $('#datatable').DataTable({
+                "columns": [null, null, null, null, null, null,
+                    {
+                        "render": function (d, t, r) {
+                            var $select = $("<select></select>", {
+                                "id": r[0] + "start",
+                                "value": d
+                            });
+                            $.each(times, function (k, v) {
+                                var $option = $("<option></option>", {
+                                    "text": v,
+                                    "value": v
+                                });
+                                if (d === v) {
+                                    $option.attr("selected", "selected")
+                                }
+                                $select.append($option);
+                            });
+                            return $select.prop("outerHTML");
+                        }
+                    },
+                ],
+                "order": [],
+                "searching": true,
+                "paging": true,
+                "scrollCollapse": true,
+                "processing": false,
+                "serverSide": false,
+                "iDisplayLength": 25,
+                dom: 'if<"savebuttons"B>tlp',
+                buttons: [
+                          {
+                              extend: 'copy',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'csv',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'pdf',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'excel',
+                              title: tablecaption,
+                              message: tablecaption,
+                              sTitle: tablecaption
+                          },
+                          {
+                              extend: 'print',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          }
+                ],
+                "language": {
+                    loadingRecords: "Loading data, please wait...",
+                    zeroRecords: "No data..."
+                },
+                "formatNumber": function (toFormat) { return toFormat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); },
+
+                //start of totals data table
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api(), data;
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function (i) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '') * 1 :
+                            typeof i === 'number' ?
+                            i : 0;
+                    };
+
+                    // Total over all pages
+                    total = api
+                        .column(2)
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Total over this page
+                    pageTotal = api
+                        .column(2, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Update footer
+                    $(api.column(2).footer()).html(
+                        '' + pageTotal + ' ( ' + total + ' total)'
+                    );
+                } // End of totals data table
+
+            }); // End of document datatable
+
+        }); // End of document ready
+
+
+    </script>
+}

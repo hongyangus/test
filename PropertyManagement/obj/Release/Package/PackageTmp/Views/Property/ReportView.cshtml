@@ -1,0 +1,185 @@
+﻿<!-- Load the datamodel -->
+@model List<PropertyManagement.Models.Property>
+
+@if (Model != null)
+{
+    <table id="datatable" class="display table compact nowrap">
+        <caption style="text-align:center; font-weight:bold">@ViewBag.TableCaption</caption>
+        <thead align="center">
+            <tr>
+                <td></td>
+                <th>ID</th>
+                <th>Address </th>
+                <th>City </th>
+                <th>Zip</th>
+                <th>Buy Day</th>
+                <th>Buy Price</th>
+                <th> Property tax </th>
+                <th>Tax Mailing</th>
+                <th>Tax Date </th>
+                <th>Note</th>
+                <th>Inter Rate </th>
+                <th>Insurance Carrier</th>
+                <th>Insu Policy</th>
+                <th>Insu Due</th>
+                <th> Insurance Mailing </th>
+                <th>Sold Date</th>
+                <th>Amortation</th>
+                <th> Market Value</th>
+                <th>Share</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="dataTableCenter"></td>
+                    <td>@item.PropertyID</td>
+                    <td>
+                        @Html.ActionLink(@item.Address, "Edit", "Property", new { id = item.PropertyID }, null)
+                    </td>
+                    <td>@item.City</td>
+                    <td>@item.Zip</td>
+                    <td>@item.PurchaseDate.ToShortDateString()</td>
+                    <td>@item.PurchasePrice.ToString("C")</td>
+                    <td>@item.PropertyTaxYearPayment.ToString("C")</td>
+                    <td>@item.PropertyTaxMailingAddress</td>
+                    <td>@item.PropertyTaxDueDate.ToShortDateString()</td>
+                    <td>@item.note</td>
+                    <td>@item.InterestRate</td>
+                    <td>@item.InsuranceCompany</td>
+                    <td>@item.InsurancePolicyNumber </td>
+                    <td>@item.InsuranceDueDate.ToShortDateString() </td>
+                    <td>@item.InsuranceBillMailingAddress </td>
+                    <td>@item.SoldDate.ToShortDateString() </td>
+                    <td>@item.amortization.ToString() </td>
+                    <td>@item.CurrentEstimateMarketValue.ToString("C") </td>
+                    <td>@item.ShareHoldPercentage.ToString("P") </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="@ViewBag.MyExeptionCSS">@ViewBag.MyExeption</div>
+    <script>
+        var detailtablecounter = 1; // Save a variable for counting the number of nested tables opened - this is used in the nested table id
+
+        // Script to execute when document is ready
+        $(document).ready(function () {
+
+               $('#datatable tbody').on('click', 'td.details-control', function () {
+                // Retrieve the necessary search filter criteria from the tempdata set by the controller
+
+                // Get information about the row that was clicked on
+                var tr = $(this).closest('tr'); // Get the row that was clicked on
+                var row = table.row(tr); // Get the table details for the row that was clicked on
+                var propertyID = row.data()[1]; // Get the value from column x of this row
+
+                // Process the user click - taking the appropriate action
+                if (row.child.isShown()) {  //  This row is already open - so just close it
+                    row.child.hide(); // Close the row details
+                    tr.removeClass('shown');  // Change the icon to closed
+                }
+                else { //  This row is NOT already open - so open it
+                     // Load the HTML data from the detail partial view
+                    var $div = $('<div>');
+                    $div.load('@Url.Action("DetailTableView", "Property")', { tableid: detailtablecounter, propertyID: propertyID });
+                    row.child($div).show(); // Open the row details to show the detail
+                    tr.addClass('shown');  // Change the icon to opened
+
+                    detailtablecounter = detailtablecounter + 1;
+                }
+            }); // End of detail table icon click
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+            // Setup main Datatable formatting
+            ////////////////////////////////////////////////////////////////////////////////////////
+            // Get the table caption (if there is one) for the report table
+            var tablecaption = $("#datatable").find('caption').text();
+            var table = $('#datatable').DataTable({
+                "order": [],
+                "searching": true,
+                "paging": true,
+                "scrollCollapse": true,
+                "processing": false,
+                "serverSide": false,
+                "iDisplayLength": 25,
+                "columns": [
+                            { className: 'details-control', orderable: false, data: null,  defaultContent: '' },     // Puts the detail open/close icon inthe first column
+                            { "visible": false},  // Hide the rad ID column
+                            {},
+                            {},
+                            {},
+                            {},
+                            {},
+                            {},
+                            {},
+                            {},
+                            {},
+                            {},
+                            {},
+                            {},
+                            {},
+                            {},
+                            {},
+                            {},
+                            {},
+                            {}
+                ],
+                dom: 'if<"savebuttons"B>tlp',
+                buttons: [
+                           {
+                               extend: 'copyHtml5',
+                               header: true,
+                               footer: true,
+                               message: tablecaption
+                           },
+                          {
+                              extend: 'csvHtml5',
+                              header: true,
+                              footer: true,
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'pdfHtml5',
+                              exportOptions: {
+                                  columns: [ 2, 3]
+                              },
+                              header: true,
+                              footer: true,
+                              orientation: 'landscape',
+                              message: tablecaption
+
+                          },
+                          {
+                              extend: 'excelHtml5',
+                              exportOptions: {
+                                  columns: [ 2, 3]
+                              },
+                              header: true,
+                              footer: true,
+                              title: tablecaption,
+                              message: tablecaption,
+                              sTitle: tablecaption
+                          },
+                          {
+                              extend: 'print',
+                              exportOptions: {
+                                  columns: [ 2, 3]
+                              },
+                              header: true,
+                              footer: true,
+                              message: tablecaption
+                          }
+                ],
+                "language": {
+                    loadingRecords: "Loading data, please wait...",
+                    zeroRecords: "No data..."
+                },
+                "formatNumber": function (toFormat) { return toFormat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+
+            }); // End of main Datatable formatting
+
+        }); // End of document read
+    </script>
+}

@@ -1,0 +1,38 @@
+﻿@model PropertyManagement.Models.OperationRecord
+<!-- Load common Javascript code -->
+@Scripts.Render("~/Scripts/Pages/00-Shared.js")
+
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ActionLink("Back to Supply Request", "Index")
+<!-- Display the report title -->
+<h4>@ViewBag.ReportTitle</h4>
+<h2>@TempData["ErrorMessage"]</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(x => x.ID)
+    <div style="float: left ">
+        <div>
+            <label>Due Date:</label> @Html.TextBoxFor(x => x.DueDate, new { @type = "date", @Value = Model.DueDate.ToString("yyyy-MM-dd"), @class = "form-control" })
+        </div>
+        <br />
+        <div>
+            <label>Requested Supply: </label> @Html.TextArea("Memo", new { rows = 10, columns = 20, @class = "form-control" })
+        </div>
+        <div>
+            @Helpers.IOSingleList(ViewBag.units, "UnitID", "Property Address")
+       </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <div>
+            <input type="submit" value="Submit" style="text-align :left" />
+        </div>
+    </div>
+}

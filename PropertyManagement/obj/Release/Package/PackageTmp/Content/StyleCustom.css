@@ -1,0 +1,992 @@
+﻿/* Importing Amaranth Font for menu text */
+@import url(http://fonts.googleapis.com/css?family=Amaranth);
+
+/* Bordered Form */
+form{
+    border: 0px solid #f1f1f1;
+}
+
+header, a, img, li{
+	transition: all 1s;
+	-moz-transition: all 1s; /* Firefox 4 */
+	-webkit-transition: all 1s; /* Safari and Chrome */
+	-o-transition: all 1s; /* Opera */
+}
+
+header{
+    background: #C7C7C7;
+    border-bottom: 1px solid #aaaaaa;
+    float: left;
+    width: 100%;
+    /*position: fixed;*/
+    z-index: 10;
+}
+
+header a{
+	color: #969696;
+	text-decoration: none;
+	font-family: 'Amaranth', sans-serif;
+	text-transform: uppercase;
+}
+
+header a.active, header a:hover{
+	color: #3d3d3d;
+}
+
+header li{
+	margin-right: 30px;
+}
+
+/* Sizes for the bigger menu */
+header.large{
+	height: 120px;
+}
+
+header.large img{
+	width: 400px;
+	height: 89px;
+}
+
+header.large li{
+	margin-top: 5px;
+
+}
+
+/* Sizes for the smaller menu */
+header.small{
+	height: 50px;
+}
+
+header.small img{
+	width: 200px;
+	height: 50px;
+	margin-top: -2px;
+}
+
+header.small li{
+	margin-top: 17px;
+}
+
+/**** Navigation Bar Attributes ****/
+nav{
+	width: 960px;
+	margin: 0 auto;
+}
+
+.navbar-inverse{
+    background-color: #f8f8f8;  /* border for header */
+    /*border-color: #3d3d3d;*/
+    border-color: #9C477A;
+}
+
+.navbar-inverse .navbar-nav > li > a:focus, .navbar-inverse .navbar-nav > li > a:hover{
+    color: #000;  /* Header link hover colors */
+    background-color: transparent;
+}
+
+.navbar-logo{
+    float: left;
+    padding: 0px 0px;
+}
+
+@media (min-width: 768px){
+  .navbar > .container .navbar-logo {
+    margin-left: -15px;
+  }
+}
+/**** End of Navigation Bar Attributes ****/
+
+/**** Body Attributes ****/
+body{
+    padding-top: 15px;
+    padding-bottom: 15px;
+	background-color: #ebebeb;
+    font: 13px/20px 'Lucida Grande', Tahoma, Verdana, sans-serif;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* When the body has the loading class, we turn the scrollbar off with overflow:hidden */
+body.loading{
+    overflow: hidden;   
+}
+
+/* Anytime the body has the loading class, our modal element will be visible */
+body.loading .modal{
+    display: block;
+}
+
+#lblModalMessage {
+    color: #D8000C;
+    background-color: #FFD2D2;
+    border: 1px solid #D8000C;
+}
+/**** End of Body Attributes ****/
+
+/**** Footer Attributes ***/
+footer{
+    left: 0;
+    bottom: 0;
+    height: 20px;
+    width: 100%;
+    padding-left:5px;
+    padding-right:5px;
+    text-align:center;
+}
+/**** End of Footer Attributes ***/
+
+/**** Logo Image Attributes ***/
+.logo{
+    background-image: url() background-image: url('CC-Radiology-logo-small.png');
+}
+
+img.logo{
+	float: left;
+}
+/**** End of Logo Image Attributes ***/
+
+/** animated gif for loading pages / page load*/
+/**** Modal Window Attributes ****/
+.modal{
+    display:    none;      /* Hidden by default */
+    position:   fixed;     /* Stay in place */
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;      /* Full width */
+    width:      100%;      /* Full height */
+    background: rgba( 255, 255, 255, .9 ) 
+                url('http://i.stack.imgur.com/FhHRx.gif') 
+                50% 50% 
+                no-repeat;
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content{
+    background-color: #fefefe;
+    margin: 5px auto; /* 15% from the top and centered */
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.Modallabel{
+    display: inline-block;   
+    clear: left;
+    width: 90px;
+    text-align: right;
+}
+.Modalinput {
+  display: inline-block;  
+  width: 270px;
+}
+
+.button {
+  font: bold 11px Arial;
+  text-decoration: none;
+  background-color: #EEEEEE;
+  color: #333333;
+  margin-left: 5px;
+  padding: 4px 6px 4px 6px !important;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+}
+
+.deleteButton {
+  margin-left: 5px;
+  margin-right: 8px;
+  padding: 0px 6px 0px 6px !important;
+  float: right;
+}
+/* modal delete button */
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+
+/**** End of Modal Window Attributes ****/
+
+ul{
+	list-style-type: none;
+	/*float: right;*/
+}
+
+/* Add padding to containers */
+.container{
+    padding: 10px;
+    width: 98% !important;
+    margin: 0 auto;
+    clear:both;
+}
+
+/**** Report Filters Attributes ****/
+input,
+select,
+textarea {
+    max-width: 550px;
+     /* Set width on the form input elements since they're 100% wide by default */
+}
+
+.ReportDropDowns{
+    width:180px;
+}
+
+/**** Form Columns ****/
+.column {
+    float: left;
+    width: 16%;
+    padding: 2px;
+    margin: 2px
+    /*border: 1px solid #ff0000;*/
+}
+
+.columnSmall {
+    float: left;
+    width: 16%;
+    padding: 2px;
+    margin: 2px
+    /*border: 1px solid #ff0000;*/
+}
+
+/**** End of Report Filters Attributes ****/
+
+/* Caption for Table */
+caption{
+    text-align:center; 
+    font-weight:bold;
+}
+
+/**** Table Attributes ****/
+th{ 
+    white-space: nowrap; 
+}
+
+tr.group,
+tr.group:hover{
+    background-color: #ddd !important;
+}
+
+th.dataTableCenter{
+    text-align:center;
+}
+
+th.dataTableLeft{
+        text-align:left
+}
+
+td.dataTableCenter{
+    text-align:center;
+}
+
+td.dataTableLeft{
+    text-align:left
+}
+/**** End of Table Attributes ****/
+
+
+section.stretch{
+    float: left;
+    height: 1500px;
+    width: 100%;
+    border: solid 0px #ff0000;
+}
+
+section.stretch p{
+    font-family: 'Amaranth', sans-serif;
+    font-size: 30px;
+    color: #969696;
+    text-align: center;
+    position: relative;
+    margin-top: 5px;
+}
+
+section.stretch p.bottom{
+    top: 100%;
+}
+
+div.LoginContainer{ 
+    max-width: 100%; 
+    width:100%;
+    align-content:center;
+}
+
+.LoginContainer{
+    padding-right: 5px;
+    padding-left: 2px;
+    margin-right: 1px;
+    margin-left: 1px;
+}
+
+.LoginMain{
+    width:50%;
+    border: 1px solid #9C477A;
+    align-content:center;
+    margin: 0 auto;
+}
+
+/*.panel-body {background-color:black !important;}*/
+/* body{font-family:'open sans';} */
+
+/***** Accordion Styles *****/
+#accordion-first .accordion-group{
+    margin-bottom: 10px;
+}
+
+#accordion-first .accordion-heading, #accordion-first .accordion-toggle:hover, #accordion-first .accordion-heading .accordion-toggle.active {
+    background: none repeat scroll 0% 0% transparent;
+}
+#accordion-first .accordion-heading{
+    border-bottom: 0px none;
+    font-size: 16px;
+}
+
+#accordion-first .accordion-heading .accordion-toggle{
+    display: block;
+    cursor: pointer;
+    padding: 5px 0px !important;
+    color: #222;
+    outline: medium none !important;
+    text-decoration: none;
+}
+
+#accordion-first .accordion-heading .accordion-toggle.active em{
+    background-color: #F7C221;
+}
+
+#accordion-first .accordion-heading .accordion-toggle > em{
+    background-color: #222;
+    border-radius: 100px;
+    color: #FFF;
+    font-size: 14px;
+    height: 32px;
+    line-height: 32px;
+    margin-right: 10px;
+    text-align: center;
+    width: 32px;
+}
+
+button.accordion:after{
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: #777;
+    float: right;
+    margin-left: 5px;
+}
+
+button.accordion.active:after{
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+
+.panel-group .panel-heading a:after{
+    content: '-';
+    position: absolute;
+    right: 20px;
+    top:5px;
+}
+
+.panel-group .panel-heading a.collapsed:after{
+    content: '+';
+}
+
+.panel-group .panel-heading a:after{
+    content: '-';
+    position: absolute;
+    right: 20px;
+    top:5px;
+}
+
+.panel-group .panel-heading a.collapsed:after{
+    content: '+';
+}
+
+.panel-body{
+    padding: 2px;
+}
+
+p{
+    margin: 0 10px 0px;
+}
+
+.panel-group .panel{
+	border-radius: 5px;
+	border-color: #EEEEEE;
+    padding:0;
+}
+
+.panel-default > .panel-heading:focus, .panel-default > .panel-heading:active{
+    color: #fff;
+    background-color: #83286c;
+    border-color: #EEEEEE;
+}
+
+.panel-default > .panel-heading{
+	color: #fff;
+	background-color: #9b4778;
+	border-color: #EEEEEE;
+}
+
+/**** Accordion Panel Hover ****/
+.panel-default > .panel-heading:hover{
+    color: #fff;
+    background-color: #cb569a;
+    border-color: #EEEEEE;
+}
+
+
+.panel-title{
+	font-size: 14px;
+}
+
+.panel-title > a{
+	display: block;
+	padding: 2px;
+	text-decoration: none;
+}
+
+.short-full{
+	float: right;
+	color: #fff;
+}
+
+/*.panel-default > .panel-heading + .panel-collapse > .panel-body{
+	border: solid 1px #EEEEEE;
+    background-color: #B7FFB7;
+}*/
+
+/**** End of Accrodion Styles ****/
+
+
+/* Full-width inputs */
+.loginInputs{
+    width: 100%;
+    padding: 10px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+.LoginButton{
+    background-color: #ca579a;
+    border: 1px solid #842869;
+    color: white;
+    padding: 10px 10px;
+    margin: 8px 0;
+    cursor: pointer;
+    width: 100%;
+
+
+    font-family: "Arial Black", Gadget, sans-serif;
+    font-size: 16px;
+    color: #443333;
+    padding: 5px 50px 5px 50px;
+    border: 1px solid #999;
+ 
+    text-shadow: 0px 1px 1px #CCC;
+    text-decoration: none;
+ 
+    -moz-box-shadow: 0 1px 3px #111;
+    -webkit-box-shadow: 0 1px 3px #111;
+    box-shadow: 0 1px 3px #111;
+ 
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+ 
+    background: #696969;
+    background: -moz-linear-gradient(top, #d1d1d1 10%, #7b7b7b 60%, #696969 80%, #696969 100%);
+    background: -webkit-gradient(linear, left top, left bottom, from(#d1d1d1), to(#7b7b7b), color-stop(0.4, #d1d1d1), color-stop(0.8, #7b7b7b), color-stop(.9, #696969), color-stop(0.9, #696969));
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d1d1d1', endColorstr='#7b7b7b', GradientType=0 );
+ 
+    cursor: pointer;
+}
+
+/* Extra style for the cancel button (red) */
+.cancelbtn{
+    width: auto;
+    padding: 10px 18px;
+    background-color: #C7C7C7;
+    border: 1px solid #aaaaaa;
+}
+
+/* Center the avatar image inside this container */
+.imgcontainer{
+    text-align: center;
+    margin: 24px 0 12px 0;
+}
+
+.imageContainer{
+    padding: 10px;
+    /*width: 15%;*/
+    margin: 0 auto;    
+}
+
+/* Avatar image */
+img.avatar{
+    width: 40%;
+    border-radius: 50%;
+}
+
+.login-logo{
+    margin: 0 auto;
+    display:block;
+}
+
+.Main{
+    align-content:center;
+    margin: auto;
+    width: 50%;
+    border: 0px solid green;
+    padding: 10px;
+}
+
+/* The "Forgot password" text */
+span.psw{
+    float: right;
+    padding-top: 0px;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px){
+    span.psw {
+        display: block;
+        float: none;
+    }
+    .cancelbtn {
+        width: 100%;
+    }
+}
+
+/* The Close Button */
+.close{
+    /* Position it in the top right corner outside of the modal */
+    position: absolute;
+    right: 25px;
+    top: 0;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+/* Close button on hover */
+.close:hover,
+.close:focus{
+    color: red;
+    cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate{
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom{
+    from {-webkit-transform: scale(0)}
+    to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom{
+    from {transform: scale(0)}
+    to {transform: scale(1)}
+}
+
+/**** Report text modal content box ****/
+.modal-header {
+    background: #00d9ff;
+    background-color: #9b4778; 
+}
+
+.modal-title {
+    color: #fff; 
+}
+
+.modalDialog {
+        position: fixed; 
+        font-family: Arial, Helvetica, sans-serif;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%; 
+        background: rgba(0,0,0,0.6);
+        z-index: 99999;
+        opacity:0;
+        -webkit-transition: opacity 400ms ease-in;
+        -moz-transition: opacity 400ms ease-in;
+        transition: opacity 400ms ease-in;
+        pointer-events: none;
+}
+
+.modalDialog:target {
+        opacity:1;
+        pointer-events: auto;
+}
+
+/* Report outside box */
+.modalDialog > div {
+        width: 800px;
+        height: 90%;
+        overflow-y: auto;
+        /* position: relative; */
+       /* margin: 10% auto; */
+        /* padding: 5px; */
+        border-radius: 0px;
+        background: #fff;
+        /*background: -moz-linear-gradient(#fff, #999);
+        background: -webkit-linear-gradient(#fff, #999);
+        background: -o-linear-gradient(#fff, #999); */
+}
+
+.close {
+        background: #606061;
+        color: #FFFFFF;
+        line-height: 25px;
+        position: absolute;
+        right: 20px;
+        text-align: center;
+        top: 20px;
+        width: 24px;
+        text-decoration: none;
+        font-weight: bold;
+        -webkit-border-radius: 12px;
+        -moz-border-radius: 12px;
+        border-radius: 12px;
+        -moz-box-shadow: 1px 1px 3px #000;
+        -webkit-box-shadow: 1px 1px 3px #000;
+        box-shadow: 1px 1px 3px #000;
+}
+
+.close:hover {
+     background: #00d9ff; 
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    border: 1px solid #842869 !important;
+    background: #ca579a url("images/ui-bg_glass_45_ca579a_1x400.png") 50% 50% repeat-x !important;
+    font-weight: normal;
+    color: #fff;
+}
+
+.errorMessage {
+  background: #ff6666;
+  border: 1px solid #cc0000;
+  color: #ffffff;
+  z-index:10000;
+  text-align: left!important;  
+  width: 450px;
+  margin: auto;
+  padding: 3px;
+  position: relative;
+  left: 2px;
+  top: 2px;
+}
+
+#hover-content {
+    display:none;
+}
+#parent:hover #hover-content {
+    display:block;
+}
+.columnManageUser:first-child {
+    color: blue;
+} 
+.columnManageUser {
+    float: left;
+    padding: 2px;
+
+}
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+.menu {
+    width: 25%;
+}
+.content {
+    width: 75%;
+}
+.menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 19px;
+}
+.menu li {
+    padding: 1px;
+    margin-bottom: 0px;
+    /*background-color: #33b5e5;*/
+    color: #000000;
+}
+.menu li:hover  {
+    background-color: #0099cc;
+    color: #ffffff;
+}
+.menu li:hover a {
+    background-color: #0099cc;
+    color: #ffffff;
+}
+table.ManageUser{
+  padding: 5px;
+  width:50%;
+
+}
+th.ManageUser
+{
+background-color: #9b4778;
+color: #ffffff;
+
+}
+td.ManageUser
+{
+  padding: 3px !important;
+}
+
+/**** remove rounded corners from nested dataTable ****/
+.ui-widget-header {
+    border: 1px solid #808080 !important;
+    background: #cccccc url("images/ui-bg_gloss-wave_75_ca579a_500x100.png") 50% 50% repeat-x !important;
+    color: #eaf5f7 !important;
+    font-weight: bold;
+}
+.ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr {
+    border-top-right-radius: 0px !important;
+}
+.ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tl {
+    border-top-left-radius: 0px !important;
+}
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
+    border-bottom-right-radius: 0px !important;
+}
+
+.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
+    border-bottom-left-radius: 0px !important;
+}
+.nestedDataTable{
+    border: 1px solid #808080 !important;
+    background: #cccccc url("images/ui-bg_gloss-wave_75_ca579a_500x100.png") 50% 50% repeat-x !important;
+    color: #595959 !important;
+}
+/**** remove rounded corners from nested dataTable ****/
+
+
+/**** remove div wrapper from nested dataTable ****/
+.dataTables_wrapper .ui-toolbar {
+    padding: 0px !important;
+}
+
+/**** remove toolbar from nested dataTable ****/
+.dataTables_wrapper .ui-toolbar {
+    display:none !important;
+}
+/**** remove toolbar from nested dataTable ****/
+
+/**** changed footer border color ****/
+table.no-footer.dataTable {
+    border-bottom: 1px solid #808080!important;
+}
+/**** changed footer border color ****/
+
+
+/**** Style for open/close detail table icon for the nested dataTable ****/
+    td.details-control {
+        background: url('http://i.imgur.com/SD7Dz.png') no-repeat center center;
+        cursor: pointer;
+    }
+    tr.shown td.details-control {
+        background: url('http://i.imgur.com/d4ICC.png') no-repeat center center;
+    }
+/**** Style for open/close detail table icon for the nested dataTable ****/
+
+.clearLeft
+{clear: left;}
+.clearRight
+{clear: right;}
+.clearBoth
+{clear: both;}
+
+.crudInput 
+{
+ width:350px; 
+ max-width:350px !important;
+ display: inline;
+}
+.crudInput2 
+{
+ width:550px; 
+ display: inline;
+}
+
+.crudInput input {
+max-width:350px;
+}
+.crudInput2 input {
+max-width:550px;
+}
+/**** styles for buttons on report toolbar ****/
+.btn-primary.active {
+    background-color: #9C477A;
+}
+.btn-primary:hover, .btn-primary.active:hover {
+    background-color: #0099cc;
+}
+.btn-primary {
+    background-color: #d7a8c4;
+}
+/**** login hamburder menu ****/
+.loginNavigation {
+    float:right;
+    display: inline;
+	vertical-align: top;
+    width:240px !important;
+}
+
+
+#loading-img {
+    background: url(http://preloaders.net/preloaders/360/Velocity.gif) center center no-repeat;
+    height: 100%;
+    z-index: 20;
+}
+
+.overlay {
+    background: #e9e9e9;
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.5;
+}
+
+
+@media (min-width: 991px) {
+       .collapse .hideHamburger {
+       display: none !important;
+   }
+   .navbar-collapse.collapse .hideHamburger{
+        display: none!important;
+    }
+
+    .hamburger {
+    margin: 7.5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    display:block;
+    visibility:visible;
+    }
+
+    .navbar-inverse .navbar-toggle, .navbar-inverse .navbar-toggle{
+    background-color: #ff0000 !important;
+    }
+
+    .navbar-toggle {
+    position: relative;
+    float: right;
+    padding: 9px 10px;
+    margin-top: 8px;
+    margin-right: 15px;
+    margin-bottom: 8px;
+    background-color: #ff0000 !important;
+    border: 1px solid #00ff00;
+    border-radius: 4px;
+}
+.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
+    background-color: #ccc !important;
+}
+
+.HeaderApplicationName
+{
+    margin: auto;
+    width: 78%;
+    border: 0px solid green;
+    padding: 0px;
+}
+.h1ApplicationName 
+{
+    margin: auto;
+    width: 50%;
+    padding: 0px;
+    text-align:center;
+}
+
+.h2, h3{
+	font-family: inherit;
+	font-weight: unset !important;
+	line-height: 1.1;
+	color: inherit;
+}
+/*@media all and (min-width:992px)*/
+.col-md-offset-2 {
+    margin-left: 0%;
+}
+
+/*@media all and (min-width:992px)*/
+.col-md-10 {
+    width: 100%;
+}
+.btn-default:hover.login {
+    color: #fff;
+    background-color: #cb569a !important;
+    border-color: #85296c !important;
+}
+.btn-default.login {
+    color: #fff;
+    background-color: #9b4778 !important;
+    border-color: #85296c !important;
+}
+.bevelBox
+{
+    -moz-box-shadow: inset 2px 2px 2px rgba(255, 255, 255, .4), inset -2px -2px 2px rgba(0, 0, 0, .4);
+    -webkit-box-shadow: inset 2px 2px 2px rgba(255, 255, 255, .4), inset -2px -2px 2px rgba(0, 0, 0, .4);
+    box-shadow: inset 2px 2px 2px rgba(255, 255, 255, .4), inset -2px -2px 2px rgba(0, 0, 0, .4);
+}
+
+.MainenanceText 
+{
+margin-left: 4px;
+}
+
+/**** login hamburder menu ****/
+}
+/**** remove div wrapper from nested dataTable ****/
+
+/**** End of Report text modal content box ****/
+
+.MyReportAdminLinks 
+{
+padding-left: 3px;
+padding-right: 3px;
+margin-left: 3px;
+margin-right: 3px;
+}
+
+/**** set the width of the login to 100% when resized to smaller devices ****/
+/**** add some margin so the header does not overlap ****/
+@media (max-width: 450px) {
+
+.LoginMain {
+	width: 100%; 
+    margin-top:50px;
+}
+.loginNavigation {
+    display: none !important;
+}
+
+.container.body-content
+{
+    margin-top:50px;
+} 
+
+}

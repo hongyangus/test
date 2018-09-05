@@ -1,0 +1,35 @@
+﻿@model PropertyManagement.ViewModels.Property.AddPropertyVM
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ActionLink("Back to Property Management", "Index")
+<h2>@ViewBag.ReportTitle</h2>
+@using (Html.BeginForm())
+{
+    <table width="100%">
+        <tr>
+            <td width="50%">
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.Address)
+                    @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
+                </div>
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.note)
+                    @Html.TextBoxFor(x => x.note, new { @class = "form-control" })
+                </div>
+                <div style="width:220px">
+                    @Html.LabelFor(x => x.PropertyID)
+                    @Html.DropDownListFor(x => x.PropertyID, Model.AllProperty, "Please select property", new { @class = "form-control selectpicker" })
+                </div>
+                <div style="width:220px">
+                    @Html.LabelFor(x => x.StatusID)
+                    @Html.DropDownListFor(x => x.StatusID, Model.AllStatus, "Please select status", new { @class = "form-control selectpicker" })
+                </div>
+                <input type="submit" value="Submit" />
+            </td>
+        </tr>
+    </table>
+}

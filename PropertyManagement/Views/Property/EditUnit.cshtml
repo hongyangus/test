@@ -1,0 +1,29 @@
+﻿@model PropertyManagement.Models.Unit
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.ActionLink("Back to Property Management", "Index")
+<h2>EditUnit</h2>
+@using (Html.BeginForm())
+{
+    <table width="100%">
+        <tr>
+            <td width="50%">
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.UnitName)
+                    @Html.TextBoxFor(x => x.UnitName, new { @class = "form-control" })
+                </div>
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.Note)
+                    @Html.TextBoxFor(x => x.Note, new { @class = "form-control" })
+                </div>
+                @Html.HiddenFor(x => x.UnitID)
+                <br />
+                <input type="submit" value="Submit" />
+            </td>
+        </tr>
+    </table>
+
+}

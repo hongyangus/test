@@ -1,0 +1,325 @@
+﻿<!-- Load the datamodel -->
+@model List<PropertyManagement.Controllers.HeatmapExamsPerformedReportResult>
+
+<div id="chartContainer"></div>
+<br />
+<div id="reportDiv"></div>
+
+<table id="datatable" class="display table compact nowrap">
+    <caption style="text-align:center; font-weight:bold">@ViewBag.TableCaption</caption>
+    <thead align="center">
+        <tr>
+            <th class="dataTableLeft">Row</th>
+            <th class="dataTableCenter"> 1</th>
+            <th class="dataTableCenter"> 2</th>
+            <th class="dataTableCenter"> 3</th>
+            <th class="dataTableCenter"> 4</th>
+            <th class="dataTableCenter"> 5</th>
+            <th class="dataTableCenter"> 6</th>
+            <th class="dataTableCenter"> 7</th>
+            <th class="dataTableCenter"> 8</th>
+            <th class="dataTableCenter"> 9</th>
+            <th class="dataTableCenter"> 10</th>
+            <th class="dataTableCenter"> 11</th>
+            <th class="dataTableCenter"> 12</th>
+            <th class="dataTableCenter"> 13</th>
+            <th class="dataTableCenter"> 14</th>
+            <th class="dataTableCenter"> 15</th>
+            <th class="dataTableCenter"> 16</th>
+            <th class="dataTableCenter"> 17</th>
+            <th class="dataTableCenter"> 18</th>
+            <th class="dataTableCenter"> 19</th>
+            <th class="dataTableCenter"> 20</th>
+            <th class="dataTableCenter"> 21</th>
+            <th class="dataTableCenter"> 22</th>
+            <th class="dataTableCenter"> 23</th>
+            <th class="dataTableCenter"> 24</th>
+            <th class="dataTableCenter"> 25</th>
+            <th class="dataTableCenter"> 26</th>
+            <th class="dataTableCenter"> 27</th>
+            <th class="dataTableCenter"> 28</th>
+            <th class="dataTableCenter"> 29</th>
+            <th class="dataTableCenter"> 30</th>
+            <th class="dataTableCenter"> 21</th>
+            <th class="dataTableCenter"> 22</th>
+            <th class="dataTableCenter"> 23</th>
+            <th class="dataTableCenter"> 24</th>
+            <th class="dataTableCenter"> 25</th>
+            <th class="dataTableCenter"> 26</th>
+            <th class="dataTableCenter"> 27</th>
+            <th class="dataTableCenter"> 28</th>
+            <th class="dataTableCenter"> 29</th>
+            <th class="dataTableCenter"> 30</th>
+            <th class="dataTableCenter"> 31</th>
+            <th class="dataTableCenter"> 32</th>
+            <th class="dataTableCenter"> 33</th>
+            <th class="dataTableCenter"> 34</th>
+            <th class="dataTableCenter"> 35</th>
+            <th class="dataTableCenter"> 36</th>
+            <th class="dataTableCenter"> 37</th>
+            <th class="dataTableCenter"> 38</th>
+            <th class="dataTableCenter"> 39</th>
+            <th class="dataTableCenter"> 40</th>
+            <th class="dataTableCenter"> 41</th>
+            <th class="dataTableCenter"> 42</th>
+            <th class="dataTableCenter"> 43</th>
+            <th class="dataTableCenter"> 44</th>
+            <th class="dataTableCenter"> 45</th>
+            <th class="dataTableCenter"> 46</th>
+            <th class="dataTableCenter"> 47</th>
+            <th class="dataTableCenter"> 48</th>
+            <th class="dataTableCenter"> 49</th>
+            <th class="dataTableCenter"> 50</th>
+            <th class="dataTableCenter"> 51</th>
+            <th class="dataTableCenter"> 52</th>
+            <th class="dataTableCenter"> 53</th>
+            <th class="dataTableCenter"> 54</th>
+            <th class="dataTableCenter"> 55</th>
+            <th class="dataTableCenter"> 56</th>
+            <th class="dataTableCenter"> 57</th>
+            <th class="dataTableCenter"> 58</th>
+            <th class="dataTableCenter"> 59</th>
+            <th class="dataTableCenter"> 60</th>
+            <th class="dataTableCenter"> 61</th>
+            <th class="dataTableCenter"> 62</th>
+            <th class="dataTableCenter"> 63</th>
+            <th class="dataTableCenter"> 64</th>
+            <th class="dataTableCenter"> 65</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in Model)
+        {
+            <tr>
+                <td class="dataTableLeft">@row.DayOfWeek</td>
+                <td class="dataTableCenter">@row.midnight</td>
+                <td class="dataTableCenter">@row.am1</td>
+                <td class="dataTableCenter">@row.am2</td>
+                <td class="dataTableCenter">@row.am3</td>
+                <td class="dataTableCenter">@row.am4</td>
+                <td class="dataTableCenter">@row.am5</td>
+                <td class="dataTableCenter">@row.am6</td>
+                <td class="dataTableCenter">@row.am7</td>
+                <td class="dataTableCenter">@row.am8</td>
+                <td class="dataTableCenter">@row.am9</td>
+                <td class="dataTableCenter">@row.am10</td>
+                <td class="dataTableCenter">@row.am11</td>
+                <td class="dataTableCenter">@row.noon</td>
+                <td class="dataTableCenter">@row.pm1</td>
+                <td class="dataTableCenter">@row.pm2</td>
+                <td class="dataTableCenter">@row.pm3</td>
+                <td class="dataTableCenter">@row.pm4</td>
+                <td class="dataTableCenter">@row.pm5</td>
+                <td class="dataTableCenter">@row.pm6</td>
+                <td class="dataTableCenter">@row.pm7</td>
+                <td class="dataTableCenter">@row.pm8</td>
+                <td class="dataTableCenter">@row.pm9</td>
+                <td class="dataTableCenter">@row.pm10</td>
+                <td class="dataTableCenter">@row.pm11</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<script>
+
+    // Heatmap Configuration
+    $(function () {
+
+        var numformat = '{point.value:.0f}';
+        // Set the number formatting appropriate to the query type
+        if ('@(ViewBag.querytype)' == "Average")
+        {
+           numformat = '{point.value:.3f}';
+        }
+
+        var charttitle = '<b>' + '@(ViewBag.TableCaption)' + '</b>';
+
+        // Get the data for each hour of each weekday from the controller
+        var sundayarray = @Html.Raw(Json.Encode(ViewData["sundayarray"]));
+        var mondayarray = @Html.Raw(Json.Encode(ViewData["mondayarray"]));
+        var tuesdayarray = @Html.Raw(Json.Encode(ViewData["tuesdayarray"]));
+        var wednesdayarray = @Html.Raw(Json.Encode(ViewData["wednesdayarray"]));
+        var thursdayarray = @Html.Raw(Json.Encode(ViewData["thursdayarray"]));
+        var fridayarray = @Html.Raw(Json.Encode(ViewData["fridayarray"]));
+        var saturdayarray = @Html.Raw(Json.Encode(ViewData["saturdayarray"]));
+
+        // Assemble an arrray of arrarys for each hour of the week in the form [hour,day,value]
+        var heatmapdata = [];
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+0] = [hour,0,sundayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+65] = [hour,1,mondayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+130] = [hour,2,tuesdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+195] = [hour,3,wednesdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+260] = [hour,4,thursdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+325] = [hour,5,fridayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+390] = [hour,6,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+455] = [hour,6,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+520] = [hour,6,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+585] = [hour,7,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+650] = [hour,8,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+715] = [hour,9,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+780] = [hour,10,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+845] = [hour,11,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+910] = [hour,12,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+975] = [hour,13,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+1040] = [hour,14,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+1105] = [hour,15,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+1170] = [hour,16,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+1235] = [hour,17,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+1300] = [hour,18,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+1365] = [hour,19,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+1430] = [hour,20,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+1495] = [hour,21,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+1560] = [hour,22,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+1625] = [hour,23,saturdayarray[hour]]; }
+        for (var hour=0;hour<65;hour++) { heatmapdata[hour+1690] = [hour,24,saturdayarray[hour]]; }
+
+        // Create the HighChart chart object
+        Highcharts.chart('chartContainer', {
+            chart: {
+                type: 'heatmap',
+                marginTop: 60,
+                marginBottom: 60,
+                backgroundColor: '#ebebeb',
+                plotBorderWidth: 1,
+            },
+            credits: { enabled: false },
+            title: { text: charttitle },
+            xAxis: [{
+                categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65'],
+                labels: { style: { color: 'black', fontWeight: 'bold' } }
+            },{
+                linkedTo: 0,
+                opposite: true,
+                categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65'],
+                labels: { style: { color: 'black', fontWeight: 'bold' } }
+            }],
+            yAxis: {
+                reversed: true,
+                title: null,
+                categories: ['Row1', 'Row2', 'Row3', 'Row4', 'Row5', 'Row6', 'Row7', 'Row8', 'Row9', 'Row10', 'Row11', 'Row12', 'Row13', 'Row14', 'Row15', 'Row16', 'Row17', 'Row18', 'Row19', 'Row20', 'Row21', 'Row22', 'Row23', 'Row24', 'Row25'],
+                labels: {
+                    style: { color: 'black', fontWeight: 'bold' }
+                }
+            },
+            colorAxis: {
+                reversed: false,
+                min: 0,
+                stops: [
+                    [0, '#0000FF'],
+                    [0.25, '#007FFF'],
+                    [0.5, '#7FFF7F'],
+                    [0.75, '#FFAF00'],
+                    [1, '#FF0000']
+               ]
+            },
+            legend: {
+                enabled: true,
+                align: 'right',
+                layout: 'vertical',
+                margin: 0,
+                verticalAlign: 'middle',
+                y: 0,
+                symbolHeight: 240
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.point.value + '</b> exams on <b>' + this.series.yAxis.categories[this.point.y] + '</b> at <b>' + this.series.xAxis.categories[this.point.x] + '</b>';
+                }
+            },
+            plotOptions: {
+                series: {
+                    states: {
+                        hover: {
+                            color: '#ff4d4d'
+                        }
+                    },
+                    dataLabels: { format: numformat }
+                }
+            },
+            series: [{
+                name: 'Exams read by hour',
+                borderWidth: 1,
+                data: heatmapdata,
+                dataLabels: {
+                    enabled: true,
+                    color: 'white',
+                    style: {
+                        fontWeight: 'bold',
+                        textOutline: false
+                    },
+                }
+            }]
+
+        }); // End of HighChart
+
+    }); // End of Function
+
+    // Datatables configuration
+    $(function () {
+
+        // Get the table caption (if there is one) for the report table
+        var tablecaption = $("#datatable").find('caption').text();
+
+        // Setup standard Datatable formatting
+        $('#datatable').DataTable({
+            "columnDefs": [ {
+                "targets": "_all" ,
+                "render": function ( data, type, full, meta ) {
+                    // Change the format of the numbers if it is an average query type
+                    if ('@(ViewBag.querytype)' == "Average")
+                    {
+                        if(!isNaN(data))
+                        {
+                            return Number(data).toFixed(3);
+                        }
+                    }
+                    return data; }
+            } ],
+            "order": [],
+            "searching": true,
+            "paging": true,
+            "scrollCollapse": true,
+            "processing": false,
+            "serverSide": false,
+            "iDisplayLength": 25,
+            dom: 'if<"savebuttons"B>tlp',
+            buttons: [
+                      {
+                          extend: 'copy',
+                          orientation: 'landscape',
+                          message: tablecaption
+                      },
+                      {
+                          extend: 'csv',
+                          orientation: 'landscape',
+                          message: tablecaption
+                      },
+                      {
+                          extend: 'pdf',
+                          orientation: 'landscape',
+                          message: tablecaption
+                      },
+                      {
+                          extend: 'excel',
+                          title: tablecaption,
+                          message: tablecaption,
+                          sTitle: tablecaption
+                      },
+                      {
+                          extend: 'print',
+                          orientation: 'landscape',
+                          message: tablecaption
+                      }
+            ],
+            "language": {
+                loadingRecords: "Loading data, please wait...",
+                zeroRecords: "No data..."
+            },
+            "formatNumber": function (toFormat) { return toFormat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");  },
+        }); // End of document datatable
+
+    }); // End of document ready
+
+</script>

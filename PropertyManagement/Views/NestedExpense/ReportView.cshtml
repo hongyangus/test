@@ -1,0 +1,169 @@
+﻿<!-- Load the datamodel -->
+@model List<PropertyManagement.Models.User>
+
+@if (Model != null)
+{
+    <table id="datatable" class="display table compact nowrap">
+        <caption style="text-align:center; font-weight:bold">@ViewBag.TableCaption</caption>
+        <thead align="center">
+            <tr>
+            <th></th>
+            <th class="dataTableCenter">ID</th>
+            <th class="dataTableCenter">CompanyID</th>
+            <th class="dataTableCenter"> Name</th>
+            <th class="dataTableCenter">Company</th>
+            <th class="dataTableCenter">CellPhone</th>
+            <th class="dataTableCenter">HomePhone</th>
+            <th class="dataTableCenter">   EmailAddress</th>
+            <th class="dataTableCenter">  Address </th>
+            <th class="dataTableCenter">City</th>
+            <th class="dataTableCenter">Zip</th>
+            <th class="dataTableCenter">Social security</th>
+            <th class="dataTableCenter">Taxable Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+               {
+                <tr>
+                    <td></td>
+                    <td>@item.ID</td>
+                    <td>@item.CompanyID</td>
+                    <td> @item.FirstName   @item.LastName
+                    </td>
+                    <td>@item.Company</td>
+                    <td>@item.CellPhone</td>
+                    <td>@item.HomePhone</td>
+                    <td>@item.EmailAddress</td>
+                    <td>@item.Address</td>
+                    <td>@item.City</td>
+                    <td>@item.Zip</td>
+                    <td>@item.SSN</td>
+                    <td>@item.Amount </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    <script>
+        var detailtablecounter = 1; // Save a variable for counting the number of nested tables opened - this is used in the nested table id
+
+        // Script to execute when document is ready
+        $(document).ready(function () {
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+            // This code is for using a nested table
+            ////////////////////////////////////////////////////////////////////////////////////////
+            // Check if the user clicked the icon to expand/colapse the row
+            $('#datatable tbody').on('click', 'td.details-control', function () {
+                // Retrieve the necessary search filter criteria from the tempdata set by the controller
+                startdate = '@(TempData["start_date_filter"])';
+                enddate = '@(TempData["end_date_filter"])';
+
+                // Get information about the row that was clicked on
+                var tr = $(this).closest('tr'); // Get the row that was clicked on
+                var row = table.row(tr); // Get the table details for the row that was clicked on
+                var userid = row.data()[1]; // Get the value from column x of this row
+                var companyID = row.data()[2];
+
+                // Process the user click - taking the appropriate action
+                if (row.child.isShown()) {  //  This row is already open - so just close it
+                    row.child.hide(); // Close the row details
+                    tr.removeClass('shown');  // Change the icon to closed
+                }
+                else { //  This row is NOT already open - so open it
+                     // Load the HTML data from the detail partial view
+                    var $div = $('<div>');
+                    $div.load('@Url.Action("DetailTableView", "NestedExpense")', { tableid: detailtablecounter, startdate: startdate, enddate: enddate, userID: userid, companyID: companyID });
+                    row.child($div).show(); // Open the row details to show the detail
+                    tr.addClass('shown');  // Change the icon to opened
+
+                    detailtablecounter = detailtablecounter + 1;
+                }
+            }); // End of detail table icon click
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+            // Setup main Datatable formatting
+            ////////////////////////////////////////////////////////////////////////////////////////
+            // Get the table caption (if there is one) for the report table
+            var tablecaption = $("#datatable").find('caption').text();
+            var table = $('#datatable').DataTable({
+                "order": [],
+                "searching": true,
+                "paging": true,
+                "scrollCollapse": true,
+                "processing": false,
+                "serverSide": false,
+                "iDisplayLength": 25,
+                "columns": [
+                            { className: 'details-control', orderable: false, data: null,  defaultContent: '' },     // Puts the detail open/close icon inthe first column
+                            { "visible": false },
+                            { "visible": false },// Hide the tech ID column
+                            {},
+                            {},
+                            {},
+                            {},
+                            {},
+                            {},
+                            {},
+                            {},
+                            {},
+                            {}
+                ],
+                dom: 'if<"savebuttons"B>tlp',
+                buttons: [
+                           {
+                               extend: 'copyHtml5',
+                               header: true,
+                               footer: true,
+                               message: tablecaption
+                           },
+                          {
+                              extend: 'csvHtml5',
+                              header: true,
+                              footer: true,
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'pdfHtml5',
+                              exportOptions: {
+                                  columns: [ 2, 3, 4]
+                              },
+                              header: true,
+                              footer: true,
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'excelHtml5',
+                              exportOptions: {
+                                  columns: [ 2, 3, 4]
+                              },
+                              header: true,
+                              footer: true,
+                              title: tablecaption,
+                              message: tablecaption,
+                              sTitle: tablecaption
+                          },
+                          {
+                              extend: 'print',
+                              exportOptions: {
+                                  columns: [ 2, 3, 4]
+                              },
+                              header: true,
+                              footer: true,
+                              message: tablecaption
+                          }
+                ],
+                "language": {
+                    loadingRecords: "Loading data, please wait...",
+                    zeroRecords: "No data..."
+                },
+                "formatNumber": function (toFormat) { return toFormat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+
+            }); // End of main Datatable formatting
+
+        }); // End of document ready
+    </script>
+}

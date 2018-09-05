@@ -1,0 +1,37 @@
+﻿@model PropertyManagement.Controllers.ECommerceAccount
+<!-- Load common layout and retrieve report title -->
+@{
+	ViewBag.Title = ViewBag.ReportTitle;
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.ActionLink("Back to ECommerce Account", "Index")
+<h2>@ViewBag.ReportTitle</h2>
+@using (Html.BeginForm())
+{
+	<div style="float: left ">
+		<div>
+			<label>ECommerce Account: </label> @Html.TextBoxFor(x => x.ebay_account, new { @class = "form-control" })
+			<label>lastSyncTime:</label> @Html.TextBoxFor(x => x.lastSyncTime, new { @type = "date", @Value = Model.lastSyncTime.ToString("yyyy-MM-dd"), @class = "form-control" })
+			<label>Ebay user: </label> @Html.TextBoxFor(x => x.ebay_user, new { @class = "form-control" })
+			<label>ebay token:</label> @Html.TextBoxFor(x => x.ebay_token, new { @class = "form-control" })
+			<br />
+		</div>
+		<div style="width:400px">
+			@Html.DropDownListFor(x => x.companyId, Model.AllCompany, "Please Select Company", new { @class = "form-control selectpicker" })
+		</div>
+		<br />
+		<div style="width:400px">
+			@Html.DropDownListFor(x => x.adminID, Model.AllAdmin, "Please Select Admin", new { @class = "form-control selectpicker" })
+		</div>
+		<br />
+		<div style="width:400px">
+			@Html.DropDownListFor(x => x.StatusID, Model.AllStatus, "Please Select Status", new { @class = "form-control selectpicker" })
+		</div>
+		<br />
+		<div style="width:400px">
+		</div>
+		@Html.HiddenFor(x => x.id)
+		<br />
+		<input type="submit" value="Submit" />
+	</div>
+}

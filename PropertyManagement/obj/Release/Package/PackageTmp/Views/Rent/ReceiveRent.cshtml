@@ -1,0 +1,42 @@
+﻿@model PropertyManagement.Models.OperationRecord
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.ActionLink("Back to Rent Management", "Index")
+<h2>@ViewBag.ReportTitle</h2>
+@using (Html.BeginForm())
+{
+    <div>
+        <div>
+            <label>Paid Date:</label> @Html.TextBoxFor(x => x.CompleteDate, new { @type = "date", @Value = Model.CompleteDate .ToString("yyyy-MM-dd"), @class = "form-control" })
+            <label>Paid Amount: </label>@Html.TextBoxFor(x => x.Payment, new { @class = "form-control" })
+            <label>Memo: </label>@Html.TextBoxFor(x => x.Memo, new { @class = "form-control" })
+            <label>Bank Tracking: </label>@Html.TextBoxFor(x => x.BankTracking, new { @class = "form-control" })
+        </div>
+        <br />
+        @Html.CheckBoxFor(x => x.IsEmailReceipt, new { @class = "" })<label>Email Receipt&nbsp&nbsp</label>
+        <div style="width:400px">
+            @Html.DropDownListFor(x => x.FinancialBankAccountID, Model.AllBankAccount, "Please Select Financial Account", new { @class = "form-control selectpicker" })
+        </div>
+        <br />
+        <div style="width:400px">
+            @Html.DropDownListFor(x => x.StatusID, Model.AllStatus, "Please Select Status", new { @class = "form-control selectpicker" })
+        </div>
+        <br />
+        <div style="width:400px">
+        </div>
+                @Html.HiddenFor(x => x.ID)
+                @Html.HiddenFor(x => x.ContractorID)
+                @Html.HiddenFor(x => x.UnitID)
+                @Html.HiddenFor(x => x.CategoryID)
+                @Html.HiddenFor(x => x.LinkedRentID)
+               @Html.HiddenFor(x => x.DueAmount)
+                       @Html.HiddenFor(x => x.DueDate)
+                    @Html.HiddenFor(x => x.IsSecurityDeposit )
+        @Html.HiddenFor(x => x.UploadBy)
+        <br />
+        <input type="submit" value="Submit" />
+    </div>
+}

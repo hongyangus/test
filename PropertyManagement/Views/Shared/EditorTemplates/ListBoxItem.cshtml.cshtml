@@ -1,0 +1,6 @@
+﻿@model  PropertyManagement.Models.CheckBoxListItem
+
+@Html.HiddenFor(x => x.ID)
+@Html.ListBoxFor(x => x.IsChecked)
+@Html.LabelFor(x => x.IsChecked, Model.Display)
+<br />

@@ -1,0 +1,27 @@
+﻿@model  PropertyManagement.Models.CheckBoxListItem
+
+@Html.HiddenFor(x => x.ID)
+@Html.HiddenFor(x => x.controllerFunction)
+@Html.CheckBoxFor(x => x.IsChecked, new Dictionary<string, object> { {"id", Model.ID +","+ Model.controllerFunction }, { "onclick", "callController.call(this)" } })
+@Html.LabelFor(x => x.IsChecked, Model.Display)
+<br />
+<script type="text/javascript">
+    function callController() {
+        if (this.id != null && this.id.indexOf(",") > 0)
+        {
+            var res = this.id.split(",");
+            var chkId = res[0];
+            var controllerFunction = res[1];
+            $.ajax({
+                type: 'POST',
+                async: false,
+                url: controllerFunction,
+                data: { id: chkId, isChecked: this.checked },
+                cache: false,
+                success: function(result) {
+
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,55 @@
+﻿@model PropertyManagement.Models.OperationRecord
+<!-- Load common Javascript code -->
+@Scripts.Render("~/Scripts/Pages/00-Shared.js")
+
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ActionLink("Back to Expense Management", "Index")
+<!-- Display the report title -->
+<h4>@ViewBag.ReportTitle</h4>
+<h2>@TempData["ErrorMessage"]</h2>
+
+@using (Html.BeginForm())
+{
+    <div style="float: left ">
+        <div>
+            <label>Due Amount: </label> @Html.TextBoxFor(x => x.DueAmount, new { @class = "form-control" })
+            <label>Due Date:</label> @Html.TextBoxFor(x => x.DueDate, new { @type = "date", @Value = Model.DueDate.ToString("yyyy-MM-dd"), @class = "form-control" })
+            <label>Payment: </label> @Html.TextBoxFor(x => x.Payment, new { @class = "form-control" })
+            <label>Complete Date:</label> @Html.TextBoxFor(x => x.CompleteDate, new { @type = "date", @Value = Model.CompleteDate.ToString("yyyy-MM-dd"), @class = "form-control" })
+          <div>
+                <label>Invoice Link: </label> @Html.TextBoxFor(x => x.InvoiceLink, new { @class = "form-control" })
+            </div>
+            <label>Memo: </label> @Html.TextBoxFor(x => x.Memo, new { @class = "form-control" })
+            <label>Bank Tracking: </label> @Html.TextBoxFor(x => x.BankTracking, new { @class = "form-control" })
+            <br />
+            @Html.CheckBoxFor(x => x.IsCredit, new { @class = "" })<label>Is Deposit&nbsp&nbsp</label>&nbsp&nbsp&nbsp&nbsp&nbsp
+            @Html.CheckBoxFor(x => x.IsEmailReceipt, new { @class = "" })<label>Email Receipt&nbsp&nbsp</label>
+            <br />
+        </div>
+        <div>
+            <div style="width:400px">
+                <label>Address & Unit Number:</label>@Html.ListBoxFor(x => x.SelectedUnitIDs, Model.AllUnits, new { multiple = "true", style="width: 400px; height: 150px" })
+            </div>
+            <div style="width:400px">
+                <label>Paid through Bank Account:</label>@Html.DropDownListFor(x => x.FinancialBankAccountID, Model.AllBankAccount, "Please Select Financial Account", new { @class = "form-control selectpicker" })
+            </div>
+            <div style="width:400px">
+                <label>Paid to/by:</label>@Html.DropDownListFor(x => x.ContractorID, Model.AllTenant, "Please Select Tenant", new { @class = "form-control selectpicker" })
+            </div>
+            <div style="width:400px">
+                <label>Expense Type:</label>@Html.DropDownListFor(x => x.CategoryID, Model.AllCategory, "Please Select Category", new { @class = "form-control selectpicker" })
+            </div>
+            <div style="width:400px">
+                <label>Status:</label> @Html.DropDownListFor(x => x.StatusID, Model.AllStatus, "Please Select Status", new { @class = "form-control selectpicker" })
+            </div>
+        </div>
+        @Html.HiddenFor(x => x.ID)
+        <br />
+        <input type="submit" value="Submit" />
+    </div>
+}

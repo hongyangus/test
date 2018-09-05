@@ -1,0 +1,47 @@
+﻿@model PropertyManagement.ViewModels.BankAccount .AddBankAccountVM
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ActionLink("Back to Bank Management", "Index")
+<h2>@ViewBag.ReportTitle</h2>
+@using (Html.BeginForm())
+{
+    <table width="100%">
+        <tr>
+            <td width="50%">
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.AccountName)
+                    @Html.TextBoxFor(x => x.AccountName, new { @class = "form-control" })
+                </div>
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.AccountNumber)
+                    @Html.TextBoxFor(x => x.AccountNumber, new { @class = "form-control" })
+                </div>
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.MailingAddress)
+                    @Html.TextBoxFor(x => x.MailingAddress, new { @class = "form-control" })
+                </div>
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.StartDate)
+                    @Html.TextBoxFor(x => x.StartDate, new { @class = "form-control" })
+                </div>
+                <div style="width:220px">
+                    <label> Company Name: </label>
+                    @Html.DropDownListFor(x => x.CompanyID, Model.AllCompany, "Please select company", new { @class = "form-control selectpicker" })
+                </div>
+                <div style="width:220px">
+                    @Html.LabelFor(x => x.AccountType)
+                    @Html.DropDownListFor(x => x.AccountType, Model.AllAccountType, "Please select account type", new { @class = "form-control selectpicker" })
+                </div>
+                <div style="width:220px">
+                    @Html.LabelFor(x => x.StatusID)
+                    @Html.DropDownListFor(x => x.StatusID, Model.AllStatus, "Please select status", new { @class = "form-control selectpicker" })
+                </div>
+                <input type="submit" value="Submit" />
+            </td>
+        </tr>
+    </table>
+}

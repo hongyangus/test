@@ -1,0 +1,124 @@
+﻿@model List<PropertyManagement.Controllers.OrderPurchase>
+
+@if (Model != null)
+{
+	<table id="datatable" class="display table compact nowrap">
+		<caption style="text-align:center; font-weight:bold">@ViewBag.TableCaption</caption>
+		<thead align="center">
+			<tr>
+				<th>公司 </th>
+				<th>仓库</th>
+				<th>status</th>
+				<th>重量lb</th>
+				<th>体积inch</th>
+				<th>买价 </th>
+				<th>国际运费 </th>
+				<th>关税 </th>
+				<th>国内运费 </th>
+				<th>包装费 </th>
+				<th>处理费</th>
+				<th>成本</th>
+				<th>5% Sale </th>
+				<th>10% Sale </th>
+				<th>15% Sale </th>
+				<th>20% Sale </th>
+				<th>25% Sale </th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+			<tr>
+				<td>@item.PurchaseCompanyName</td>
+				<td>@item.warehouse </td>
+				<td>@item.StatusName</td>
+				<td>@item.weight</td>
+				<td>@item.Size</td>
+				<td>@item.UnitPurchasePrice.ToString("C2")</td>
+				<td>@item.internationalShipping.ToString("C2")</td>
+				<td>@((item.UnitPurchasePrice * item.customRate).ToString("C2"))</td>
+				<td>@(item.domesticShipping.ToString("C2"))</td>
+				<td>@item.packingfee.ToString("C2")</td>
+				<td>@item.handlingfee.ToString("C2")</td>
+				<td>@(((item.packingfee + item.handlingfee + item.domesticShipping + (item.UnitPurchasePrice * item.customRate) + item.UnitPurchasePrice + item.internationalShipping) * 1.13).ToString("C2"))</td>
+				<td>@(((item.packingfee + item.handlingfee + item.domesticShipping + (item.UnitPurchasePrice * item.customRate) + item.UnitPurchasePrice + item.internationalShipping) * 1.18).ToString("C2"))</td>
+				<td>@(((item.packingfee + item.handlingfee + item.domesticShipping + (item.UnitPurchasePrice * item.customRate) + item.UnitPurchasePrice + item.internationalShipping) * 1.23).ToString("C2"))</td>
+				<td>@(((item.packingfee + item.handlingfee + item.domesticShipping + (item.UnitPurchasePrice * item.customRate) + item.UnitPurchasePrice + item.internationalShipping) * 1.28).ToString("C2"))</td>
+				<td>@(((item.packingfee + item.handlingfee + item.domesticShipping + (item.UnitPurchasePrice * item.customRate) + item.UnitPurchasePrice + item.internationalShipping) * 1.33).ToString("C2"))</td>
+				<td>@(((item.packingfee + item.handlingfee + item.domesticShipping + (item.UnitPurchasePrice * item.customRate) + item.UnitPurchasePrice + item.internationalShipping) * 1.38).ToString("C2"))</td>
+			</tr>
+			}
+		</tbody>
+	</table>
+	<script>
+		// Script to execute when document is ready
+		$(document).ready(function () {
+
+			// Get the table caption (if there is one) for the report table
+			var tablecaption = $("#datatable").find('caption').text();
+
+			// Setup standard Datatable formatting
+			$('#datatable').DataTable({
+				"order": [],
+				"searching": true,
+				"paging": true,
+				"scrollCollapse": true,
+				"processing": false,
+				"serverSide": false,
+				"iDisplayLength": 100,
+				dom: 'if<"savebuttons"B>tlp',
+				buttons: [
+					{
+						extend: 'copyHtml5',
+						header: true,
+						footer: true,
+						message: tablecaption
+					},
+					{
+						extend: 'csvHtml5',
+						header: true,
+						footer: true,
+						message: tablecaption
+					},
+					{
+						extend: 'pdfHtml5',
+						header: true,
+						footer: true,
+						orientation: 'landscape',
+						message: tablecaption
+					},
+					{
+						extend: 'excelHtml5',
+						header: true,
+						footer: true,
+						title: tablecaption,
+						message: tablecaption,
+						sTitle: tablecaption
+					},
+					{
+						extend: 'print',
+						header: true,
+						footer: true,
+						message: tablecaption
+					}
+				],
+				"language": {
+					loadingRecords: "Loading data, please wait...",
+					zeroRecords: "No data..."
+				},
+				"formatNumber": function (toFormat) { return toFormat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); },
+
+				// Start of totals footer row function
+				"footerCallback": function (row, data, start, end, display) {
+					var api = this.api(), data;
+
+
+				} // End of totals footer totals row function
+
+			}); // End of document datatable
+
+		}); // End of document ready
+
+
+	</script>
+}

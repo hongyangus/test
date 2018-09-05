@@ -1,0 +1,56 @@
+﻿@model List<PropertyManagement.Models.Unit>
+
+@if (Model != null)
+{
+    <table id="@("detailtable"+ViewBag.tableid)" class="display table compact nowrap">
+        <thead align="center">
+            <tr>
+                <th width="5%"></th>
+                <th width="5%"></th>
+                <th class="dataTableLeft nestedDataTable" width="10%">Unit ID</th>
+                <th class="dataTableLeft nestedDataTable" width="20%">Unit Name</th>
+                <th class="dataTableCenter nestedDataTable" width="30%">Note</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink("Delete", "DeleteUnit", "Property", new { id = row.UnitID }, null)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditUnit", "Property", new { id = row.UnitID }, null)
+                    </td>
+                    <td class="dataTableLeft">@row.UnitID</td>
+                    <td class="dataTableLeft">@row.UnitName</td>
+                    <td class="dataTableCenter">@row.Note</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <script>
+        // Script to execute when document is ready
+        $(document).ready(function () {
+
+            // Setup detail table formatting
+            // Use the tableid from the viewbag so we dont try to instantiate multiple tables with the same name!
+            $('#detailtable' + '@(ViewBag.tableid)').DataTable({
+                "order": [],
+                "searching": false,
+                "paging": false,
+                "info": false,
+                "scrollCollapse": true,
+                "processing": false,
+                "serverSide": false,
+                "iDisplayLength": 10,
+                "language": {
+                    loadingRecords: "Loading data, please wait...",
+                    zeroRecords: "No data..."
+                },
+            }); // End of document datatable
+
+        }); // End of document ready
+    </script>
+}

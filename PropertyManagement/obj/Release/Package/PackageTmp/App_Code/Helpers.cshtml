@@ -1,0 +1,328 @@
+﻿@helper HelperName(string name)
+    {
+        // your helper can contain code and/or markup, e.g.
+        // var msg = "Hello " + name;
+        // <p>@msg</p>
+        // For more information, visit http://go.microsoft.com/fwlink/?LinkID=204658
+}
+
+@helper IOStartEndDates(string startdate, string enddate)
+    {
+        <div class="column" style="width:220px">
+            Start Date: <input class="form-control datepicker" id="startDate" name="startDate" type="text" value=@startdate />
+        </div>
+        <div class="column" style="width:220px">
+            End Date: <input class="form-control datepicker" id="endDate" name="endDate" type="text" value=@enddate />
+        </div>
+}
+
+
+@helper IOSDateRange(string dateRange, string startDate, string endDate)
+    {
+        <div class="column" style="width:130px">
+            Date Range: <select class="form-control selectpicker" id="dateRange" name="dateRange">
+                <option value="custom" @(dateRange == "custom" ? "selected" : "")>Custom Range</option>
+                <option value="yesterday" @(dateRange == "yesterday" ? "selected" : "")>Yesterday</option>
+                <option value="currentmonth" @(dateRange == "currentmonth" ? "selected" : "")>Current Month</option>
+                <option value="previousmonth" @(dateRange == "previousmonth" ? "selected" : "")>Previous Month</option>
+                <option value="currentqt" @(dateRange == "currentqt" ? "selected" : "")>Current Quarter</option>
+                <option value="previousqt" @(dateRange == "previousqt" ? "selected" : "")>Previous Quarter</option>
+                <option value="currentyear" @(dateRange == "currentyear" ? "selected" : "")>Current Year</option>
+                <option value="previousyear" @(dateRange == "previousyear" ? "selected" : "")>Previous Year</option>
+                <option value="currentfy" @(dateRange == "currentfy" ? "selected" : "")>Current Fiscal Year</option>
+                <option value="previousfy" @(dateRange == "previousfy" ? "selected" : "")>Previous Fiscal Year</option>
+            </select>
+        </div>
+        <div class="column" style="width:120px">
+            Start Date: <input class="form-control datepicker" id="startDate" name="startDate" type="text" value=@startDate />
+        </div>
+        <div class="column" style="width:120px">
+            End Date: <input class="form-control datepicker" id="endDate" name="endDate" type="text" value=@endDate />
+        </div>
+}
+
+@helper IOMultiListStatePicker(System.Web.Mvc.MultiSelectList itemlist)
+    {
+        <div class="column" style="width:170px">
+            State: <select class="form-control selectpicker" data-actions-box="true" data-live-search="true" id="state" name="state" multiple="multiple">
+                @foreach (var row in itemlist)
+                {
+                    if (row.Selected)
+                    {
+                        <option value="@row.Value" selected>@row.Text</option> }
+                    else
+                    {
+                        <option value="@row.Value">@row.Text</option>}
+                }
+            </select>
+        </div>
+}
+
+@helper IOMultiListWarehousePicker(System.Web.Mvc.MultiSelectList itemlist)
+    {
+        <div class="column" style="width:170px">
+            Warehouse: <select class="form-control selectpicker" data-actions-box="true" data-live-search="true" id="warehouses" name="warehouses" multiple="multiple">
+                @foreach (var row in itemlist)
+                {
+                    if (row.Selected)
+                    {
+                        <option value="@row.Value" selected>@row.Text</option> }
+                    else
+                    {
+                        <option value="@row.Value">@row.Text</option>}
+                }
+            </select>
+        </div>
+}
+
+
+@helper IOMultiListVendorPicker(System.Web.Mvc.MultiSelectList itemlist)
+    {
+        <div class="column" style="width:220px">
+            Vendor: <select class="form-control selectpicker" data-actions-box="true" data-live-search="true" id="Vendor" name="Vendor" multiple="multiple">
+                @foreach (var row in itemlist)
+                {
+                    if (row.Selected)
+                    {
+                        <option value="@row.Value" selected>@row.Text</option> }
+                    else
+                    {
+                        <option value="@row.Value">@row.Text</option>}
+                }
+            </select>
+        </div>
+}
+
+@helper IOMultiListSkuPicker(System.Web.Mvc.MultiSelectList itemlist)
+    {
+        <div class="column" style="width:170px">
+            SKU: <select class="form-control selectpicker" data-actions-box="true" data-live-search="true" id="sku" name="sku" multiple="multiple">
+                @foreach (var row in itemlist)
+                {
+                    if (row.Selected)
+                    {
+                        <option value="@row.Value" selected>@row.Text</option> }
+                    else
+                    {
+                        <option value="@row.Value">@row.Text</option>}
+                }
+            </select>
+        </div>
+}
+
+@helper IOMultiListAccountPicker(System.Web.Mvc.MultiSelectList itemlist)
+    {
+        <div class="column" style="width:170px">
+            Account: <select class="form-control selectpicker" data-actions-box="true" data-live-search="true" id="account" name="account" multiple="multiple">
+                @foreach (var row in itemlist)
+                {
+                    if (row.Selected)
+                    {
+                        <option value="@row.Value" selected>@row.Text</option> }
+                    else
+                    {
+                        <option value="@row.Value">@row.Text</option>}
+                }
+            </select>
+        </div>
+}
+@helper IndexButtons()
+    {
+        <div id="wrapper">
+            <div class="column" style="clear:both; width:400px">
+                <button id="submitBtn" type="button" class="">Run Report</button>
+            </div>
+        </div>
+}
+
+@helper IODate(string dateValue, string displayName, string dateName)
+    {
+        <div class="column" style="width:170px">
+            @displayName: <input class="form-control datepicker" id="@dateName" name="@dateName" type="text" value=@dateValue />
+        </div>
+}
+@helper IODate(DateTime dateValue, string dateName)
+    {
+        <div class="column" style="width:170px">
+            <input class="form-control datepicker" id="@dateName" name="@dateName" type="text" value=@dateValue />
+        </div>
+}
+
+
+@helper IOMultiList(System.Web.Mvc.MultiSelectList itemlist, string id, string name)
+    {
+        <div class="column" style="width:170px">
+            @name: <select class="form-control selectpicker" data-actions-box="true" data-live-search="true" id="@id" name="@id" multiple="multiple">
+                @foreach (var row in itemlist)
+                {
+                    <option value="@row.Value">@row.Text</option>}
+            </select>
+        </div>
+}
+
+
+@helper IOMultiList(System.Web.Mvc.MultiSelectList itemlist, string id, string listname, string[] preselectedValues)
+    {
+        <div class="column" style="width:170px">
+            @listname: <select class="form-control selectpicker" data-actions-box="true" data-live-search="true" id="@id" name="@id" multiple="multiple">
+                @foreach (var row in itemlist)
+                {
+                    bool found = false;
+                    if (preselectedValues != null)
+                    {
+                        foreach (var preselect in preselectedValues)
+                        {
+                            if (@row.Value.Equals(@preselect))
+                            {
+                                <option value="@row.Value" selected="selected">@row.Text</option>
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!found)
+                    {
+                        <option value="@row.Value">@row.Text</option>
+                    }
+                }
+            </select>
+        </div>
+}
+
+@helper IOTextBox(string displayName, string textboxName, string textBoxValue)
+    {
+        <div class="column" style="width:170px">
+            @displayName: <input class="form-control text-left" id="@textboxName" name="@textboxName" type="text" value='@textBoxValue' />
+        </div>
+}
+
+
+@helper IOSingleList(System.Web.Mvc.MultiSelectList itemlist, string id, string listName)
+    {
+        <div class="column" style="width:170px">
+            @listName: <select class="form-control selectpicker" data-actions-box="true" data-live-search="true" id="@id" name="@id">
+                @foreach (var row in itemlist)
+                {
+                    <option value="@row.Value">@row.Text</option>}
+            </select>
+        </div>
+}
+
+@*@helper IOMultiListSearchPicker(string startdate, string enddate, System.Web.Mvc.MultiSelectList companyList, System.Web.Mvc.MultiSelectList propertylist, System.Web.Mvc.MultiSelectList unitlist,
+        System.Web.Mvc.MultiSelectList bankAccountList, System.Web.Mvc.MultiSelectList statusList,
+        string[] selectedCompanyList, string[] selectedPropertyList, string[] selectedUnitList,
+        string[] selectedBankList, string[] selectedStatusList, string[] selectedExpenseList,
+        string[] selectedPaidbyList)
+    {
+        <div class="column" style="width:220px">
+            Start Date: <input class="form-control datepicker" id="startDate" name="startDate" type="text" value=@startdate />
+        </div>
+        <div class="column" style="width:220px">
+            End Date: <input class="form-control datepicker" id="endDate" name="endDate" type="text" value=@enddate />
+        </div>
+        <div class="column" style="width:250px">
+            Company: <select class="form-control selectpicker" data-actions-box="true" id="CompanyID" name="CompanyID" multiple="multiple">
+                @foreach (var row in companyList)
+                {
+                    <option value="@row.Value">@row.Text</option> }
+            </select>
+        </div>
+        <div class="column" style="width:250px">
+            Property: <select class="form-control selectpicker" data-actions-box="true" id="PropertyID" name="PropertyID" multiple="multiple">
+                @foreach (var row in propertylist)
+                {
+                    <option value="@row.Value">@row.Text</option> }
+            </select>
+        </div>
+        <div class="column" style="width:250px">
+            Unit: <select class="form-control selectpicker" data-actions-box="true" id="UnitID" name="UnitID" multiple="multiple">
+                @foreach (var row in unitlist)
+                {
+                    <option value="@row.Value">@row.Text</option> }
+            </select>
+        </div>
+        <div class="column" style="width:250px">
+            Bank Account: <select class="form-control selectpicker" data-actions-box="true" id="FinancialAccountID" name="FinancialAccountID" multiple="multiple">
+                @foreach (var row in bankAccountList)
+                {
+                    <option value="@row.Value">@row.Text</option> }
+            </select>
+        </div>
+        <div class="column" style="width:250px">
+            Status: <select class="form-control selectpicker" data-actions-box="true" id="StatusID" name="StatusID" multiple="multiple">
+                @foreach (var row in statusList)
+                {
+                    <option value="@row.Value">@row.Text</option> }
+            </select>
+        </div>
+    }*@
+
+
+
+@* This helper will format a DICOM formatted name of the format LASTNAME^FIRSTNAME^MIDDLENAME^PREFIX^SUFFIX  *@
+@* into "LASTNAME, FIRSTNAME" or "LASTNAME, FIRSTNAME MIDDLENAME" format *@
+@helper format_dicom_name(string dicom_name)
+    {
+        if (string.IsNullOrEmpty(dicom_name))
+        {
+            @:&nbsp;
+        }
+        else
+        {
+            string finalname = "";
+            string[] names = dicom_name.Split('^');
+            switch (names.Count())
+            {
+                case 2:
+                    finalname = names[0] + ", " + names[1];
+                    break;
+                case 3:
+                    finalname = names[0] + ", " + names[1] + " " + names[2];
+                    break;
+                case 4:
+                    finalname = names[0] + ", " + names[1] + " " + names[2];
+                    break;
+                case 5:
+                    finalname = names[0] + ", " + names[1] + " " + names[2];
+                    break;
+                default:
+                    finalname = dicom_name;
+                    break;
+            }
+            @finalname
+        }
+}
+
+@* This helper will format a name from a format of "FIRSTNAME LASTNAME" or "FIRSTNAME MIDDLENAME LASTNAME" *@
+@* into the format of "LASTNAME, FIRSTNAME" or "LASTNAME, FIRSTNAME MIDDLENAME" format *@
+@helper format_doctors_name(string doctors_name)
+    {
+        if (string.IsNullOrEmpty(doctors_name))
+        {
+            @:&nbsp;
+        }
+        else
+        {
+            string finalname = "";
+            string[] names = doctors_name.Split(' ');
+            switch (names.Count())
+            {
+                case 2:
+                    finalname = names[1] + ", " + names[0];
+                    break;
+                case 3:
+                    finalname = names[2] + ", " + names[0] + " " + names[1];
+                    break;
+                case 4:
+                    finalname = names[3] + ", " + names[0] + " " + names[1] + " " + names[2];
+                    break;
+                case 5:
+                    finalname = names[4] + ", " + names[0] + " " + names[1] + " " + names[2] + " " + names[3];
+                    break;
+                default:
+                    finalname = doctors_name;
+                    break;
+            }
+            @finalname
+        }
+}

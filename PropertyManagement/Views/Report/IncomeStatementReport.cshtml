@@ -1,0 +1,170 @@
+﻿<!-- Load the datamodel -->
+@model System.Data.DataTable
+@if (Model != null)
+{
+    <table  id="datatable" class="display table compact nowrap">
+        <thead>
+            <tr>
+                @foreach (System.Data.DataColumn col in Model.Columns)
+                {
+                    <th>@col.Caption</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (System.Data.DataRow row in Model.Rows)
+            {
+                <tr>
+                    @for (int i = 0; i < row.ItemArray.Count(); i++)
+                    {
+                        if (row.ItemArray[i] != DBNull.Value)
+                        {
+                            if (i > 0 )
+                            {
+                            <td>
+                                @Html.ActionLink(((double)row.ItemArray[i]).ToString(), "IncomeDetailReport", "Report", new { categoryName = @row.ItemArray[0] }, new { target = "_blank" })
+                            </td>
+
+                            }
+                            else
+                            {
+                            <td> @row.ItemArray[i] </td>
+                            }
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="@ViewBag.MyExeptionCSS">@ViewBag.MyExeption</div>
+    <script>
+        // Script to execute when document is ready
+        $(document).ready(function () {
+
+            // Get the table caption (if there is one) for the report table
+            var tablecaption = $("#datatable").find('caption').text();
+
+            // Setup standard Datatable formatting
+            $('#datatable').DataTable({
+                "order": [],
+                "searching": true,
+                "paging": true,
+                "scrollCollapse": true,
+                "processing": false,
+                "serverSide": false,
+                "iDisplayLength": 25,
+                dom: 'if<"savebuttons"B>tlp',
+                buttons: [
+                          {
+                              extend: 'copy',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'csv',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'pdf',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'excel',
+                              title: tablecaption,
+                              message: tablecaption,
+                              sTitle: tablecaption
+                          },
+                          {
+                              extend: 'print',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          }
+                ],
+                "language": {
+                    loadingRecords: "Loading data, please wait...",
+                    zeroRecords: "No data..."
+                },
+                "formatNumber": function (toFormat) { return toFormat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); },
+
+                //start of totals data table
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api(), data;
+
+                    // Remove the formatting to get integer data for summation
+                    //var intVal = function (i) {
+                    //    return typeof i === 'string' ?
+                    //        i.replace(/[\$,]/g, '') * 1 :
+                    //        typeof i === 'number' ?
+                    //        i : 0;
+                    //};
+
+
+                //    var monTotal = api
+                //.column( 1 )
+                //.data()
+                //.reduce( function (a, b) {
+                //    return intVal(a) + intVal(b);
+                //}, 0 );
+				
+                    //var tueTotal = api
+                    //        .column( 2 )
+                    //        .data()
+                    //        .reduce( function (a, b) {
+                    //            return intVal(a) + intVal(b);
+                    //        }, 0 );
+				
+                    //var wedTotal = api
+                    //    .column( 3 )
+                    //    .data()
+                    //    .reduce( function (a, b) {
+                    //        return intVal(a) + intVal(b);
+                    //    }, 0 );
+				
+                    //var thuTotal = api
+                    //       .column( 4 )
+                    //       .data()
+                    //       .reduce( function (a, b) {
+                    //           return intVal(a) + intVal(b);
+                    //       }, 0 );
+				
+                    //var friTotal = api
+                    //       .column( 5 )
+                    //       .data()
+                    //       .reduce( function (a, b) {
+                    //           return intVal(a) + intVal(b);
+                    //       }, 0 );
+			
+				
+                    // Update footer by showing the total with the reference of the column index 
+                    $( api.column( 0 ).footer() ).html('Total');
+                    //$( api.column( 1 ).footer() ).html(monTotal);
+                    //$( api.column( 2 ).footer() ).html(tueTotal);
+                    //$( api.column( 3 ).footer() ).html(wedTotal);
+                    //$( api.column( 4 ).footer() ).html(thuTotal);
+                    //$( api.column( 5 ).footer() ).html(friTotal);                    
+
+                } // End of totals data table
+
+            }); // End of document datatable
+
+        }); // End of document ready
+
+        $(function () {
+            $('a.dialog').click(function () {
+                var url = $(this).attr('href');
+                var dialog = $('<div style="display:none"></div>').appendTo('body');
+                dialog.load(url, {},
+                    function (responseText, textStatus, XMLHttpRequest) {
+                        dialog.dialog({
+                            close: function (event, ui) {
+                                dialog.remove();
+                            }
+                        });
+                    });
+                return false;
+            });
+        });
+    </script>
+}

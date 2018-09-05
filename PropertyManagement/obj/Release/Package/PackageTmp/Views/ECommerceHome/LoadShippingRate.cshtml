@@ -1,0 +1,29 @@
+﻿<!-- Load common layout and retrieve report title -->
+@{
+	ViewBag.Title = ViewBag.ReportTitle;
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ActionLink("Back to Purchase Management", "Index")
+<h2>@ViewBag.ReportTitle</h2>
+@using (Html.BeginForm("Upload", "ECommerceHome", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	<table>
+		<tr>
+			<td colspan="2">
+				@Helpers.IOSingleList(ViewBag.countryList, "CountryID", "Country")
+			</td>
+		</tr>
+		<tr>
+			<td>File:</td>
+			<td>
+				<input type="file" name="UploadedFile" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2"></td>
+		</tr>
+	</table>
+	<br />
+	<input type="submit" name="Submit" value="Submit" />
+}

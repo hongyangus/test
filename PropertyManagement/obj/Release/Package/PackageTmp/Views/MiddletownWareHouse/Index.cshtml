@@ -1,0 +1,90 @@
+﻿<!-- Load common Javascript code -->
+@Scripts.Render("~/Scripts/Pages/00-Shared.js")
+
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Display the report title -->
+<h2>@ViewBag.ReportTitle</h2>
+
+<!-- Display the report title -->
+@using (Html.BeginForm("ChartView", "ExamsPerformedHeatmapReport", FormMethod.Post))
+{
+    <!-- Place selection options on page -->
+    <div id="wrapper">
+        @Helpers.IOStartEndDates(ViewBag.startDate, ViewBag.endDate)
+
+        <!-- Button group for report selection -->
+        <div class="column" style="width:220px">
+            Report Type:<div id="reporttype" class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary"><input type="radio" name="reportoptions" id="option1" autocomplete="off">Min</label>
+                <label class="btn btn-primary active"><input type="radio" name="reportoptions" id="option2" autocomplete="off">Max</label>
+                <label class="btn btn-primary"><input type="radio" name="reportoptions" id="option3" autocomplete="off">Avg</label>
+                <label class="btn btn-primary"><input type="radio" name="reportoptions" id="option4" autocomplete="off">Sum</label>
+            </div>
+        </div>
+
+    </div>
+    <!-- Place submit button on page -->
+    <div id="wrapper">
+        <div class="column" style="clear:both">
+            <button id="submitBtn" type="button" class="">Search</button>
+            <button id="resetBtn" type="button" class="">Reset</button>
+        </div>
+    </div>
+}
+
+<!-- Report table or chart area - add additional div for chart if necessary -->
+<br />
+<div id="chartDiv"></div>
+
+<!-- Place at bottom of page -->
+<div class="modal"></div>
+
+<!-- Javascript custom routines for this page -->
+<script type="text/javascript">
+
+    // Script to detect when the report type button is changed (clicked) then automatically click the submit button
+    $("input[name='reportoptions']").change(function () {
+        // Wait for 1/3 second (333 milliseconds) and then force submit button - this provides enough time for the click function to register!!
+        setTimeout(function () { $("#submitBtn").click() }, 333);
+    });
+
+    // Script for on submit button click
+    $("#submitBtn").on('click', function () {
+        // Load the partial view(s)
+        $.ajaxSetup({ traditional: true });
+
+        // Get the report type selected button value to pass to controller
+        var valtype = $(".btn-group > .btn.active").text(); // works
+
+        // Get a list of all the selected modalities (if any) to return to the controller
+        var selectedValues = [];
+        $("#ModalityID :selected").each(function(){ selectedValues.push($(this).text());  });
+
+        $("#chartDiv").load('@Url.Action("ChartView", "MiddletownWareHouse")', { startDate: $("#startDate").val(), endDate: $("#endDate").val(), modalityID: $("#ModalityID").val() });
+    }); // End of on submit button click
+
+    // Script for on reset button click
+    $("#resetBtn").on('click', function () {
+        // Reset the datepickers to the default values
+        $('#startDate').datepicker('update', '@(ViewBag.startDate)');
+        $('#endDate').datepicker('update', '@(ViewBag.endDate)');
+
+        // Reset all of the selectpicker dropdown listboxes to deselect any selected values
+        $.each($('.selectpicker'), function (index, value) {
+            $(value).selectpicker('deselectAll');
+        });
+
+        // On-Off resets go here! if any...
+        $("#option2").parent().button('toggle');  // reset the report select button
+
+        // Clear the charts and tables
+        document.getElementById("chartDiv").innerHTML = "";
+
+    }); // End of on reset button click
+
+</script>

@@ -1,0 +1,189 @@
+﻿<!-- Load the datamodel -->
+@model List<PropertyManagement.Models.OperationRecord>
+   <style>
+       .text-wrap{
+            white-space:normal;
+        }
+        .width-200{
+            width:400px;
+        }
+   </style>
+@if (Model != null)
+{
+    <table id="datatable" class="display table compact nowrap">
+        <caption style="text-align:center; font-weight:bold">@ViewBag.TableCaption</caption>
+
+        <thead align="center">
+            <tr>
+                <th></th>
+                <th></th>
+                <th class="dataTableCenter">
+                    Address
+                </th>
+                <th class="dataTableCenter">
+                    Paid By
+                </th>
+                <th class="dataTableCenter">
+                    Paid To
+                </th>
+                <th></th>
+                <th class="dataTableCenter">
+                    Payment
+                </th>
+                <th class="dataTableCenter">
+                    Deposit
+                </th>
+                <th class="dataTableCenter">
+                    Balance
+                </th>
+                <th class="dataTableCenter">
+                    Complete Date
+                </th>
+                <th class="dataTableCenter">
+                    Memo
+                </th>
+                <th class="dataTableCenter">
+                    Bank Account Name
+                </th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>Total:@ViewBag.TotalPayment.ToString("C")</th>
+                <th>Total:@ViewBag.TotalDeposit.ToString("C")</th>
+                <th>Total:@ViewBag.TotalBalace.ToString("C")</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </tfoot>
+        <tbody>
+            @foreach (var row in Model)
+                {
+                <tr>
+                    <td with="25%" class="ManageUser">
+                        @Html.ActionLink("Edit", "Edit","BankAccount", new { id = row.ID }, null)
+                    </td>
+                    <td with="25%" class="ManageUser">
+                        @if ((@row.LinkedExpenseID == 0) || Session["UserID"].ToString().Equals("1"))
+                        {@Html.ActionLink("Transfer", "Transfer", "BankAccount", new { id = row.ID }, null)}
+                    </td>
+                    <td class="dataTableLeft">
+                        @row.Address
+                    </td>
+                    <td class="dataTableLeft">
+                        @row.PaidBy
+                    </td>
+                    <td class="dataTableLeft">
+                        @row.PaidToPerson
+                    </td>
+                    <td class="dataTableLeft">
+                        <input id="checkBox" type="checkbox">@row.BankTracking
+                    </td>
+                    <td class="dataTableLeft">
+                        @((row.Payment == 0)? "": @row.Payment.ToString("C"))
+                    </td>
+                    <td class="dataTableLeft">
+                        @((row.Deposit == 0)? "": @row.Deposit.ToString("C"))
+                    </td>
+                    <td class="dataTableLeft">
+                        @((row.Balance == 0) ? "" : @row.Balance.ToString("C"))
+                    </td>
+                    <td class="dataTableLeft">
+                        @row.CompleteDate.ToShortDateString()
+                    </td>
+                    <td class="dataTableLeft">
+                        @row.Memo
+                    </td>
+                    <td class="dataTableCenter">
+                        @row.BankAccountName
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="@ViewBag.MyExeptionCSS">@ViewBag.MyExeption</div>
+    <script>
+        // Script to execute when document is ready
+        $(document).ready(function () {
+
+            // Get the table caption (if there is one) for the report table
+            var tablecaption = $("#datatable").find('caption').text();
+
+            // Setup standard Datatable formatting
+            $('#datatable').DataTable({
+                "order": [],
+                "searching": true,
+                "paging": true,
+                "scrollCollapse": true,
+                "processing": false,
+                "serverSide": false,
+                "iDisplayLength": 25,
+                dom: 'if<"savebuttons"B>tlp',
+                buttons: [
+                          {
+                              extend: 'copy',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'csv',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'pdf',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'excel',
+                              title: tablecaption,
+                              message: tablecaption,
+                              sTitle: tablecaption
+                          },
+                          {
+                              extend: 'print',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          }
+                ],
+                "language": {
+                    loadingRecords: "Loading data, please wait...",
+                    zeroRecords: "No data..."
+                },
+                "formatNumber": function (toFormat) { return toFormat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); },
+                columnDefs: [
+                {
+                    render: function (data, type, full, meta) {
+                        return "<div class='text-wrap width-200'>" + data + "</div>";
+                    },
+                    targets: 10
+                }
+                ],
+                //start of totals data table
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api(), data;
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function (i) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '') * 1 :
+                            typeof i === 'number' ?
+                            i : 0;
+                    };
+
+                } // End of totals data table
+
+            }); // End of document datatable
+
+        }); // End of document ready
+
+    </script>
+}

@@ -1,0 +1,43 @@
+﻿@model PropertyManagement.Models.OperationRecord
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.ActionLink("Back to Rent Management", "Index")
+<h4>@ViewBag.ReportTitle</h4>
+@using (Html.BeginForm())
+{
+    <div style="float: left ">
+        <div>
+            <label>Due Amount: </label> @Html.TextBoxFor(x => x.DueAmount, new { @class = "form-control" })
+            <label>Due Date:</label> @Html.TextBoxFor(x => x.DueDate, new { @type = "date", @Value = Model.DueDate.ToString("yyyy-MM-dd"), @class = "form-control" })
+            <label>Payment: </label> @Html.TextBoxFor(x => x.Payment, new { @class = "form-control" })
+            <label>Complete Date:</label> @Html.TextBoxFor(x => x.CompleteDate, new { @type = "date", @Value = Model.CompleteDate.ToString("yyyy-MM-dd"), @class = "form-control" })
+            <div>
+                <label>Invoice Link: </label> @Html.TextBoxFor(x => x.InvoiceLink, new { @class = "form-control" })
+            </div>
+            <label>Memo: </label> @Html.TextBoxFor(x => x.Memo, new { @class = "form-control" })
+            <label>Bank Tracking: </label> @Html.TextBoxFor(x => x.BankTracking, new { @class = "form-control" })
+            <br />
+            @Html.CheckBoxFor(x => x.IsEmailReceipt, new { @class = "" })<label>Email Receipt&nbsp&nbsp</label>
+            <br />
+        </div>
+        <div>
+            <div style="width:400px">
+                <label>Paid to/by:</label>@Html.DropDownListFor(x => x.TenantID, Model.AllTenant, "Please Select Tenant", new { @class = "form-control selectpicker" })
+            </div>
+            <div style="width:400px">
+                <label>Status:</label> @Html.DropDownListFor(x => x.StatusID, Model.AllStatus, "Please Select Status", new { @class = "form-control selectpicker" })
+            </div>
+            <div style="width:400px">
+                <label>Transfer to Bank Account:</label>@Html.DropDownListFor(x => x.TransferedFinancialBankAccountID, Model.AllBankAccount, "Please Select Financial Account", new { @class = "form-control selectpicker" })
+            </div>
+        </div>
+            @Html.HiddenFor(x => x.ID)
+            @Html.HiddenFor(x => x.FinancialBankAccountID)
+            @Html.HiddenFor(x => x.CategoryID)
+        <br />
+        <input type="submit" value="Submit" />
+    </div>
+}

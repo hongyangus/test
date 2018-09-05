@@ -1,0 +1,70 @@
+﻿<!-- Load common Javascript code -->
+@Scripts.Render("~/Scripts/Pages/00-Shared.js")
+
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Display the report title -->
+<h4>@ViewBag.ReportTitle </h4>
+@using (Html.BeginForm("ChartView", "ECommerceSale", FormMethod.Post, new { @Id = "Form2" }))
+{
+    <!-- Place single options on page -->
+    <div>
+        <div>
+            @Helpers.IOSDateRange(ViewBag.dateRange, ViewBag.startDate, ViewBag.endDate)
+            @Helpers.IOSingleList(ViewBag.comparisonVariable, "comparisonVariable", "Comparison Variable")
+            @Helpers.IOSingleList(ViewBag.drillDownLevel, "drillDownLevel", "Drill Down Level")
+            @Helpers.IOSingleList(ViewBag.chartType, "chartType", "Chart Type")
+        </div>
+    </div>
+    <br />
+    <!-- Place filter options on page -->
+    <div>
+        <div style="clear:both">Filter</div>
+        <div style="clear:both">
+            @Helpers.IOMultiListVendorPicker(ViewBag.vendors)
+            @Helpers.IOMultiListSkuPicker(ViewBag.skus)
+            @Helpers.IOMultiListAccountPicker(ViewBag.accounts)
+            @Helpers.IOMultiListStatePicker(ViewBag.states)
+            @Helpers.IOMultiListWarehousePicker(ViewBag.warehouses)
+            @Html.CheckBox("displayGreater10", false)
+            @Html.Label("Only Display > 10%")
+        </div>
+    </div>
+    <!-- Place submit button on page -->
+    <div id="wrapper">
+        <div class="" style="clear:both;width:100%;">
+            <button id="submitBtn" type="button" class="">Run Report</button>
+        </div>
+    </div>
+    <br />
+
+}
+<!-- Report table or chart area - add additional div for chart if necessary -->
+<br />
+<div id="chartDiv"></div>
+
+<br />
+<div id="reportDiv"></div>
+
+<!-- Place at bottom of page -->
+<div class="modal"></div>
+
+<!-- Javascript custom routines for this page -->
+<script type="text/javascript">
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Function to process Run Report button - will call back to the controller to run the report
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        $("#submitBtn").on('click', function () {
+            // Load the partial view(s)
+            $.ajaxSetup({ traditional: true });
+            $("#chartDiv").load('@Url.Action("ChartView", "ECommerceSaleForcast")', {
+                comparisonVariable: $("#comparisonVariable").val(), chartType: $("#chartType").val(), drillDownLevel: $("#drillDownLevel").val(), vendors: $("#Vendor").val(), skus: $("#sku").val(), accounts: $("#account").val(), warehouses: $("#warehouses").val(), states: $("#state").val(), startDate: $("#startDate").val(), endDate: $("#endDate").val(), displayGreater10: $("#displayGreater10").is(":checked") });
+        });
+
+
+
+</script>

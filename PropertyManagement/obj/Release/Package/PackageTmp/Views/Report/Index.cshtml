@@ -1,0 +1,96 @@
+﻿@model PropertyManagement.Models.Report 
+@Scripts.Render("~/Scripts/Pages/00-Shared.js")
+
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Display the report title -->
+<h4>@ViewBag.ReportTitle</h4>
+@using (Html.BeginForm("Index", "Report", FormMethod.Post))
+{
+    <!-- Place selection options on page -->
+    <div id="wrapper">
+        @Helpers.IOSingleList(ViewBag.ReportType, "ReportTypeID", "Report")
+        @Helpers.IOStartEndDates((string)Session["startDate"], (string)Session["endDate"])
+        @Helpers.IOMultiList(ViewBag.companies, "CompanyID", "Company", (string[])Session["selectedCompanyIDs"])
+        @Helpers.IOMultiList(ViewBag.properties, "PropertyID", "Property", (string[])Session["selectedPropertyIDs"])   
+        @Helpers.IOMultiList(ViewBag.units, "UnitID", "Unit", (string[])Session["selectedUnitIDs"])
+        @Helpers.IOMultiList(ViewBag.bankAccounts, "FinancialAccountID", "Financial Account", (string[])Session["selectedAccountIDs"])
+        @Helpers.IOMultiList(ViewBag.categories, "CategoryID", "Expense", (string[])Session["selectedCategoryIDs"])
+        @Helpers.IOMultiList(ViewBag.contractors, "ContractorID", "Paid By", (string[])Session["selectedContractorIDs"])
+        @Helpers.IOMultiList(ViewBag.statusList, "StatusID", "Status", (string[])Session["selectedStatusIDs"])
+        @Helpers.IOSingleList(ViewBag.DrillDownLevel, "DrillDownLevelID", "Drill Down Level")
+        @Helpers.IOSingleList(ViewBag.ChartType, "ChartTypeID", "Chart Type")
+    </div>
+    <!-- Place submit button on page -->
+    <div id="wrapper">
+        <div class="" style="clear:both;width:100%;">
+            <button id="submitBtn" type="button" class="">Search</button>
+            <button id="resetBtn" type="button" class="">Reset</button>
+        </div>
+    </div>
+    <br />
+
+}
+
+<!-- Report table or chart area - add additional div for chart if necessary -->
+<div id="reportDiv"></div>
+
+<!-- Report table or chart area - add additional div for chart if necessary -->
+<div id="detailReportDiv"></div>
+
+<!-- Place at bottom of page -->
+<div class="modal"></div>
+
+<!-- Javascript custom routines for this page -->
+<script type="text/javascript">
+
+    $("#ReportTypeID").on('change', function () {
+        if ($("#ReportTypeID").val() == 1)
+        {
+            //incomestatement report
+            $("#UnitID").visib = true;
+            $("#FinancialAccountID").visib = true;
+            $("#CategoryID").visib = true;
+            $("#ContractorID").visib = true;
+            $("#DrillDownLevelID").visib = true;
+        }
+        else if ($("#ReportTypeID").val() == 2) {
+            //asset report
+            $("#UnitID").visib = false;
+            $("#FinancialAccountID").visib = false;
+            $("#CategoryID").visib = false;
+            $("#ContractorID").visib = false;
+            $("#DrillDownLevelID").visib = false;
+        }
+    });
+
+    // Script for on submit button click
+    $("#submitBtn").on('click', function () {
+        // Load the partial view(s)
+        $.ajaxSetup({ traditional: true });
+        var reportTypeID = $("#ReportTypeID").val();
+        if (reportTypeID == 1) {
+            $("#reportDiv").load('@Url.Action("IncomeStatementReport", "Report")', { startDate: $("#startDate").val(), endDate: $("#endDate").val(), companyIDs: $("#CompanyID").val(), propertyIDs: $("#PropertyID").val(), unitIDs: $("#UnitID").val(), ContractorIDs: $("#ContractorID").val(), FinancialAccountIDs: $("#FinancialAccountID").val(), CategoryIDs: $("#CategoryID").val(), StatusIDs: $("#StatusID").val(), ChartTypeID: $("#ChartTypeID").val(), drillDownLevelID: $("#DrillDownLevelID").val() });
+        }
+        else if (reportTypeID == 2)
+        {
+            $("#reportDiv").load('@Url.Action("AssetReport", "Report")', { startDate: $("#startDate").val(), endDate: $("#endDate").val(), companyIDs: $("#CompanyID").val(), propertyIDs: $("#PropertyID").val(), statusIDs: $("#StatusID").val() });
+        }
+    }); // End of on submit button click
+
+    // Script for on reset button click
+    $("#resetBtn").on('click', function () {
+        // Reset the datepickers to the default values
+        $('#startDate').datepicker('update', '@(ViewBag.startDate)');
+        $('#endDate').datepicker('update', '@(ViewBag.endDate)');
+
+        // Reset all of the selectpicker dropdown listboxes to deselect any selected values
+        $.each($('.selectpicker'), function (index, value) {
+            $(value).selectpicker('deselectAll');
+        });
+    });
+</script>

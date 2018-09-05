@@ -1,0 +1,79 @@
+﻿<!-- Load common Javascript code -->
+@Scripts.Render("~/Scripts/Pages/00-Shared.js")
+
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Display the report title -->
+<h2>@ViewBag.ReportTitle</h2>
+
+<br />
+<p>
+        @Html.ActionLink("Add New Bank Record", "Add", "BankAccount", null, null)
+    <br />
+        @Html.ActionLink("Add and Transfer New Bank Record", "AddAndTransferFund", "BankAccount", null, null)
+    <br />
+        @Html.ActionLink("Load Batch Bank Record from excel file", "LoadBatch", "BankAccount", null, null)
+</p>
+@using (Html.BeginForm("ReportViewDetail", "BankAccount", FormMethod.Post))
+{
+    <!-- Place selection options on page -->
+    <div id="wrapper">
+        @Helpers.IOStartEndDates((string)Session["startDate"], (string)Session["endDate"])
+        @Helpers.IOMultiList(ViewBag.bankAccounts, "FinancialAccountID", "Bank Account", (string[])Session["selectedBankAccount"]) 
+    </div>
+    <!-- Place submit button on page -->
+    <div id="wrapper">
+        <div class="column" style="clear:both">
+            <button id="submitBtn" type="button" class="">Search</button>
+            <button id="resetBtn" type="button" class="">Reset</button>
+        </div>
+    </div>
+}
+
+<br />
+<!-- Report table or chart area - add additional div for chart if necessary -->
+<br />
+<div id="reportDiv"></div>
+
+<!-- Place at bottom of page -->
+<div class="modal"></div>
+
+<!-- Javascript custom routines for this page -->
+<script type="text/javascript">
+
+    // Script for on submit button click
+    $("#submitBtn").on('click', function () {
+        // Load the partial view(s)
+        $.ajaxSetup({ traditional: true });
+
+        // Check the report type level (summary or detail) and run the appropriate partialview
+            $("#reportDiv").load('@Url.Action("ReportViewDetail", "BankAccount")', { startDate: $("#startDate").val(), endDate: $("#endDate").val(), bankAccounts: $("#FinancialAccountID").val() });
+    }); // End of on submit button click
+
+    // Script for on reset button click
+    $("#resetBtn").on('click', function () {
+        // Reset the datepickers to the default values
+        $('#startDate').datepicker('update', '@(ViewBag.startDate)');
+        $('#endDate').datepicker('update', '@(ViewBag.endDate)');
+
+        // Reset all of the selectpicker dropdown listboxes to deselect any selected values
+        $.each($('.selectpicker'), function (index, value) {
+            $(value).selectpicker('deselectAll');
+        });
+
+        // On-Off resets go here! if any...
+        $('#ReportTypeID').selectpicker('val', '2'); // set the default report type
+
+    }); // End of on reset button click
+
+    // Script to check for change of report type and then automatically click the submit button
+    $("#ReportTypeID").change(function () {
+        $("#submitBtn").click()
+    }); // End of reproty type change
+
+</script>
+

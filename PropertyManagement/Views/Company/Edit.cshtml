@@ -1,0 +1,72 @@
+﻿@model PropertyManagement.ViewModels.EditCompanyVM
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.ActionLink("Back to Company Management", "Index")
+<h2>@ViewBag.ReportTitle</h2>
+@using (Html.BeginForm())
+{
+    <table width="100%">
+        <tr>
+            <td width="50%">
+                <div>
+                    @Html.LabelFor(x => x.CompanyName)
+                    @Html.TextBoxFor(x => x.CompanyName)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.StartDate)
+                    @Html.TextBoxFor(x => x.StartDate, new { @type = "date", @Value = Model.StartDate.ToString("yyyy-MM-dd") })
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.EIN)
+                    @Html.TextBoxFor(x => x.EIN)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.CompanyPhone)
+                    @Html.EditorFor(x => x.CompanyPhone)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.CompanyCellPhone)
+                    @Html.EditorFor(x => x.CompanyCellPhone)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.Address)
+                    @Html.TextBoxFor(x => x.Address)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.City)
+                    @Html.TextBoxFor(x => x.City)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.State)
+                    @Html.TextBoxFor(x => x.State)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.Zip)
+                    @Html.TextBoxFor(x => x.Zip)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.BankAccount)
+                    @Html.TextBoxFor(x => x.BankAccount)
+                </div>
+                <div>
+                    @Html.LabelFor(x => x.RountingNo)
+                    @Html.TextBoxFor(x => x.RountingNo)
+                </div>
+                <div style="width:220px">
+                    @Html.LabelFor(x => x.AdminID)
+                    @Html.DropDownListFor(x => x.AdminID, Model.AllUser, "Please select admin", new { @class = "form-control selectpicker" })
+                </div>
+                <div style="width:220px">
+                    @Html.LabelFor(x => x.Status)
+                    @Html.DropDownListFor(x => x.StatusID, Model.AllStatus, "Please select status", new { @class = "form-control selectpicker" })
+                </div>
+                @Html.HiddenFor(x => x.CompanyID)
+                <input type="submit" value="Submit" />
+            </td>
+        </tr>
+    </table>
+
+}

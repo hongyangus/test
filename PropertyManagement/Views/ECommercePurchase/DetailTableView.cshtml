@@ -1,0 +1,54 @@
+﻿@model List<PropertyManagement.Controllers.PurchaseEventQuene>
+
+@if (Model != null)
+{
+	<table id="@("detailtable"+ViewBag.tableid)" class="display table compact nowrap">
+		<thead align="center">
+			<tr>
+				<th class="dataTableLeft nestedDataTable" width="10%">Event Queue ID</th>
+				<th class="dataTableLeft nestedDataTable" width="20%">OrderID</th>
+				<th class="dataTableLeft nestedDataTable" width="20%">Note</th>
+				<th class="dataTableLeft nestedDataTable" width="20%">EventID</th>
+				<th class="dataTableCenter nestedDataTable" width="30%">UpdateDate</th>
+				<th class="dataTableCenter nestedDataTable" width="30%">name</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var row in Model)
+			{
+			<tr>
+				<td class="dataTableLeft">@row.OrderEventQueueID</td>
+				<td class="dataTableLeft">@row.OrderID</td>
+				<td class="dataTableCenter">@row.Note</td>
+				<td class="dataTableCenter">@row.EventID</td>
+				<td class="dataTableCenter">@row.UpdateDate</td>
+				<td class="dataTableCenter">@row.name</td>
+			</tr>
+			}
+		</tbody>
+	</table>
+
+	<script>
+        // Script to execute when document is ready
+        $(document).ready(function () {
+
+            // Setup detail table formatting
+            // Use the tableid from the viewbag so we dont try to instantiate multiple tables with the same name!
+            $('#detailtable' + '@(ViewBag.tableid)').DataTable({
+                "order": [],
+                "searching": false,
+                "paging": false,
+                "info": false,
+                "scrollCollapse": true,
+                "processing": false,
+                "serverSide": false,
+                "iDisplayLength": 10,
+                "language": {
+                    loadingRecords: "Loading data, please wait...",
+                    zeroRecords: "No data..."
+                },
+            }); // End of document datatable
+
+        }); // End of document ready
+	</script>
+}

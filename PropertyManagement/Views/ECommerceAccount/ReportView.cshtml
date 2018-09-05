@@ -1,0 +1,172 @@
+﻿<!-- Load the datamodel -->
+@model List<PropertyManagement.Controllers.ECommerceAccount>
+<style>
+	.text-wrap {
+		white-space: normal;
+	}
+
+	.width-200 {
+		width: 400px;
+	}
+</style>
+@if (Model != null)
+{
+	<table id="datatable" class="display table compact nowrap">
+		<caption style="text-align:center; font-weight:bold">@ViewBag.TableCaption</caption>
+
+		<thead align="center">
+			<tr>
+				<th></th>
+				<th class="dataTableCenter">
+					Company Name
+				</th>
+				<th class="dataTableCenter">
+					Account
+				</th>
+				<th class="dataTableCenter">
+					ebay user
+				</th>
+				<th class="dataTableCenter">
+					Mail
+				</th>
+				<th class="dataTableCenter">
+					Service Url
+				</th>
+				<th class="dataTableCenter">
+					Site
+				</th>
+				<th class="dataTableCenter">
+					lastSyncTime
+				</th>
+				<th class="dataTableCenter">
+					Admin
+				</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+			</tr>
+		</tfoot>
+		<tbody>
+			@foreach (var row in Model)
+			{
+			<tr>
+				<td with="25%" class="ManageUser">
+					@Html.ActionLink("Edit", "Edit", "ECommerceAccount", new { id = row.id }, null)
+				</td>
+				<td class="dataTableLeft">
+					@row.companyName
+				</td>
+				<td class="dataTableLeft">
+					@row.ebay_account
+				</td>
+				<td class="dataTableLeft">
+					@row.ebay_user
+				</td>
+				<td class="dataTableLeft">
+					@row.mail
+				</td>
+				<td class="dataTableLeft">
+					@row.serviceUrl
+				</td>
+				<td class="dataTableLeft">
+					@row.site
+				</td>
+				<td class="dataTableLeft">
+					@row.lastSyncTime
+				</td>
+				<td class="dataTableLeft">
+					@row.admin.FirstName+" " + @row.admin.LastName
+				</td>
+			</tr>
+			}
+		</tbody>
+	</table>
+	<div class="@ViewBag.MyExeptionCSS">@ViewBag.MyExeption</div>
+	<script>
+		// Script to execute when document is ready
+		$(document).ready(function () {
+
+			// Get the table caption (if there is one) for the report table
+			var tablecaption = $("#datatable").find('caption').text();
+
+			// Setup standard Datatable formatting
+			$('#datatable').DataTable({
+				"order": [],
+				"searching": true,
+				"paging": true,
+				"scrollCollapse": true,
+				"processing": false,
+				"serverSide": false,
+				"iDisplayLength": 25,
+				dom: 'if<"savebuttons"B>tlp',
+				buttons: [
+					{
+						extend: 'copy',
+						orientation: 'landscape',
+						message: tablecaption
+					},
+					{
+						extend: 'csv',
+						orientation: 'landscape',
+						message: tablecaption
+					},
+					{
+						extend: 'pdf',
+						orientation: 'landscape',
+						message: tablecaption
+					},
+					{
+						extend: 'excel',
+						title: tablecaption,
+						message: tablecaption,
+						sTitle: tablecaption
+					},
+					{
+						extend: 'print',
+						orientation: 'landscape',
+						message: tablecaption
+					}
+				],
+				"language": {
+					loadingRecords: "Loading data, please wait...",
+					zeroRecords: "No data..."
+				},
+				"formatNumber": function (toFormat) { return toFormat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); },
+				columnDefs: [
+					{
+						render: function (data, type, full, meta) {
+							return "<div class='text-wrap width-200'>" + data + "</div>";
+						},
+						targets: 8
+					}
+				],
+				//start of totals data table
+				"footerCallback": function (row, data, start, end, display) {
+					var api = this.api(), data;
+
+					// Remove the formatting to get integer data for summation
+					var intVal = function (i) {
+						return typeof i === 'string' ?
+							i.replace(/[\$,]/g, '') * 1 :
+							typeof i === 'number' ?
+								i : 0;
+					};
+
+				} // End of totals data table
+
+			}); // End of document datatable
+
+		}); // End of document ready
+
+	</script>
+}

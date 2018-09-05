@@ -1,0 +1,185 @@
+﻿<!-- Load the datamodel -->
+@model List<PropertyManagement.Models.BankAccount>
+
+<!-- Load common Javascript code -->
+@Scripts.Render("~/Scripts/Pages/00-Shared.js")
+
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Display the report title -->
+<h2>@ViewBag.ReportTitle</h2>
+
+@Html.ActionLink("Create New Financial Account", "Add")
+
+@if (Model != null)
+{
+    <table id="datatable" class="display table compact nowrap">
+        <caption style="text-align:center; font-weight:bold">@ViewBag.TableCaption</caption>
+
+        <thead align="center">
+            <tr>
+                <th></th>
+                <th class="dataTableCenter">
+                    AccountName
+                </th>
+                <th class="dataTableCenter">
+                    Account Number
+                </th>
+                <th class="dataTableCenter">
+                    Account Type
+                </th>
+                <th class="dataTableCenter">
+                    Account Owner
+                </th>
+                <th class="dataTableCenter">
+                    Start Date
+                </th>
+                <th class="dataTableCenter">
+                    Frozen Date
+                </th>
+                <th class="dataTableCenter">
+                    Payment Due Date
+                </th>
+                <th class="dataTableCenter">
+                    User Name
+                </th>
+                <th class="dataTableCenter">
+                    Password
+                </th>
+                <th class="dataTableCenter">
+                    Link
+                </th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </tfoot>
+        <tbody>
+            @foreach (var row in Model)
+                {
+                <tr>
+                    <td with="25%" class="ManageUser">
+                        @Html.ActionLink("Edit", "Edit", "FinancialAccount", new { id = row.FinancialAccountID }, null)
+                    </td>
+                    <td class="dataTableLeft">
+                        @row.AccountName
+                    </td>
+                    <td class="dataTableLeft">
+                        @row.AccountNumber
+                    </td>
+                    <td class="dataTableLeft">
+                        @row.AccountTypeName
+                    </td>
+                    <td class="dataTableLeft">
+                        @row.AccountOwner
+                    </td>
+                    <td class="dataTableLeft">
+                        @row.StartDate.ToShortDateString()
+                    </td>
+                    <td class="dataTableLeft">
+                        @row.FrozenDateTime.ToShortDateString()
+                    </td>
+                    <td class="dataTableLeft">
+                        @row.PaymentDueDate.ToShortDateString()
+                    </td>
+                    <td class="dataTableLeft">
+                        @row.UserName
+                    </td>
+                    <td class="dataTableLeft">
+                        @row.Password
+                    </td>
+                    <td class="dataTableLeft">
+                        <a href="javascript:window.open('@row.LinkWebsite', 'Financial Account', 'width=1000,height=800');">@row.LinkWebsite</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="@ViewBag.MyExeptionCSS">@ViewBag.MyExeption</div>
+    <script>
+        // Script to execute when document is ready
+        $(document).ready(function () {
+
+            // Get the table caption (if there is one) for the report table
+            var tablecaption = $("#datatable").find('caption').text();
+
+            // Setup standard Datatable formatting
+            $('#datatable').DataTable({
+                "order": [],
+                "searching": true,
+                "paging": true,
+                "scrollCollapse": true,
+                "processing": false,
+                "serverSide": false,
+                "iDisplayLength": 25,
+                dom: 'if<"savebuttons"B>tlp',
+                buttons: [
+                          {
+                              extend: 'copy',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'csv',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'pdf',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          },
+                          {
+                              extend: 'excel',
+                              title: tablecaption,
+                              message: tablecaption,
+                              sTitle: tablecaption
+                          },
+                          {
+                              extend: 'print',
+                              orientation: 'landscape',
+                              message: tablecaption
+                          }
+                ],
+                "language": {
+                    loadingRecords: "Loading data, please wait...",
+                    zeroRecords: "No data..."
+                },
+                "formatNumber": function (toFormat) { return toFormat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); },
+
+                //start of totals data table
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api(), data;
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function (i) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '') * 1 :
+                            typeof i === 'number' ?
+                            i : 0;
+                    };
+                } // End of totals data table
+
+            }); // End of document datatable
+
+        }); // End of document ready
+
+
+    </script>
+}

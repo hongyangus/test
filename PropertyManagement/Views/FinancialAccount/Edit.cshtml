@@ -1,0 +1,77 @@
+﻿@model PropertyManagement.Models .BankAccount 
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ActionLink("Back to Financial Account Management", "Index")
+<h2>@ViewBag.ReportTitle</h2>
+@using (Html.BeginForm())
+{
+    <table width="100%">
+        <tr>
+            <td width="50%">
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.AccountName)
+                    @Html.TextBoxFor(x => x.AccountName, new { @class = "form-control" })
+                </div>
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.AccountNumber)
+                    @Html.TextBoxFor(x => x.AccountNumber, new { @class = "form-control" })
+                </div>
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.RoutingNumber)
+                    @Html.TextBoxFor(x => x.RoutingNumber, new { @class = "form-control" })
+                </div>
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.MailingAddress)
+                    @Html.TextBoxFor(x => x.MailingAddress, new { @class = "form-control" })
+                </div>
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.StartDate)
+                    @Html.TextBoxFor(x => x.StartDate, new { @class = "form-control" })
+                </div>
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.FrozenDateTime)
+                    @Html.TextBoxFor(x => x.FrozenDateTime, new { @class = "form-control" })
+                </div>
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.PaymentDueDate)
+                    @Html.TextBoxFor(x => x.PaymentDueDate, new { @class = "form-control" })
+                </div>
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.UserName)
+                    @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
+                </div>
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.Password)
+                    @Html.TextBoxFor(x => x.Password, new { @class = "form-control" })
+                </div>
+                <div class="crudInput">
+                    @Html.LabelFor(x => x.LinkWebsite)
+                    @Html.TextBoxFor(x => x.LinkWebsite, new { @class = "form-control" })
+                </div>
+
+                <div style="width:220px">
+                    <label> Company Name: </label>
+                    @Html.DropDownListFor(x => x.CompanyID, Model.AllCompany, "Please select company", new { @class = "form-control selectpicker" })
+                </div>
+                <div style="width:220px">
+                    <label> Owner Name: </label>
+                    @Html.DropDownListFor(x => x.AccountOwnerID, Model.AllUser, "Please select owner", new { @class = "form-control selectpicker" })
+                </div>
+                <div style="width:220px">
+                    @Html.LabelFor(x => x.AccountType)
+                    @Html.DropDownListFor(x => x.AccountType, Model.AllAccountType, "Please select account type", new { @class = "form-control selectpicker" })
+                </div>
+                <div style="width:220px">
+                    @Html.LabelFor(x => x.StatusID)
+                    @Html.DropDownListFor(x => x.StatusID, Model.AllStatus, "Please select status", new { @class = "form-control selectpicker" })
+                </div>
+                @Html.HiddenFor(x => x.FinancialAccountID)
+                <input type="submit" value="Submit" />
+            </td>
+        </tr>
+    </table>
+}

@@ -1,0 +1,97 @@
+﻿@model PropertyManagement.Models.OperationRecord
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.ActionLink("Back to Rent Management", "Index")
+<h4>@ViewBag.ReportTitle</h4>
+@using (Html.BeginForm())
+{
+    <div>
+        <div>
+            <label>Due Date:</label> @Html.TextBoxFor(x => x.DueDate, new { @type = "date", @Value = Model.DueDate.ToString("yyyy-MM-dd"), @class = "form-control" })
+            <label>Due Amount: </label>@Html.TextBoxFor(x => x.DueAmount, new { @class = "form-control" })
+            <label>Paid Date:</label> @Html.TextBoxFor(x => x.CompleteDate, new { @type = "date", @Value = Model.CompleteDate.ToString("yyyy-MM-dd"), @class = "form-control" })
+            <label>Paid Amount: </label>@Html.TextBoxFor(x => x.Payment, new { @class = "form-control" })
+            <label>Memo: </label>@Html.TextBoxFor(x => x.Memo, new { @class = "form-control" })
+            <label>Bank Tracking: </label>@Html.TextBoxFor(x => x.BankTracking, new { @class = "form-control" })
+        </div>
+        <br />
+        <div>
+            @Html.CheckBoxFor(x => x.IsCredit, new { @class = "" })<label>Is Deposit&nbsp&nbsp</label>&nbsp&nbsp&nbsp&nbsp&nbsp
+            @Html.CheckBoxFor(x => x.IsSecurityDeposit, new { @class = "" })<label>Is Security Deposit&nbsp&nbsp</label>&nbsp&nbsp&nbsp&nbsp&nbsp
+            @Html.CheckBoxFor(x => x.IsEmailReceipt, new { @class = "" })<label>Email Receipt&nbsp&nbsp</label>
+        </div>
+        <div style="width:400px">
+            <label>Tenant:</label> @Html.DropDownListFor(x => x.TenantID, Model.AllTenant, "Please Select Tenant", new { @class = "form-control selectpicker" })
+        </div>
+        <div style="width:400px">
+            <label>Bank Account:</label> @Html.DropDownListFor(x => x.FinancialBankAccountID, Model.AllBankAccount, "Please Select Bank Account", new { @class = "form-control selectpicker" })
+        </div>
+        <div style="width:400px">
+            <label>Status:</label> @Html.DropDownListFor(x => x.StatusID, Model.AllStatus, "Please Select Status", new { @class = "form-control selectpicker" })
+        </div>
+        @Html.HiddenFor(x => x.LinkedRentID)
+        @Html.HiddenFor(x => x.ID)
+        <input type="submit" value="Submit" />
+    </div>
+}
+
+<script type="text/jscript">
+$(function ()
+{
+    $('#UnitID').change(function ()
+    {
+        var selectedProductID = { id: $("#UnitID").val() };
+        if (selectedProductID != "No Active Conservation Practices")
+        {
+            $.ajax({
+                url: '@Url.Action("GetTenantForUnit", "Rent")',
+                type: "Post",
+                dataType: "json",
+                data: JSON.stringify(selectedProductID),
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    //alert($("#ContractorID").val());
+                   // alert(data[0]);
+                    //alert($('#divTenant').children('select'));
+                    //$('#divTenant').children('select').val(2075);
+                    $("#ContractorID").val('15');
+                    $("#ContractorID").each(function () {
+                        var $this = $(this);
+                        alert($this.val());
+                        if ($this.val() == data[0]) {
+                            alert('compared');
+                            exit;
+                        }
+
+                    });
+                    //$('#divTenant').children('select').sel;
+                },
+                //error:  alert('Error occurred while retrieving your data.')
+            });
+
+        }
+    });
+
+    $('#ContractorID').change(function ()
+    {
+        var selectedProductID = { id: $("#ContractorID").val() };
+        if (selectedProductID != "No Active Conservation Practices")
+        {
+            $.ajax({
+                url: '@Url.Action("GetTenantForUnit", "Rent")',
+                type: "Post",
+                dataType: "json",
+                data: JSON.stringify(selectedProductID),
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    $("#UnitID").val('1');
+                },
+                //error:  alert('Error occurred while retrieving your data.')
+            });
+        }
+    });
+});
+</script>  

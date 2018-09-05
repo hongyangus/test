@@ -1,0 +1,104 @@
+﻿<!-- Load the datamodel -->
+@model List<PropertyManagement.Models.OperationRecord>
+<style >
+</style>
+@if (Model != null)
+{
+    <table id="@("detailtable"+ViewBag.tableid)" class="display table compact nowrap">
+        <thead align="center">
+            <tr>
+                <th bgcolor="grey">
+                    Due Amount
+                </th>
+                <th>
+                    Payment
+                </th>
+                <th>
+                    Due Date
+                </th>
+                <th>
+                    Paid Date
+                </th>
+                <th>
+                    Paid By
+                </th>
+                <th>
+                    Address
+                </th>
+                <th width="20%">
+                    Memo
+                </th>
+                <th>
+                    Expense
+                </th>
+                <th>
+                    Bank Account
+                </th>
+                <th>
+                    Status
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model)
+            {
+                <tr>
+                    <td class="dataTableLeft">
+                        @((row.DueAmount == 0) ? "" : @row.DueAmount.ToString("C"))
+                    </td>
+                    <td class="dataTableLeft">
+                        @((row.Payment == 0) ? "" : @row.Payment.ToString("C"))
+                    </td>
+                    <td class="dataTableLeft">
+                        @row.DueDate.ToShortDateString()
+                    </td>
+                    <td class="dataTableLeft">
+                        @((row.CompleteDate.ToShortDateString() == "1/1/0001") ? "" : @row.CompleteDate.ToShortDateString())
+                    </td>
+                    <td class="dataTableLeft">
+                        @row.PaidBy
+                    </td>
+                    <td class="max-width:350px">
+                        @row.Address
+                    </td>
+                    <td class="max-width:400px">
+                        @row.Memo
+                    </td>
+                    <td>
+                        @row.CategoryName
+                    </td>
+                    <td class="dataTableLeft">
+                        @row.BankAccountName
+                    </td>
+                    <td class="dataTableLeft">
+                        @row.StatusName
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <script>
+        // Script to execute when document is ready
+        $(document).ready(function () {
+
+            // Setup detail table formatting
+            // Use the tableid from the viewbag so we dont try to instantiate multiple tables with the same name!
+            $('#detailtable' + '@(ViewBag.tableid)').DataTable({
+                "order": [],
+                "searching": false,
+                "paging": false,
+                "info": false,
+                "scrollCollapse": true,
+                "processing": false,
+                "serverSide": false,
+                "iDisplayLength": 10,
+                "language": {
+                    loadingRecords: "Loading data, please wait...",
+                    zeroRecords: "No data..."
+                },
+            }); // End of document datatable
+
+        }); // End of document ready
+    </script>
+}

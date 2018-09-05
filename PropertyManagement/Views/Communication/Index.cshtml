@@ -1,0 +1,45 @@
+﻿@model PropertyManagement.ViewModels.Communication.CommunicationVM 
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.ReportTitle</h2>
+@using (Html.BeginForm())
+{
+<div>
+    <div>
+        <div class="column" style="float: left;width:250px">
+            Email to Tenant/Contractor: @Html.DropDownList("UserID", (MultiSelectList)ViewBag.Users, new { @class = "form-control selectpicker", data_actions_box = "true" })
+        </div>
+        <div class="column" style="float: left;width:250px">
+            Email From Landlord: @Html.DropDownList("UserID", (MultiSelectList)ViewBag.Users, new { @class = "form-control selectpicker", data_actions_box = "true" })
+        </div>
+    </div>
+    <div style="width:400px">
+        Email Template: @Html.DropDownList("TemplateID", (MultiSelectList)ViewBag.Templates, new { @class = "form-control selectpicker", data_actions_box = "true" })
+    </div>
+    <div style="width:400px">
+        Email Subject: @Html.TextBoxFor(x => x.subject, new { @class = "form-control" })
+    </div>
+    <div style="width:600px">
+        Email Content: @Html.TextAreaFor(x => x.content, new { @class = "form-control" })
+    </div>
+    <div class="clearLeft">
+        <input id="submitButton" style="clear: left;" type="submit" value="Submit" />
+    </div>
+</div>
+}
+
+<script>
+  $(document).ready(function(){
+    $("#submitButton").on("click",function()
+    {
+      if ($("#RoleID option:selected").length == 0) {
+          alert("Please select at least one role for the user!");
+          return false;
+      }
+    });
+  });
+</script>

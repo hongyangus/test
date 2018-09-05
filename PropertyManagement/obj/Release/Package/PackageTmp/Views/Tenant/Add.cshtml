@@ -1,0 +1,66 @@
+﻿@model PropertyManagement.Models.Tenant
+<!-- Load common Javascript code -->
+@Scripts.Render("~/Scripts/Pages/00-Shared.js")
+
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Display the report title -->
+<h2>@ViewBag.ReportTitle</h2>
+
+@using (Html.BeginForm())
+{
+    <div>
+        <div style="width:220px">
+            @Html.LabelFor(x => x.UserID)
+            @Html.DropDownListFor(x => x.UserID, Model.AllTenant, "Please select Tenant", new { @class = "form-control selectpicker" })
+        </div>
+        <div style="width:220px">
+            @Html.LabelFor(x => x.Address)
+            @Html.DropDownListFor(x => x.UnitId, Model.AllUnits, "Please select Unit", new { @class = "form-control selectpicker" })
+        </div>
+        <div>
+            @Html.LabelFor(x => x.MonthlyPayment )
+            @Html.TextBoxFor(x => x.MonthlyPayment, new { @class = "form-control" })
+        </div>
+        <div>
+            <label>Start Date:</label> 
+            @Html.TextBoxFor(x => x.StartDate, new { @type = "date", @Value = Model.StartDate.ToString("yyyy-MM-dd"), @class = "form-control" })
+        </div>
+        <div>
+            <label>Lease Term (In month)</label>
+            @Html.TextBoxFor(x => x.LeaseTerm, new { @class = "form-control" }) 
+        </div>
+        <div>
+            @Html.LabelFor(x => x.SecurityDeposit)
+            @Html.TextBoxFor(x => x.SecurityDeposit, new { @class = "form-control" })
+        </div>
+        <div>
+            @Html.LabelFor(x => x.Note)
+            @Html.TextBoxFor(x => x.Note, new { @class = "form-control" })
+        </div>
+        <div>
+            @Html.LabelFor(x => x.PaidSecurityDeposit)
+            @Html.TextBoxFor(x => x.PaidSecurityDeposit, new { @class = "form-control" })
+        </div>
+        <div>
+            <label>Security Deposit Paid Date:</label>
+            @Html.TextBoxFor(x => x.SecurityDepositPaidDate, new { @type = "date", @Value = Model.SecurityDepositPaidDate.ToString("yyyy-MM-dd"), @class = "form-control" })
+        </div>
+        <div style="width:220px">
+            @Html.LabelFor(x => x.FinancialBankAccountID)
+            @Html.DropDownListFor(x => x.FinancialBankAccountID, Model.AllBankAccount, "Please select Bank Account", new { @class = "form-control selectpicker" })
+        </div>
+        <br />
+        <div>
+            @Html.CheckBoxFor(x => x.IsEmailReceipt, new { @class = "" })<label>Email Receipt&nbsp&nbsp</label>
+        </div>
+        <br />
+        <div>
+            <input type="submit" value="Save!" name="AddSingleRent" />
+        </div>
+    </div>
+}

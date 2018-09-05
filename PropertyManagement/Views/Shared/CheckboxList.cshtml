@@ -1,0 +1,17 @@
+﻿@model List<PropertyManagement.Models.CheckBoxListItem>
+@{
+    var display = "";
+    foreach (var item in Model)
+    {
+        display += @item.Display + ", ";
+    }
+    if (display.Contains(","))
+    {
+        display = display.Remove(display.LastIndexOf(","));
+    }
+    if (Model.Count > 3)
+    {
+        display = display + ", " + (Model.Count - 3).ToString() + " more.";
+    }
+}
+<span>@display</span>

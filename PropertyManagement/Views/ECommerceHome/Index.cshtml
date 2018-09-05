@@ -1,0 +1,94 @@
+﻿@{
+	ViewBag.Title = "Index";
+}
+<!-- Load common layout and retrieve report title -->
+@{
+	ViewBag.Title = ViewBag.ReportTitle;
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table>
+	<tr>
+		<td width="10%">
+			<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommercePurchase")'">公司管理</button>
+		</td>
+		<td width="90%">
+			<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "Company")'">公司管理</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "User")'">人力资源</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "FinancialAccount")'">财务管理</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "Warehouse")'">仓库管理</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceAccount")'">账号管理</button>
+		</td>
+
+	</tr>
+	<tr>
+	
+		<td width="10%">
+			<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommercePurchase")'">采购管理</button>
+		</td>
+		<td width="90%">
+			<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("UploadForMarketAnalysis", "ECommercePurchase")'">采购分析</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "Inventory")'">缺货分析</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("AddNewPurchase", "ECommercePurchase")'">采购订单</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("ReceivePurchase", "ECommercePurchase")'">采购入库</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("QualityControl", "ECommercePurchase")'">采购质检</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("PackingPurchase", "ECommercePurchase")'">采购包装</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("ScheduleContainer", "ECommercePurchase")'">采购装船</button>
+		</td>
+	</tr>
+	<tr>
+		<td width="10%">
+			<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceOrder")'">订单管理</button>
+		</td>
+		<td width="10%">
+			<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceOrder")'">批发订单</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceOrder")'">新建订单</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceOrder")'">同步订单</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceOrder")'">整理订单</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceOrder")'">批量修改</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceOrder")'">标记出库</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceOrder")'">打印订单</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceOrder")'">跟踪导入</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceOrder")'">运费导入</button>
+		</td>
+	</tr>
+	<tr>
+		<td width="10%">
+			<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceOrder")'">库存管理</button>
+		</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td width="10%">
+			<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceSale")'">销售管理</button>
+		</td>
+		<td width="90%">
+			<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceSaleForcast")'">销售预测</button>		
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceSale")'">销售报告</button>
+
+		</td>
+	</tr>
+	<tr>
+		<td width="10%">
+			<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceContainer")'">仓库管理</button>
+		</td>
+		<td width="90%">
+			<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceContainer")'">货架管理</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceContainer")'">货舱管理</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceContainer")'">集装箱管理</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceContainer")'">进货管理</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceContainer")'">上架管理</button>
+			-><button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceContainer")'">出货管理</button>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>
+			<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("LoadShippingRate", "ECommerceHome")'">内陆运费管理</button>
+		</td>
+	</tr>
+</table>
+
