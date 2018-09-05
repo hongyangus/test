@@ -1,0 +1,68 @@
+﻿<!-- Load common Javascript code -->
+@Scripts.Render("~/Scripts/Pages/00-Shared.js")
+
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Display the report title -->
+<h2>@ViewBag.ReportTitle</h2>
+<h2>@TempData["ErrorMessage"]</h2>
+
+<br />
+<p>
+    @Html.ActionLink("Add New Container", "Add", "ECommerceContainer", null, null)
+</p>
+@using (Html.BeginForm("ReportView", "Index", FormMethod.Post))
+{
+    <!-- Place selection options on page -->
+    <div id="wrapper">
+        @Helpers.IOStartEndDates((string)Session["startDate"], (string)Session["endDate"])
+        @Helpers.IOMultiList(ViewBag.companies, "CompanyID", "Company", (string[])Session["selectedCompanyIDs"])
+        @Helpers.IOMultiList(ViewBag.properties, "PropertyID", "Property", (string[])Session["selectedPropertyIDs"])
+        @Helpers.IOMultiList(ViewBag.units, "UnitID", "Unit", (string[])Session["selectedUnitIDs"])
+        @Helpers.IOMultiList(ViewBag.bankAccounts, "FinancialAccountID", "Financial Account", (string[])Session["selectedAccountIDs"])
+        @Helpers.IOMultiList(ViewBag.statusList, "StatusID", "Status", (string[])Session["selectedStatusIDs"])
+        @Helpers.IOMultiList(ViewBag.categories, "CategoryID", "Expense",(string[])Session["selectedCategoryIDs"])
+        @Helpers.IOMultiList(ViewBag.contractors, "ContractorID", "Paid By", (string[])Session["selectedContractorIDs"])
+        @Helpers.IOTextBox("Expense Payment", "expense", (string)Session["expenseValue"])
+   </div>
+    <!-- Place submit button on page -->
+    <div id="wrapper">
+        <div class="" style="clear:both;width:100%;">
+            <button id="submitBtn" type="button" class="">Search</button>
+            <button id="resetBtn" type="button" class="">Reset</button>
+        </div>
+    </div>
+    <br />
+
+}
+
+<!-- Report table or chart area - add additional div for chart if necessary -->
+<div id="reportDiv"></div>
+
+
+<!-- Javascript custom routines for this page -->
+<script type="text/javascript">
+    // Script for on submit button click
+    $("#submitBtn").on('click', function () {
+        // Load the partial view(s)
+        $.ajaxSetup({ traditional: true });
+        $("#reportDiv").load('@Url.Action("ReportView", "Expense")', { startDate: $("#startDate").val(), endDate: $("#endDate").val(), companyIDs: $("#CompanyID").val(), propertyIDs: $("#PropertyID").val(), unitIDs: $("#UnitID").val(), bankAccountIDs: $("#FinancialAccountID").val(), statusIDs: $("#StatusID").val(), contractorIDs: $("#ContractorID").val(), categoryIDs: $("#CategoryID").val(), expense: $("#expense").val() });
+    }); // End of on submit button click
+
+    // Script for on reset button click
+    $("#resetBtn").on('click', function () {
+        // Reset the datepickers to the default values
+        $('#startDate').datepicker('update', '@(ViewBag.startDate)');
+        $('#endDate').datepicker('update', '@(ViewBag.endDate)');
+
+        // Reset all of the selectpicker dropdown listboxes to deselect any selected values
+        $.each($('.selectpicker'), function (index, value) {
+            $(value).selectpicker('deselectAll');
+        });
+
+    }); // End of on reset button click
+</script>

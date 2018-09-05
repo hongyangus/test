@@ -90,7 +90,8 @@
 						<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "Report")'">报表</button>
 						<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "Tax")'">税务</button>
 						<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "NestedExpense")'">税表</button>
-						@if (((string)Session["UserName"]) == "hongyang" || ((string)Session["UserName"]) == "haifang")
+						@if (((string)Session["UserName"]) == "hongyang" || ((string)Session["UserName"]) == "haifang" 
+                            || ((string)Session["UserName"]) == "HuajunLiu")
 						{
 							<button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "ECommerceHome")'">电商</button>
 						}

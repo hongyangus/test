@@ -3,3 +3,6 @@
 ################################################################################
 
 /PropertyManagement/Web.config
+/PropertyManagement/bin/*
+/PropertyManagement/obj/Debug/*
+/.vs/*
