@@ -19,6 +19,7 @@ using System.Data;
 using System.Text;
 using PropertyManagement.Helpers;
 using MySql.Data.MySqlClient;
+using Dapper;
 
 namespace PropertyManagement.Controllers
 {
@@ -78,34 +79,29 @@ namespace PropertyManagement.Controllers
         {
             Session["startDate"] = startDate;
             Session["endDate"] = endDate;
-            Session["selectedCompanyIDs"] = companyIDs;
-            Session["selectedPropertyIDs"] = propertyIDs;
-            Session["selectedUnitIDs"] = unitIDs;
-            Session["selectedAccountIDs"] = bankAccountIDs;
-            Session["selectedStatusIDs"] = statusIDs;
-            Session["selectedContractorIDs"] = contractorIDs;
-            Session["selectedCategoryIDs"] = categoryIDs;
-            Session["expenseValue"] = expense;
             DateTime start = DateTime.Parse(startDate);
             DateTime end = DateTime.Parse(endDate);
 
-            List<OperationRecord> result = OperationRecordManager.GetExpense(startDate, endDate, companyIDs, propertyIDs, unitIDs, bankAccountIDs, statusIDs, contractorIDs, categoryIDs, expense, (int)Session["UserID"]);
-            bool isStartNull = start.Equals(DateTime.MinValue);
-            bool isEndNull = end.Equals(DateTime.MinValue);
-            ViewBag.TableCaption = reporttitle + " Expense: ";
-            if (!start.Equals(DateTime.MinValue))
-            {
-                ViewBag.TableCaption += " fromt " + start.ToString("g");
-            }
-            if (!end.Equals(DateTime.MinValue))
-            {
-                ViewBag.TableCaption += " thru " + end.ToString("g");
-            }
+            string sqlSelect = "SELECT * FROM tblcontainer WHERE ShippedDate>=@StartDate AND ShippedDate>=@EndDate";
+            DynamicParameters dp = new DynamicParameters();
+            dp.Add("@StartDate", startDate);
+            dp.Add("@EndDate", endDate);
+            List<ECommerceContainer> constainers = DBHelper<ECommerceContainer>.QueryMySQL(sqlSelect, dp);
 
-            ViewBag.TotalPayment = 0;
-            ViewBag.TotalDeposit = 0;
-            ViewBag.TotalBalace = 0;
-            return PartialView("ReportView", result);
+            //List<OperationRecord> result = OperationRecordManager.GetExpense(startDate, endDate, companyIDs, propertyIDs, unitIDs, bankAccountIDs, statusIDs, contractorIDs, categoryIDs, expense, (int)Session["UserID"]);
+            //bool isStartNull = start.Equals(DateTime.MinValue);
+            //bool isEndNull = end.Equals(DateTime.MinValue);
+            //ViewBag.TableCaption = reporttitle + " Expense: ";
+            //if (!start.Equals(DateTime.MinValue))
+            //{
+            //    ViewBag.TableCaption += " fromt " + start.ToString("g");
+            //}
+            //if (!end.Equals(DateTime.MinValue))
+            //{
+            //    ViewBag.TableCaption += " thru " + end.ToString("g");
+            //}
+
+            return PartialView("ReportView", constainers);
         }
 
 
@@ -127,37 +123,19 @@ namespace PropertyManagement.Controllers
         {
             if (Session["UserName"] == null) { return RedirectToAction("Index", "Account"); }
             ViewBag.ReportTitle = "Add new expense";
-
             AddECommerceContainer(model);
-            return RedirectToAction("Index");
             return RedirectToAction("Index");
         }
 
         public void AddECommerceContainer(ECommerceContainer model)
         {
+            string sqlInsert = "INSERT tblcontainer (ContainerName, ContainerNumber, ShippedDate, EstimateArrivalDate, ArrivalDate, UnloadDate, MarketDate, UnloadBy, UnloadTimePeriod, Notes) "
+            + "VALUE (@ContainerName, @ContainerNumber, @ShippedDate, @EstimateArrivalDate, @ArrivalDate, @UnloadDate, @MarketDate, @UnloadBy, @UnloadTimePeriod, @Notes)";
             using (MySqlConnection connection = new MySqlConnection(Helpers.Helpers.GetERPConnectionString()))
             {
                 try
                 {
-                    // Create the user record.
-                    MySqlCommand cmd = new MySqlCommand("", connection);
-                    connection.Open();
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append(" insert tblcontainer (ContainerName, ContainerNumber, ShippedDate, EstimateArrivalDate, ArrivalDate, UnloadDate ,MarketDate, UnloadBy, UnloadTimePeriod, Notes) ");
-                    sb.Append(" value ( ");
-                    sb.Append(" '" + model.ContainerName + "',");
-                    sb.Append(" '" + model.ContainerNumber + "',");
-                    sb.Append(" '" + model.ShippedDate + "',");
-                    sb.Append(" '" + model.EstimateArrivalDate + "',");
-                    sb.Append(" '" + model.ArrivalDate + "',");
-                    sb.Append(" " + model.UnloadDate + ",");
-                    sb.Append(" '" + model.MarketDate + "'");
-                    sb.Append(" '" + model.UnloadBy + "'");
-                    sb.Append(" '" + model.UnloadTimePeriod + "'");
-                    sb.Append(" '" + model.Notes + "'");
-                    sb.Append(" ) ");
-                    cmd.CommandText = sb.ToString();
-                    int id = cmd.ExecuteNonQuery();
+                    int result = connection.Execute(sqlInsert, model);
                 }
                 catch (Exception ex)
                 {
@@ -175,7 +153,7 @@ namespace PropertyManagement.Controllers
         public ActionResult Edit(int id)
         {
             if (Session["UserName"] == null) { return RedirectToAction("Index", "Account"); }
-            ViewBag.ReportTitle = "Edit Expense";
+            ViewBag.ReportTitle = "Edit Container";
 
             var model = OperationRecordManager.GetExpenseByID(id);
 

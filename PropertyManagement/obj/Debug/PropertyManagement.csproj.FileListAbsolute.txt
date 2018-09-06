@@ -402,10 +402,12 @@ E:\LHJ\Temp\PropertyManagement\PropertyManagement\bin\System.Web.Razor.xml
 E:\LHJ\Temp\PropertyManagement\PropertyManagement\bin\System.Web.WebPages.xml
 E:\LHJ\Temp\PropertyManagement\PropertyManagement\bin\System.Web.WebPages.Deployment.xml
 E:\LHJ\Temp\PropertyManagement\PropertyManagement\bin\System.Web.WebPages.Razor.xml
-E:\LHJ\Temp\PropertyManagement\PropertyManagement\obj\Debug\PropertyManagement.csprojAssemblyReference.cache
 E:\LHJ\Temp\PropertyManagement\PropertyManagement\obj\Debug\PropertyManagement.Properties.Resources.resources
 E:\LHJ\Temp\PropertyManagement\PropertyManagement\obj\Debug\PropertyManagement.csproj.GenerateResource.cache
 E:\LHJ\Temp\PropertyManagement\PropertyManagement\obj\Debug\PropertyManagement.csproj.CoreCompileInputs.cache
 E:\LHJ\Temp\PropertyManagement\PropertyManagement\obj\Debug\PropertyManagement.csproj.CopyComplete
 E:\LHJ\Temp\PropertyManagement\PropertyManagement\obj\Debug\PropertyManagement.dll
 E:\LHJ\Temp\PropertyManagement\PropertyManagement\obj\Debug\PropertyManagement.pdb
+E:\LHJ\Temp\PropertyManagement\PropertyManagement\obj\Debug\PropertyManagement.csprojAssemblyReference.cache
+E:\LHJ\Temp\PropertyManagement\PropertyManagement\bin\Dapper.dll
+E:\LHJ\Temp\PropertyManagement\PropertyManagement\bin\Dapper.xml

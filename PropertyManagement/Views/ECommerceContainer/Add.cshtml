@@ -26,8 +26,8 @@
             <label>Market Date:</label> @Html.TextBoxFor(x => x.MarketDate, new { @type = "date", @Value = Model.MarketDate.ToString("yyyy-MM-dd"), @class = "form-control" })
             <label>Unload By: </label> @Html.TextBoxFor(x => x.UnloadBy, new { @class = "form-control" })
             <label>Unload Time Period: </label> @Html.TextBoxFor(x => x.UnloadTimePeriod, new { @class = "form-control" })
+            <label>Notes: </label> @Html.TextBoxFor(x => x.Notes, new { @class = "form-control" })
         </div>
-        @Html.HiddenFor(x => x.ContainerID)
         <br />
         <input type="submit" value="Submit" />
     </div>

@@ -7,16 +7,16 @@ namespace PropertyManagement.Models
 {
     public class ECommerceContainer
     {
-        public int ContainerID;
-        public string ContainerName;
-        public int ContainerNumber;
-        public DateTime ShippedDate;
-        public DateTime EstimateArrivalDate;
-        public DateTime ArrivalDate;
-        public DateTime UnloadDate;
-        public DateTime MarketDate;
-        public string UnloadBy;
-        public float UnloadTimePeriod;
-        public string Notes;
+        public int ContainerID { get; set; }
+        public string ContainerName { get; set; }
+        public int ContainerNumber { get; set; }
+        public DateTime ShippedDate { get; set; }
+        public DateTime EstimateArrivalDate { get; set; }
+        public DateTime ArrivalDate { get; set; }
+        public DateTime UnloadDate { get; set; }
+        public DateTime MarketDate { get; set; }
+        public string UnloadBy { get; set; }
+        public float UnloadTimePeriod { get; set; }
+        public string Notes { get; set; }
     }
 }

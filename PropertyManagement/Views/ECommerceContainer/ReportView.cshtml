@@ -1,5 +1,5 @@
 ﻿<!-- Load the datamodel -->
-@model List<PropertyManagement.Models.OperationRecord>
+@model List<PropertyManagement.Models.ECommerceContainer>
 <style>
     .text-wrap {
         white-space: normal;
@@ -18,37 +18,38 @@
             <tr>
                 <th></th>
                 <th></th>
-                <th></th>
-                <th></th>
                 <th>
-                    Due Amount
+                    Container ID
                 </th>
                 <th>
-                    Payment
+                    Container Name
                 </th>
                 <th>
-                    Due Date
+                    Container Number
                 </th>
                 <th>
-                    Paid Date
+                    Shipped Date
                 </th>
                 <th>
-                    Paid By
+                    Estimate Arrival Date
                 </th>
                 <th>
-                    Address
+                    Arrival Date
+                </th>
+                <th>
+                    Unload Date
+                </th>
+                <th>
+                    Market Date
+                </th>
+                <th>
+                    Unload By
+                </th>
+                <th>
+                    Unload Time Period
                 </th>
                 <th width="20%">
-                    Memo
-                </th>
-                <th>
-                    Expense
-                </th>
-                <th>
-                    Bank Account
-                </th>
-                <th>
-                    Status
+                    Notes
                 </th>
             </tr>
         </thead>
@@ -57,8 +58,9 @@
                 <th></th>
                 <th></th>
                 <th></th>
-                <th colspan="2"></th>
-                <th colspan="2"></th>
+                <th></th>
+                <th></th>
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -71,54 +73,47 @@
         <tbody>
             @foreach (var row in Model)
                 {
-                <tr>
-                    <td>
-                       @if (@row.StatusID != 3 || Session["UserID"].ToString ().Equals ("1")) {@Html.ActionLink("Edit", "Edit", "Expense", new { id = row.ID }, null)}
-                    </td>
-                    <td>
-                       @if (@row.StatusID != 3 || Session["UserID"].ToString().Equals("1")) { @Html.ActionLink("Delete", "Delete", "Expense", new { id = row.ID }, null)}
-                    </td>
-                    <td>
-                       @if (@row.StatusID != 3 || Session["UserID"].ToString().Equals("1")) { @Html.ActionLink("Remind", "Remind", "Expense", new { id = row.ID }, null)}
-                    </td>
-                    <td>
-                       @if (@row.LinkedExpenseID == 0)
-                       { @Html.ActionLink("Reimburse", "Reimburse", "Expense", new { id = row.ID }, null)}
-                    </td>
-                    @*<td>
-                        <a href="#ReportModalDialog" class="ReportModalDialog" data-accession=@row.ID data-patientmrn="" data-patientname=""> Reimburse</a>
-                    </td>*@
-                    <td class="dataTableLeft">
-                        @((row.DueAmount == 0) ? "" : @row.DueAmount.ToString("C"))
-                    </td>
-                    <td class="dataTableLeft">
-                        @((row.Payment == 0) ? "" : @row.Payment.ToString("C"))
-                    </td>
-                    <td class="dataTableLeft">
-                        @row.DueDate.ToShortDateString()
-                    </td>
-                    <td class="dataTableLeft">
-                        @((row.CompleteDate.ToShortDateString() == "1/1/0001") ? "" : @row.CompleteDate.ToShortDateString())
-                    </td>
-                    <td class="dataTableLeft">
-                        @row.PaidBy
-                    </td>
-                    <td class="max-width:350px">
-                        @row.Address
-                    </td>
-                    <td class="max-width:400px">
-                        @row.Memo
-                    </td>
-                    <td >
-                        @row.CategoryName
-                    </td>
-                    <td class="dataTableLeft">
-                        @row.BankAccountName
-                    </td>
-                    <td class="dataTableLeft">
-                        @row.StatusName
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "ECommerceContainer", new { id = row.ContainerID }, null)
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", "ECommerceContainer", new { id = row.ContainerID }, null)
+                </td>
+                <td class="dataTableLeft">
+                    @row.ContainerID
+                </td>
+                <td class="dataTableLeft">
+                    @row.ContainerName
+                </td>
+                <td class="dataTableLeft">
+                    @row.ContainerNumber
+                </td>
+                <td class="dataTableLeft">
+                    @row.ShippedDate.ToShortDateString()
+                </td>
+                <td class="dataTableLeft">
+                    @row.EstimateArrivalDate.ToShortDateString()
+                </td>
+                <td class="dataTableLeft">
+                    @row.ArrivalDate.ToShortDateString()
+                </td>
+                <td class="dataTableLeft">
+                    @row.UnloadDate.ToShortDateString()
+                </td>
+                <td class="dataTableLeft">
+                    @row.MarketDate.ToShortDateString()
+                </td>
+                <td class="dataTableLeft">
+                    @row.UnloadBy
+                </td>
+                <td class="dataTableLeft">
+                    @(string.Format("{0}hours", row.UnloadTimePeriod))
+                </td>
+                <td class="max-width:400px">
+                    @row.Notes
+                </td>
+            </tr>
             }
         </tbody>
     </table>

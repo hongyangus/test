@@ -20,14 +20,14 @@
     <!-- Place selection options on page -->
     <div id="wrapper">
         @Helpers.IOStartEndDates((string)Session["startDate"], (string)Session["endDate"])
-        @Helpers.IOMultiList(ViewBag.companies, "CompanyID", "Company", (string[])Session["selectedCompanyIDs"])
+        @*@Helpers.IOMultiList(ViewBag.companies, "CompanyID", "Company", (string[])Session["selectedCompanyIDs"])
         @Helpers.IOMultiList(ViewBag.properties, "PropertyID", "Property", (string[])Session["selectedPropertyIDs"])
         @Helpers.IOMultiList(ViewBag.units, "UnitID", "Unit", (string[])Session["selectedUnitIDs"])
         @Helpers.IOMultiList(ViewBag.bankAccounts, "FinancialAccountID", "Financial Account", (string[])Session["selectedAccountIDs"])
         @Helpers.IOMultiList(ViewBag.statusList, "StatusID", "Status", (string[])Session["selectedStatusIDs"])
         @Helpers.IOMultiList(ViewBag.categories, "CategoryID", "Expense",(string[])Session["selectedCategoryIDs"])
         @Helpers.IOMultiList(ViewBag.contractors, "ContractorID", "Paid By", (string[])Session["selectedContractorIDs"])
-        @Helpers.IOTextBox("Expense Payment", "expense", (string)Session["expenseValue"])
+        @Helpers.IOTextBox("Expense Payment", "expense", (string)Session["expenseValue"])*@
    </div>
     <!-- Place submit button on page -->
     <div id="wrapper">
@@ -50,7 +50,7 @@
     $("#submitBtn").on('click', function () {
         // Load the partial view(s)
         $.ajaxSetup({ traditional: true });
-        $("#reportDiv").load('@Url.Action("ReportView", "Expense")', { startDate: $("#startDate").val(), endDate: $("#endDate").val(), companyIDs: $("#CompanyID").val(), propertyIDs: $("#PropertyID").val(), unitIDs: $("#UnitID").val(), bankAccountIDs: $("#FinancialAccountID").val(), statusIDs: $("#StatusID").val(), contractorIDs: $("#ContractorID").val(), categoryIDs: $("#CategoryID").val(), expense: $("#expense").val() });
+        $("#reportDiv").load('@Url.Action("ReportView", "ECommerceContainer")', { startDate: $("#startDate").val(), endDate: $("#endDate").val(), companyIDs: $("#CompanyID").val(), propertyIDs: $("#PropertyID").val(), unitIDs: $("#UnitID").val(), bankAccountIDs: $("#FinancialAccountID").val(), statusIDs: $("#StatusID").val(), contractorIDs: $("#ContractorID").val(), categoryIDs: $("#CategoryID").val(), expense: $("#expense").val() });
     }); // End of on submit button click
 
     // Script for on reset button click
