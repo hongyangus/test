@@ -1,0 +1,34 @@
+﻿@model PropertyManagement.Models.ECommerceContainer
+<!-- Load common Javascript code -->
+@Scripts.Render("~/Scripts/Pages/00-Shared.js")
+
+<!-- Load common layout and retrieve report title -->
+@{
+    ViewBag.Title = ViewBag.ReportTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ActionLink("Back to Container Management", "Index")
+<!-- Display the report title -->
+<h4>@ViewBag.ReportTitle</h4>
+<h2>@TempData["ErrorMessage"]</h2>
+
+@using (Html.BeginForm())
+{
+    <div style="float: left ">
+        <div>
+            <label>Container Name: </label> @Html.TextBoxFor(x => x.ContainerName, new { @class = "form-control" })
+            <label>Container Number: </label> @Html.TextBoxFor(x => x.ContainerNumber, new { @class = "form-control" })
+            <label>Shipped Date:</label> @Html.TextBoxFor(x => x.ShippedDate, new { @type = "date", @Value = Model.ShippedDate.ToString("yyyy-MM-dd"), @class = "form-control" })
+            <label>Estimate Arrival Date:</label> @Html.TextBoxFor(x => x.EstimateArrivalDate, new { @type = "date", @Value = Model.EstimateArrivalDate.ToString("yyyy-MM-dd"), @class = "form-control" })
+            <label>Arrival Date:</label> @Html.TextBoxFor(x => x.ArrivalDate, new { @type = "date", @Value = Model.ArrivalDate.ToString("yyyy-MM-dd"), @class = "form-control" })
+            <label>Unload Date:</label> @Html.TextBoxFor(x => x.UnloadDate, new { @type = "date", @Value = Model.UnloadDate.ToString("yyyy-MM-dd"), @class = "form-control" })
+            <label>Market Date:</label> @Html.TextBoxFor(x => x.MarketDate, new { @type = "date", @Value = Model.MarketDate.ToString("yyyy-MM-dd"), @class = "form-control" })
+            <label>Unload By: </label> @Html.TextBoxFor(x => x.UnloadBy, new { @class = "form-control" })
+            <label>Unload Time Period: </label> @Html.TextBoxFor(x => x.UnloadTimePeriod, new { @class = "form-control" })
+        </div>
+        @Html.HiddenFor(x => x.ContainerID)
+        <br />
+        <input type="submit" value="Submit" />
+    </div>
+}
