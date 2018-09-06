@@ -236,7 +236,7 @@
     <Compile Include="Models\CheckBoxListItem.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CompanyManager.cs" />
-    <Compile Include="Models\Container.cs" />
+    <Compile Include="Models\ECommerceContainer.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\OperationRecord.cs" />
     <Compile Include="Models\OperationRecordManager.cs" />
@@ -431,20 +431,11 @@
     <Content Include="Documentation\CreateReportTemplate.docx" />
     <Content Include="Documentation\DeployRadiologyCentralProjecttoOtherServer.docx" />
     <Content Include="Documentation\HowToDeleteReportFromDB.docx" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\ECommerceContainer\Add.cshtml" />
     <Content Include="Views\ECommerceContainer\Edit.cshtml" />
     <Content Include="Views\ECommerceContainer\Index.cshtml" />
     <Content Include="Views\ECommerceContainer\Reimburse.cshtml" />
     <Content Include="Views\ECommerceContainer\ReportView.cshtml" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\PropertyManagement.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
